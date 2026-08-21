@@ -1,0 +1,22 @@
+---
+import { EVIDENCE_TIER_INFO, type EvidenceTier } from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  tier: EvidenceTier;
+  short?: boolean;
+  link?: boolean;
+}
+const { tier, short = false, link = true } = Astro.props;
+const info = EVIDENCE_TIER_INFO[tier];
+const label = short ? info.short : info.label;
+const Tag = link ? 'a' : 'span';
+---
+
+<Tag
+  class:list={['badge', `tier-${tier}`]}
+  {...link ? { href: href(`/methodology#tier-${tier}`) } : {}}
+  title={info.definition}
+>
+  <span class="sr-only">Evidence tier:</span>{label}
+</Tag>

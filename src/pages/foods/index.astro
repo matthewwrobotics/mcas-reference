@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FoodTable, { type FoodRow, type SourceInfo } from '../../components/FoodTable';
+import { axisGroups } from '../../lib/derive';
+import { RATING_AXES, type RatingAxis } from '../../lib/vocab';
+import { href } from '../../lib/paths';
+
+const foodEntries = await getCollection('foods');
+const sourceEntries = await getCollection('sources');
+
+const sources: Record<string, SourceInfo> = Object.fromEntries(
+  sourceEntries.map((s) => [
+    s.id,
+    { name: s.data.name, url: s.data.url, redistribution: s.data.redistribution },
+  ]),
+);
+const isLinkOnly = (id: string) => sources[id]?.redistribution === 'link-only';
+
+const foods: FoodRow[] = foodEntries
+  .map((f) => ({
+    id: f.id,
+    name: f.data.name,
+    category: f.data.category,
+    aliases: f.data.aliases,
+    note: f.data.note,
+    lastVerified: f.data.lastVerified.toISOString(),
+    groups: axisGroups(f.data.ratings, isLinkOnly),
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// Only offer axes that something is actually rated on.
+const usedAxes: RatingAxis[] = RATING_AXES.filter((a) =>
+  foods.some((f) => f.groups.some((g) => g.axis === a)),
+);
+
+const disagreementCount = foods.filter((f) =>
+  f.groups.some((g) => g.disagreement),
+).length;
+const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'link-only');
+---
+
+<Base
+  title="Food & triggers"
+  description="A food and trigger directory showing FODMAP, histamine, oxalate, salicylate and amine ratings per source — including where published sources disagree."
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight">Food &amp; triggers</h1>
+
+  <div class="prose-body mt-3" style="color: var(--text-muted);">
+    <p>
+      Ratings are shown <strong>per source</strong> and as low / moderate / high rather
+      than as numbers. Both choices are deliberate. Published food lists disagree with
+      each other more than patients are usually told: a 2021 review comparing ten
+      low-histamine diets found that
+      <a href="https://pubmed.ncbi.nlm.nih.gov/33919293/" rel="noopener"
+        >only fermented foods were excluded unanimously</a
+      >, and that measured histamine content justified fewer than a third of the
+      exclusions. Averaging those sources into one number would manufacture a certainty
+      the literature does not have.
+    </p>
+    <p>
+      So where sources differ, this table says <em>sources differ</em> and shows you both,
+      rather than picking a winner. {disagreementCount} of {foods.length} entries currently
+      carry a disagreement.
+    </p>
+  </div>
+
+  <FoodTable client:idle foods={foods} sources={sources} axes={usedAxes} />
+
+  <section class="card mt-10 max-w-prose p-5 text-sm" style="color: var(--text-muted);">
+    <h2 class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      Why some sources show no rating
+    </h2>
+    <p class="mt-2 leading-relaxed">
+      {linkOnlySources.length} of the sources below publish their values under terms that
+      do not permit reproduction. Coarsening a measured value into “low” or “high” reduces
+      its precision but not its provenance — it is still that database's figure — so this
+      site links to those sources instead of restating them. The build enforces it: an
+      entry that puts a rating against a link-only source fails validation.
+    </p>
+    <ul class="mt-3 space-y-2">
+      {
+        linkOnlySources.map((s) => (
+          <li>
+            <a href={s.data.url} rel="noopener">{s.data.name}</a>
+            <span class="block text-xs" style="color: var(--text-faint);">{s.data.terms}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-3">
+      <a href={href('/methodology#sources')}>Full source list and terms →</a>
+    </p>
+  </section>
+</Base>

@@ -1,0 +1,19 @@
+---
+import { REGULATORY_INFO, type RegulatoryStatus } from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  status: RegulatoryStatus;
+}
+const { status } = Astro.props;
+const info = REGULATORY_INFO[status];
+---
+
+<a
+  class="badge badge-neutral"
+  href={href(`/methodology#regulatory-${status}`)}
+  title={info.definition}
+  data-regulatory={status}
+>
+  <span class="sr-only">Regulatory status:</span>{info.label}
+</a>

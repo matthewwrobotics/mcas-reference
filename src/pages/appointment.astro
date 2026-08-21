@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import AppointmentBuilder, { type SheetItem } from '../components/AppointmentBuilder';
+import { EVIDENCE_TIER_INFO, REGULATORY_INFO, TRIAL_STATUS_LABELS } from '../lib/vocab';
+import { byEvidenceThenName } from '../lib/derive';
+
+const toItems = (entries: any[], section: string): SheetItem[] =>
+  [...entries]
+    .sort((a, b) => byEvidenceThenName(a.data, b.data))
+    .map((e) => ({
+      id: `${section}:${e.id}`,
+      section,
+      name: e.data.name,
+      mechanismClass: e.data.mechanismClass,
+      tier: e.data.evidenceTier,
+      tierLabel: EVIDENCE_TIER_INFO[e.data.evidenceTier as keyof typeof EVIDENCE_TIER_INFO].label,
+      regulatoryLabel: REGULATORY_INFO[e.data.regulatory as keyof typeof REGULATORY_INFO].label,
+      confound: e.data.confoundRisk?.note,
+      trial: e.data.trial
+        ? {
+            nctId: e.data.trial.nctId,
+            statusLabel:
+              TRIAL_STATUS_LABELS[e.data.trial.status as keyof typeof TRIAL_STATUS_LABELS],
+          }
+        : undefined,
+      citations: e.data.citations.map((c: any) => ({
+        title: c.title,
+        url: c.url,
+        pmid: c.pmid,
+      })),
+    }));
+
+const items: SheetItem[] = [
+  ...toItems((await getCollection('medications')).filter((e) => !e.data.draft), 'Medications'),
+  ...toItems((await getCollection('supplements')).filter((e) => !e.data.draft), 'Supplements'),
+];
+---
+
+<Base
+  title="Appointment sheet"
+  description="Build a one-page printable summary of selected entries — mechanism, evidence tier and citations — to take to a clinical appointment."
+>
+  <div class="print-controls">
+    <h1 class="font-serif text-3xl font-semibold tracking-tight">Appointment sheet</h1>
+    <div class="prose-body mt-3" style="color: var(--text-muted);">
+      <p>
+        Pick the entries you want to raise and print a single sheet with each one's
+        mechanism, evidence grade, and citations. The point is not to arrive with a
+        request — it is to arrive with the same information your clinician would want to
+        check, already sourced, so the conversation starts further along.
+      </p>
+      <p>
+        Everything printed carries its evidence tier, including the weak ones. A sheet
+        that presented mechanistic laboratory findings as though they were trial results
+        would be worse than no sheet at all.
+      </p>
+    </div>
+  </div>
+
+  <AppointmentBuilder client:load items={items} />
+</Base>

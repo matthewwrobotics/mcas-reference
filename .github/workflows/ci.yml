@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate content and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Editorial policy: no dosing, no efficacy claims, no insecure citations.
+      # Runs first because it is the cheapest check and the one most likely to
+      # catch a bad content PR.
+      - name: Editorial policy check
+        run: npm run lint
+
+      - name: Type check
+        run: npm run check
+
+      - name: Unit tests
+        run: npm run test
+
+      # `astro build` is where the Zod schemas run. A malformed entry, a missing
+      # confound flag, or a trial status older than 180 days fails here.
+      - name: Build (enforces content schemas)
+        run: npm run build
+
+      - name: Freshness report
+        run: npm run staleness
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  lighthouse:
+    name: Accessibility and performance budgets
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      # Accessibility is asserted at 100 and fails the build. Performance is a
+      # warning only: CI runners are noisy enough that a hard performance gate
+      # produces false failures, which train people to ignore the check.
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true

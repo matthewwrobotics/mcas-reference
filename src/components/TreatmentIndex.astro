@@ -1,0 +1,48 @@
+---
+import EvidenceBadge from './EvidenceBadge.astro';
+import StatusBadge from './StatusBadge.astro';
+import LastVerified from './LastVerified.astro';
+import { byEvidenceThenName } from '../lib/derive';
+import { href } from '../lib/paths';
+
+interface Props {
+  entries: any[];
+  basePath: string;
+}
+const { entries, basePath } = Astro.props;
+const sorted = [...entries].sort((a, b) => byEvidenceThenName(a.data, b.data));
+---
+
+<ul class="mt-6 space-y-3">
+  {
+    sorted.map((entry) => (
+      <li class="card p-4">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+          <h2 class="text-lg font-semibold">
+            <a href={href(`${basePath}/${entry.id}`)} class="no-underline hover:underline" style="color: var(--text);">
+              {entry.data.name}
+            </a>
+          </h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <EvidenceBadge tier={entry.data.evidenceTier} short />
+            <StatusBadge status={entry.data.regulatory} />
+          </div>
+        </div>
+        <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
+          {entry.data.summary}
+        </p>
+        <div class="mt-2.5 flex flex-wrap items-center gap-2">
+          <LastVerified date={entry.data.lastVerified} compact />
+          {entry.data.confoundRisk && (
+            <span class="badge" style="background: var(--flag-bg); color: var(--flag-fg);">
+              Confound risk: {entry.data.confoundRisk.level}
+            </span>
+          )}
+          {entry.data.trial?.status === 'unknown' && (
+            <span class="badge stale-stale">Trial status unknown</span>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ul>

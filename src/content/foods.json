@@ -1,0 +1,187 @@
+[
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "category": "Vegetable",
+    "aliases": ["Spinacia oleracea"],
+    "lastVerified": "2026-08-20",
+    "note": "A clear case for reading sources separately rather than averaging them: the two oxalate figures below are not in conflict about the plant, they are measuring different preparations of it.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-intake-2000",
+        "rating": "high",
+        "note": "Among the highest-oxalate foods in the analysed set."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-cooking-2005",
+        "rating": "variable",
+        "note": "Boiling substantially reduces soluble oxalate, so a cooked-and-drained portion does not carry the raw figure."
+      },
+      {
+        "axis": "fodmap",
+        "source": "monash",
+        "url": "https://www.monashfodmap.com/"
+      }
+    ]
+  },
+  {
+    "id": "rhubarb",
+    "name": "Rhubarb",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-intake-2000",
+        "rating": "high",
+        "note": "Consistently reported among the highest-oxalate foods."
+      }
+    ]
+  },
+  {
+    "id": "almonds",
+    "name": "Almonds",
+    "category": "Nuts and seeds",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-intake-2000",
+        "rating": "high"
+      },
+      {
+        "axis": "fodmap",
+        "source": "monash",
+        "url": "https://www.monashfodmap.com/"
+      }
+    ]
+  },
+  {
+    "id": "aged-cheddar",
+    "name": "Aged cheddar cheese",
+    "category": "Dairy",
+    "aliases": ["Matured cheddar"],
+    "lastVerified": "2026-08-20",
+    "note": "Histamine accumulates with ripening time, so age matters more than variety. Fermented foods are the one category every published low-histamine diet excludes.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Fermented foods were the only category excluded unanimously across the ten low-histamine diets reviewed, and the exclusion is supported by measured histamine content."
+      },
+      {
+        "axis": "tyramine",
+        "source": "biogenic-amines-1999",
+        "rating": "high",
+        "note": "Tyramine also accumulates during ripening."
+      },
+      {
+        "axis": "histamine",
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      }
+    ]
+  },
+  {
+    "id": "sauerkraut",
+    "name": "Sauerkraut",
+    "category": "Fermented",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Fermented vegetable; excluded by every low-histamine diet reviewed, with measured content supporting the exclusion."
+      },
+      {
+        "axis": "histamine",
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      }
+    ]
+  },
+  {
+    "id": "banana",
+    "name": "Banana",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "Commonly excluded from low-histamine diets for a reason that is not histamine. Worth knowing before eliminating it.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "Frequently listed on low-histamine diets, but the review attributes that to putrescine — which may interfere with DAO-mediated histamine degradation in the gut — rather than to the banana's own histamine content."
+      },
+      {
+        "axis": "histamine",
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      },
+      {
+        "axis": "fodmap",
+        "source": "monash",
+        "url": "https://www.monashfodmap.com/",
+        "note": "Ripeness changes the result; check the app rather than assuming."
+      }
+    ]
+  },
+  {
+    "id": "orange",
+    "name": "Orange",
+    "category": "Fruit",
+    "aliases": ["Citrus sinensis"],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "Citrus is frequently excluded from low-histamine diets; the review attributes this to putrescine content rather than to histamine."
+      },
+      {
+        "axis": "salicylate",
+        "source": "salicylates-foods-1985",
+        "rating": "high"
+      },
+      {
+        "axis": "histamine",
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      }
+    ]
+  },
+  {
+    "id": "tomato",
+    "name": "Tomato",
+    "category": "Vegetable",
+    "aliases": ["Solanum lycopersicum"],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "salicylate",
+        "source": "salicylates-foods-1985",
+        "rating": "high"
+      },
+      {
+        "axis": "salicylate",
+        "source": "salicylates-scotland-2011",
+        "rating": "moderate",
+        "note": "Later systematic review working from dietary-intake modelling rather than the 1985 assay; places tomato lower than the original list does."
+      },
+      {
+        "axis": "fodmap",
+        "source": "monash",
+        "url": "https://www.monashfodmap.com/"
+      }
+    ]
+  }
+]

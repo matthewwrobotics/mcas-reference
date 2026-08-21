@@ -1,0 +1,96 @@
+[
+  {
+    "id": "consensus-2",
+    "name": "Diagnosis of mast cell activation syndrome: a global \"consensus-2\"",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32324159/",
+    "kind": "clinical-guideline",
+    "year": 2021,
+    "description": "The broader of the two criteria sets in active use. Read alongside the AAAAI work group report below — the two admit meaningfully different patient populations, and which one a clinician applies changes who receives a diagnosis.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "aaaai-work-group-2019",
+    "name": "AAAAI Mast Cell Disorders Committee Work Group Report: MCAS diagnosis and management",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31476322/",
+    "kind": "clinical-guideline",
+    "year": 2019,
+    "description": "The narrower criteria set, requiring objective evidence of mast cell mediator release with a documented rise from baseline. The reference point for most US allergy and immunology practice.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "right-criteria-2024",
+    "name": "Using the Right Criteria for MCAS",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+    "kind": "key-paper",
+    "year": 2024,
+    "description": "Directly addresses the disagreement between the two criteria sets and what turns on it. The single most useful paper for understanding why sources on this topic contradict each other.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "diagnosis-tools-2020",
+    "name": "Mast Cell Activation Syndrome: Tools for Diagnosis and Differential Diagnosis",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31470118/",
+    "kind": "key-paper",
+    "year": 2020,
+    "description": "Practical review of the diagnostic workup and, importantly, of the conditions that present similarly and are more common.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "treatment-options-2019",
+    "name": "Mast Cell Activation Syndrome and Mastocytosis: Initial Treatment Options and Long-Term Management",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30961835/",
+    "kind": "key-paper",
+    "year": 2019,
+    "description": "The management review most of this site's medication entries lean on. Covers the stepwise mediator-blockade approach and where the evidence for each step actually comes from.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "mcas-review-2018",
+    "name": "Mast Cell Activation Syndrome (Clinical Reviews in Allergy & Immunology)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25944644/",
+    "kind": "key-paper",
+    "year": 2018,
+    "description": "Broad background review covering mediators, presentation, and the state of the evidence base.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "tms",
+    "name": "The Mast Cell Disease Society (TMS)",
+    "url": "https://tmsforacure.org/",
+    "kind": "patient-organization",
+    "description": "US non-profit for mastocytosis and mast cell activation disorders. Maintains physician referral lists, emergency-protocol documents, and patient education material.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "mast-cell-action",
+    "name": "Mast Cell Action",
+    "url": "https://www.mastcellaction.org/",
+    "kind": "patient-organization",
+    "description": "UK charity focused on MCAS specifically. Publishes patient-facing resources and materials intended to be taken to appointments.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "ecnm",
+    "name": "European Competence Network on Mastocytosis (ECNM)",
+    "url": "https://www.ecnm.net/",
+    "kind": "patient-organization",
+    "description": "Network of European reference centres for mast cell disease. Useful for locating specialist centres and for following the research consortium's output.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "mastocytosis-canada",
+    "name": "Mastocytosis Society Canada",
+    "url": "https://mastocytosis.ca/",
+    "kind": "patient-organization",
+    "description": "Canadian patient organization for mast cell disease, with region-specific care and emergency information.",
+    "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "clinicaltrials",
+    "name": "ClinicalTrials.gov",
+    "url": "https://clinicaltrials.gov/",
+    "kind": "registry",
+    "description": "The primary registry, and the source this site uses for every trial status. Worth searching directly rather than relying on secondary trackers, which go stale without indicating that they have.",
+    "lastVerified": "2026-08-20"
+  }
+]

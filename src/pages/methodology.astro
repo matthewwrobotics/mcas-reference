@@ -1,0 +1,264 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import {
+  AGING_AFTER_DAYS,
+  EVIDENCE_TIERS,
+  EVIDENCE_TIER_INFO,
+  QUALIFYING_CITATION_TYPES,
+  REGULATORY_INFO,
+  REGULATORY_STATUSES,
+  STALE_AFTER_DAYS,
+  TRIAL_STATUS_MAX_AGE_DAYS,
+} from '../lib/vocab';
+
+const sources = (await getCollection('sources')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
+---
+
+<Base
+  title="Methodology"
+  description="The inclusion bar, evidence tier definitions, sourcing policy, and stated limits of this MCAS reference index."
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight">Methodology</h1>
+  <p class="prose-body mt-3" style="color: var(--text-muted);">
+    Everything on this page is enforced by the build, not by good intentions. Each rule
+    below corresponds to a validation check that runs before the site can be published;
+    an entry that breaks one fails the build and never reaches the live site. That is the
+    only reason a page like this is worth reading — a stated policy nobody checks is a
+    wish.
+  </p>
+
+  <section class="mt-10">
+    <h2 class="font-serif text-2xl font-semibold">What this is, and what it is not</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        This is an index of treatments and triggers discussed in mast cell activation
+        disease, recording for each one <em>what the proposed mechanism is</em> and
+        <em>how strong the evidence behind it actually is</em>. It exists because that
+        second question is usually the hard one to answer from patient-facing sources.
+      </p>
+      <p>It is not a treatment guide. Specifically, it contains:</p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li><strong>No dosing information</strong>, anywhere, for anything.</li>
+        <li>
+          <strong>No efficacy claims.</strong> No entry says a thing works, helps, or is
+          effective. Entries describe mechanisms and cite evidence; the reader and their
+          clinician draw the conclusions.
+        </li>
+        <li>
+          <strong>No personal experience.</strong> Anecdote, forum consensus, and
+          practitioner opinion do not create entries here, however widely repeated.
+        </li>
+      </ul>
+      <p>
+        A build-time check greps every entry for dosage patterns and efficacy verbs and
+        fails on a match, so these are not aspirations either.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="inclusion-bar">
+    <h2 class="font-serif text-2xl font-semibold">The inclusion bar</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        An entry needs a <strong>citable published mechanism of action</strong>. In
+        practice that means at least one citation of type
+        {QUALIFYING_CITATION_TYPES.join(', ')} — a peer-reviewed study, a review article,
+        a drug label, or a reference work.
+      </p>
+      <p>
+        Organization pages and preprints can appear as supporting citations but do not
+        clear the bar on their own. Neither does anything else: if the only support for a
+        substance is that people report it helping, it is not listed, and no amount of
+        popularity changes that.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="tiers">
+    <h2 class="font-serif text-2xl font-semibold">Evidence tiers</h2>
+    <p class="prose-body mt-2" style="color: var(--text-muted);">
+      Every entry carries one of these, shown as a badge before the prose rather than
+      buried at the bottom. The ordering is deliberate: the distinction that matters most
+      here is between evidence gathered <em>in this condition</em> and evidence borrowed
+      from a related one.
+    </p>
+    <dl class="mt-5 space-y-4">
+      {
+        EVIDENCE_TIERS.map((tier) => (
+          <div id={`tier-${tier}`} class="card scroll-mt-6 p-4">
+            <dt>
+              <span class:list={['badge', `tier-${tier}`]}>{EVIDENCE_TIER_INFO[tier].label}</span>
+            </dt>
+            <dd class="mt-2 text-sm" style="color: var(--text-muted);">
+              {EVIDENCE_TIER_INFO[tier].definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mt-10" id="confound">
+    <h2 class="font-serif text-2xl font-semibold">Confound risk</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        Mast cell activation disease relapses and remits. That single fact makes
+        uncontrolled evidence unusually treacherous here: a patient who starts something
+        while symptomatic and improves over the following weeks would, in many cases,
+        have improved anyway. Open-label series record the improvement and attribute it
+        to the intervention. Publication then favours the series that improved.
+      </p>
+      <p>
+        So any entry at the <strong>observational</strong> or <strong>case report</strong>
+        tier is <em>required</em> to carry a confound-risk flag explaining what
+        specifically cannot be ruled out. This is a schema rule: an entry at those tiers
+        without the flag fails the build. It is not possible to quietly ship one.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="regulatory">
+    <h2 class="font-serif text-2xl font-semibold">Regulatory status</h2>
+    <p class="prose-body mt-2" style="color: var(--text-muted);">
+      Kept separate from the evidence tier, because they answer different questions. A
+      drug can be approved and barely studied in this population, or unapproved and
+      backed by a randomised trial. “Approved outside the US” is its own bucket rather
+      than being folded into “off-label”, and an entry using it must state which
+      regulator approved it and why that is relevant.
+    </p>
+    <dl class="mt-5 space-y-3">
+      {
+        REGULATORY_STATUSES.map((status) => (
+          <div id={`regulatory-${status}`} class="scroll-mt-6">
+            <dt class="text-sm font-semibold">{REGULATORY_INFO[status].label}</dt>
+            <dd class="text-sm" style="color: var(--text-muted);">
+              {REGULATORY_INFO[status].definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mt-10" id="trials">
+    <h2 class="font-serif text-2xl font-semibold">Trial statuses, and why they come from one place</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        Trial statuses on this site are read from <strong>ClinicalTrials.gov</strong> or
+        from the sponsor directly. Never from an aggregator or a news tracker. The data
+        model does not even have a field value for one — the list of permitted status
+        sources contains exactly two entries, so citing an aggregator is a build error.
+      </p>
+      <p>
+        This rule exists because of a specific failure. An aggregator reported an active
+        status for a masitinib trial whose registry record had gone quiet; the registry
+        itself was carrying it as <em>status unknown</em>, its own flag for a record the
+        sponsor has not updated past the expected completion date. Aggregators tend to
+        cache the last confident-sounding status and show it indefinitely, which is worse
+        than showing nothing.
+      </p>
+      <p>
+        Every trial status also carries the date it was read. A status older than
+        {TRIAL_STATUS_MAX_AGE_DAYS} days fails the build, which forces a re-check rather
+        than letting a stale status sit there looking current.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="freshness">
+    <h2 class="font-serif text-2xl font-semibold">Freshness</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        Every entry records the date a human last checked it. After {AGING_AFTER_DAYS}
+        days it is marked due for re-check; after {STALE_AFTER_DAYS} days, overdue. Both
+        states are visible on the entry itself, so a reader can see the age of what they
+        are reading without taking anyone's word for it.
+      </p>
+      <p>
+        A scheduled job re-checks every cited link weekly and opens a tracking issue for
+        anything broken or overdue. Dead citations are the normal failure mode of a
+        reference site, and the only defence is automation.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="criteria">
+    <h2 class="font-serif text-2xl font-semibold">A note on diagnostic criteria</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        MCAS does not have one agreed definition, and this affects how any source about
+        it should be read. Two criteria sets are in active use. The
+        <a href="https://pubmed.ncbi.nlm.nih.gov/31476322/" rel="noopener"
+          >AAAAI work group report</a
+        > requires objective evidence of mediator release, including a documented rise in
+        serum tryptase from the patient's own baseline during an episode. The
+        <a href="https://pubmed.ncbi.nlm.nih.gov/32324159/" rel="noopener">“consensus-2”</a>
+        criteria are broader, and admit a substantially larger patient population.
+      </p>
+      <p>
+        This site does not adjudicate between them, because it indexes mechanisms and
+        evidence rather than making diagnoses. What it does instead is say so plainly:
+        when two sources about MCAS appear to contradict each other, the disagreement is
+        often about which patients are being described, not about the biology. The paper
+        <a href="https://pubmed.ncbi.nlm.nih.gov/38243020/" rel="noopener"
+          >Using the Right Criteria for MCAS</a
+        > is the best single entry point to that debate.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10" id="sources">
+    <h2 class="font-serif text-2xl font-semibold">Food rating sources and their terms</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        Food ratings are shown per source rather than merged, and each source is tagged
+        with whether its values may be reproduced here. Sources marked
+        <strong>link-only</strong> are cited and linked but never restated: converting a
+        proprietary database's measured values into low / moderate / high reduces their
+        precision without changing where they came from. The schema enforces this — a
+        rating attached to a link-only source fails validation.
+      </p>
+    </div>
+    <ul class="mt-5 space-y-4">
+      {
+        sources.map((s) => (
+          <li class="card p-4">
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <a href={s.data.url} rel="noopener" class="font-medium">{s.data.name}</a>
+              <span
+                class:list={['badge', s.data.redistribution === 'open' ? 'badge-neutral' : 'stale-aging']}
+              >
+                {s.data.redistribution === 'open' ? 'May be restated' : 'Link only'}
+              </span>
+            </div>
+            <p class="mt-1 text-xs" style="color: var(--text-faint);">{s.data.kind}</p>
+            <p class="mt-2 text-sm" style="color: var(--text-muted);">{s.data.terms}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="mt-10" id="corrections">
+    <h2 class="font-serif text-2xl font-semibold">Corrections</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        A reference index with no error-reporting route is asking to be trusted more than
+        it deserves. If something here is wrong, out of date, or overstated —
+        particularly a mechanism description or an evidence tier —
+        <a href={`${REPO}/issues`} rel="noopener">open an issue</a>. The full contents of
+        this site, including every entry and the validation rules above, are in
+        <a href={REPO} rel="noopener">the repository</a>.
+      </p>
+      <p>
+        <strong>Disclosures.</strong> This site is built and maintained by one person, is
+        not funded by anyone, sells nothing, and has no affiliate relationships with any
+        manufacturer or retailer of anything listed on it.
+      </p>
+    </div>
+  </section>
+</Base>

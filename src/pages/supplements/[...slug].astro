@@ -1,0 +1,16 @@
+---
+import { getCollection, render } from 'astro:content';
+import Entry from '../../layouts/Entry.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('supplements');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Entry entry={entry} backHref="/supplements" backLabel="All supplements">
+  <Content />
+</Entry>

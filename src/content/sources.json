@@ -1,0 +1,66 @@
+[
+  {
+    "id": "monash",
+    "name": "Monash University FODMAP Diet App",
+    "url": "https://www.monashfodmap.com/",
+    "kind": "Proprietary laboratory database",
+    "redistribution": "link-only",
+    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Bucketing their measured values into low/moderate/high would reduce their precision without changing where the values came from, so this site does not restate them. Entries citing Monash link out instead."
+  },
+  {
+    "id": "sighi",
+    "name": "SIGHI Food Compatibility List for Histamine Intolerance",
+    "url": "https://www.histaminintoleranz.ch/en/introduction.html",
+    "kind": "Patient organization compatibility list",
+    "redistribution": "link-only",
+    "terms": "Widely used by patients and published by the Swiss Interest Group Histamine Intolerance under their own terms. Listed here because readers will encounter it, and linked rather than reproduced."
+  },
+  {
+    "id": "histamine-content-2021",
+    "name": "Low-Histamine Diets: Is the Exclusion of Foods Justified by Their Histamine Content? (Nutrients, 2021)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/33919293/",
+    "kind": "Peer-reviewed comparative review",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication. This site characterises its findings categorically and cites it; it does not reproduce its tables."
+  },
+  {
+    "id": "biogenic-amines-1999",
+    "name": "Biogenic amines in foods: histamine and food processing (Inflammation Research, 1999)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/10442480/",
+    "kind": "Peer-reviewed review",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
+  },
+  {
+    "id": "oxalate-intake-2000",
+    "name": "Estimation of the oxalate content of foods and daily oxalate intake (Kidney International, 2000)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/10760101/",
+    "kind": "Peer-reviewed analytical study",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
+  },
+  {
+    "id": "oxalate-cooking-2005",
+    "name": "Effect of different cooking methods on vegetable oxalate content (J. Agricultural and Food Chemistry, 2005)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/15826055/",
+    "kind": "Peer-reviewed analytical study",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced. Reports values for prepared rather than raw vegetables, which is why it sometimes disagrees with raw-food tables."
+  },
+  {
+    "id": "salicylates-foods-1985",
+    "name": "Salicylates in foods (J. American Dietetic Association, 1985)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/4019987/",
+    "kind": "Peer-reviewed analytical study",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication and the origin of most published salicylate food lists. Cited and characterised rather than reproduced; note its age when weighing it."
+  },
+  {
+    "id": "salicylates-scotland-2011",
+    "name": "A systematic review of salicylates in foods: estimated daily intake of a Scottish population (Molecular Nutrition & Food Research, 2011)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/21351247/",
+    "kind": "Peer-reviewed systematic review",
+    "redistribution": "open",
+    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
+  }
+]

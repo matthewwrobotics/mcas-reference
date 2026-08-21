@@ -1,0 +1,20 @@
+---
+import { formatDate, staleness, STALENESS_LABELS } from '../lib/derive';
+
+interface Props {
+  date: Date;
+  compact?: boolean;
+}
+const { date, compact = false } = Astro.props;
+const { level, days } = staleness(date);
+const label = STALENESS_LABELS[level];
+---
+
+<span
+  class:list={['badge', `stale-${level}`]}
+  title={`${label} — last verified ${days} day${days === 1 ? '' : 's'} ago.`}
+>
+  <span class="sr-only">{label}.</span>
+  Verified {formatDate(date)}
+  {!compact && level !== 'fresh' && <span aria-hidden="true">· {label.toLowerCase()}</span>}
+</span>

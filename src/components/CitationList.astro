@@ -1,0 +1,37 @@
+---
+import { CITATION_SOURCE_TYPE_LABELS, type CitationSourceType } from '../lib/vocab';
+import { formatDate } from '../lib/derive';
+
+interface Citation {
+  title: string;
+  url: string;
+  sourceType: CitationSourceType;
+  year?: number;
+  pmid?: string;
+  nctId?: string;
+  accessed: Date;
+}
+interface Props {
+  citations: Citation[];
+}
+const { citations } = Astro.props;
+---
+
+<ol class="mt-3 space-y-3 text-sm">
+  {
+    citations.map((c) => (
+      <li class="print-entry">
+        <a class="citation-link font-medium" href={c.url} rel="noopener">
+          {c.title}
+        </a>
+        <span class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs" style="color: var(--text-faint);">
+          <span class="badge badge-neutral">{CITATION_SOURCE_TYPE_LABELS[c.sourceType]}</span>
+          {c.year && <span>{c.year}</span>}
+          {c.pmid && <span class="font-mono">PMID {c.pmid}</span>}
+          {c.nctId && <span class="font-mono">{c.nctId}</span>}
+          <span>· link checked {formatDate(c.accessed)}</span>
+        </span>
+      </li>
+    ))
+  }
+</ol>

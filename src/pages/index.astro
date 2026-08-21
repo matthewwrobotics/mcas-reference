@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/paths';
+import { EVIDENCE_TIERS, EVIDENCE_TIER_INFO } from '../lib/vocab';
+import { axisGroups } from '../lib/derive';
+
+const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
+const supplements = (await getCollection('supplements')).filter((e) => !e.data.draft);
+const foods = await getCollection('foods');
+const resources = await getCollection('resources');
+const sources = await getCollection('sources');
+
+const isLinkOnly = (id: string) =>
+  sources.find((s) => s.id === id)?.data.redistribution === 'link-only';
+const disagreements = foods.filter((f) =>
+  axisGroups(f.data.ratings, isLinkOnly).some((g) => g.disagreement),
+).length;
+
+const treatments = [...medications, ...supplements];
+const flagged = treatments.filter((e) => e.data.confoundRisk).length;
+const citationCount = treatments.reduce((n, e) => n + e.data.citations.length, 0);
+
+const SECTIONS = [
+  {
+    path: '/medications',
+    label: 'Medications',
+    count: medications.length,
+    blurb:
+      'Mast cell stabilisers, antihistamines, and kinase inhibitors, each with a sourced mechanism and an explicit evidence tier.',
+  },
+  {
+    path: '/supplements',
+    label: 'Supplements',
+    count: supplements.length,
+    blurb:
+      'Held to the same bar as medications. Most of what clears it sits at the mechanistic tier, and the badges say so.',
+  },
+  {
+    path: '/foods',
+    label: 'Food & triggers',
+    count: foods.length,
+    blurb:
+      'FODMAP, histamine, oxalate and salicylate ratings shown per source — including where published sources disagree.',
+  },
+  {
+    path: '/resources',
+    label: 'Resources',
+    count: resources.length,
+    blurb:
+      'Diagnostic criteria, key papers, and patient organizations, each tagged with what it is and when it was last checked.',
+  },
+];
+---
+
+<Base
+  title="A sourced reference for mast cell activation"
+  description="An index of treatments and triggers discussed in mast cell activation disease, recording the published mechanism for each and how strong the evidence behind it actually is."
+>
+  <section class="max-w-3xl">
+    <h1 class="font-serif text-4xl font-semibold leading-tight tracking-tight">
+      What is actually known about it, and how well.
+    </h1>
+    <p class="prose-body mt-4 text-lg" style="color: var(--text-muted);">
+      An index of the treatments and triggers discussed in mast cell activation disease.
+      For each one it records the published mechanism of action and — the part that is
+      usually hard to find — how strong the evidence behind it really is.
+    </p>
+    <p class="prose-body mt-3" style="color: var(--text-muted);">
+      No dosing. No claims that anything works. Nothing gets an entry without a citable
+      published mechanism, and every entry wears its evidence grade where you can see it.
+      <a href={href('/methodology')}>Those rules are enforced by the build</a>, not by
+      good intentions.
+    </p>
+  </section>
+
+  <ul class="mt-10 grid gap-4 sm:grid-cols-2">
+    {
+      SECTIONS.map((s) => (
+        <li class="card p-5">
+          <h2 class="text-lg font-semibold">
+            <a href={href(s.path)} class="no-underline hover:underline" style="color: var(--text);">
+              {s.label}
+            </a>
+            <span class="ml-2 text-sm font-normal" style="color: var(--text-faint);">
+              {s.count}
+            </span>
+          </h2>
+          <p class="mt-1.5 text-sm" style="color: var(--text-muted);">{s.blurb}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <section class="mt-12 max-w-3xl">
+    <h2 class="font-serif text-2xl font-semibold">How to read an entry</h2>
+    <p class="prose-body mt-2" style="color: var(--text-muted);">
+      The evidence tier is the first thing on every page, because it changes what the
+      rest of the page means. The distinction that matters most is between evidence
+      gathered in this condition and evidence borrowed from a related one — a randomised
+      trial in systemic mastocytosis is real evidence, but it is not evidence about MCAS.
+    </p>
+    <ul class="mt-4 space-y-2">
+      {
+        EVIDENCE_TIERS.map((tier) => (
+          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
+            <a
+              href={href(`/methodology#tier-${tier}`)}
+              class:list={['badge', `tier-${tier}`]}
+            >
+              {EVIDENCE_TIER_INFO[tier].label}
+            </a>
+            <span style="color: var(--text-muted);">{EVIDENCE_TIER_INFO[tier].definition}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="mt-12 max-w-3xl">
+    <h2 class="font-serif text-2xl font-semibold">What the site refuses to do</h2>
+    <dl class="prose-body mt-3 space-y-4" style="color: var(--text-muted);">
+      <div>
+        <dt class="font-semibold" style="color: var(--text);">
+          Average away a disagreement
+        </dt>
+        <dd>
+          Published food lists contradict each other more than patients are usually told.
+          Where sources differ, the food directory shows both and says so — currently on
+          {disagreements} of {foods.length} entries — rather than merging them into one
+          confident-looking number.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-semibold" style="color: var(--text);">
+          Let uncontrolled evidence pass unmarked
+        </dt>
+        <dd>
+          MCAS relapses and remits, so improvement after starting something is not
+          evidence that the something caused it. Entries resting on uncontrolled data
+          must carry a confound-risk flag explaining what cannot be ruled out —
+          {flagged} of {treatments.length} currently do. The schema rejects any that
+          omit it.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-semibold" style="color: var(--text);">
+          Trust an aggregator for a trial status
+        </dt>
+        <dd>
+          Trial statuses come from ClinicalTrials.gov or the sponsor, never from a
+          tracker site — the data model has no field value for one. Aggregators cache the
+          last confident-sounding status and show it long after the underlying record has
+          gone quiet.
+        </dd>
+      </div>
+      <div>
+        <dt class="font-semibold" style="color: var(--text);">Go stale quietly</dt>
+        <dd>
+          All {citationCount} citations are re-checked weekly by a scheduled job, and every
+          entry displays the date a human last verified it. Entries that fall out of date
+          say so on their own faces.
+        </dd>
+      </div>
+    </dl>
+  </section>
+</Base>

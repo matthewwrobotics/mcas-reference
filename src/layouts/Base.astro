@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import '../styles/print.css';
+import { href } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+
+const NAV = [
+  { path: '/medications', label: 'Medications' },
+  { path: '/supplements', label: 'Supplements' },
+  { path: '/foods', label: 'Food & triggers' },
+  { path: '/resources', label: 'Resources' },
+  { path: '/appointment', label: 'Appointment sheet' },
+  { path: '/methodology', label: 'Methodology' },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, '');
+const isActive = (path: string) => current === href(path).replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · MCAS Reference</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <meta property="og:title" content={`${title} · MCAS Reference`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="site-nav border-b" style="border-color: var(--border); background: var(--bg-raised);" aria-label="Primary">
+      <div class="mx-auto flex max-w-5xl flex-wrap items-baseline gap-x-5 gap-y-2 px-5 py-3.5">
+        <a
+          href={href('/')}
+          class="font-semibold no-underline"
+          style="color: var(--text);"
+        >MCAS Reference</a>
+        <ul class="flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm">
+          {
+            NAV.map((item) => (
+              <li>
+                <a
+                  href={href(item.path)}
+                  aria-current={isActive(item.path) ? 'page' : undefined}
+                  style={isActive(item.path)
+                    ? 'color: var(--text); font-weight: 600;'
+                    : 'color: var(--text-muted);'}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+
+    <main id="main" class="mx-auto max-w-5xl px-5 py-10">
+      <slot />
+    </main>
+
+    <footer
+      class="site-footer mt-16 border-t px-5 py-8 text-sm"
+      style="border-color: var(--border); color: var(--text-muted); background: var(--bg-sunken);"
+    >
+      <div class="mx-auto max-w-5xl space-y-3">
+        <p class="max-w-prose">
+          <strong style="color: var(--text);">This is a reference index, not medical advice.</strong>
+          It describes published mechanisms of action and records where the evidence for
+          each entry comes from. It contains no dosing information and makes no claims
+          that anything listed works. Decisions about treatment belong with your
+          clinician.
+        </p>
+        <p class="max-w-prose">
+          Every entry must clear a stated
+          <a href={href('/methodology')}>inclusion bar</a>, and entries carry the date
+          they were last checked. Found something wrong or out of date? That is worth
+          reporting — see <a href={href('/methodology#corrections')}>corrections</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

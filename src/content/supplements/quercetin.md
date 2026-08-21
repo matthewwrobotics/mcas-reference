@@ -1,0 +1,26 @@
+---
+name: Quercetin
+aliases: ["3,3',4',5,7-pentahydroxyflavone"]
+summary: Dietary flavonoid reported to inhibit mast cell mediator release in laboratory models; human outcome data in MCAS are absent.
+mechanismClass: Flavonoid
+evidenceTier: mechanistic
+regulatory: otc
+citations:
+  - title: "Impact of polyphenols on mast cells with special emphasis on the effect of quercetin and luteolin"
+    url: "https://pubmed.ncbi.nlm.nih.gov/30799996/"
+    sourceType: review
+    year: 2018
+    pmid: "30799996"
+    accessed: 2026-08-20
+  - title: "Quercetin and Its Lecithin-Based Formulation: Potential Applications for Allergic Diseases Based on a Narrative Review"
+    url: "https://pubmed.ncbi.nlm.nih.gov/40362785/"
+    sourceType: review
+    year: 2025
+    pmid: "40362785"
+    accessed: 2026-08-20
+lastVerified: 2026-08-20
+---
+
+Quercetin is a flavonoid present in many plant foods. In laboratory models it interacts with phosphatidylinositol-3-kinase and mitogen-activated protein kinase signalling — pathways that sit downstream of the high-affinity IgE receptor on mast cells — and the polyphenol literature describes it as reducing mediator release on that basis.
+
+Two limits belong on this entry. The evidence is mechanistic: it comes from cell and animal models, not from human outcome data in this population. And quercetin's oral bioavailability is poor, which is the reason the recent literature concerns itself with reformulation rather than with the plain compound — laboratory concentrations are not straightforwardly reachable by ingestion.

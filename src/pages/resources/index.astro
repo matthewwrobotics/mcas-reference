@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import LastVerified from '../../components/LastVerified.astro';
+
+const KIND_LABELS: Record<string, string> = {
+  'clinical-guideline': 'Diagnostic criteria & guidelines',
+  'key-paper': 'Key papers',
+  'patient-organization': 'Patient organizations',
+  community: 'Communities',
+  registry: 'Registries',
+  reference: 'Reference works',
+};
+const KIND_ORDER = [
+  'clinical-guideline',
+  'key-paper',
+  'patient-organization',
+  'registry',
+  'community',
+  'reference',
+];
+
+const entries = await getCollection('resources');
+const grouped = KIND_ORDER.map((kind) => ({
+  kind,
+  label: KIND_LABELS[kind] ?? kind,
+  items: entries
+    .filter((e) => e.data.kind === kind)
+    .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.name.localeCompare(b.data.name)),
+})).filter((g) => g.items.length > 0);
+---
+
+<Base
+  title="Resources"
+  description="A curated index of MCAS diagnostic criteria, key papers, patient organizations and registries — each tagged with what it is and when it was last checked."
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight">Resources</h1>
+  <p class="prose-body mt-3" style="color: var(--text-muted);">
+    {entries.length} entries. Each is tagged with what it actually is, so you know
+    whether you are about to open a guideline, a study, or an advocacy organization
+    before you click — and each carries the date it was last checked. Curated rather
+    than comprehensive: the aim is the handful of things worth reading first.
+  </p>
+
+  {
+    grouped.map((group) => (
+      <section class="mt-10">
+        <h2 class="font-serif text-2xl font-semibold">{group.label}</h2>
+        <ul class="mt-4 space-y-3">
+          {group.items.map((item) => (
+            <li class="card p-4">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+                <h3 class="font-medium">
+                  <a href={item.data.url} rel="noopener" class="citation-link">{item.data.name}</a>
+                </h3>
+                <div class="flex flex-wrap items-center gap-2">
+                  {item.data.year && <span class="badge badge-neutral">{item.data.year}</span>}
+                  <LastVerified date={item.data.lastVerified} compact />
+                </div>
+              </div>
+              <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
+                {item.data.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
