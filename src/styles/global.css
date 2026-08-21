@@ -107,8 +107,26 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-a { color: var(--accent-text); }
+/*
+ * Tailwind's preflight strips link underlines, which leaves an inline link
+ * distinguished from its surrounding text by colour alone. That fails WCAG
+ * 1.4.1 (Use of Colour) unless the link/text contrast reaches 3:1, and it is
+ * unreadable for anyone who cannot separate those two colours. Links are
+ * underlined by default here; the exceptions below are standalone controls,
+ * not links sitting inside a block of prose.
+ */
+a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
 a:hover { text-decoration-thickness: 2px; }
+
+.site-nav a,
+a.badge,
+.skip-link { text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
 
 :focus-visible {
   outline: 2px solid var(--focus);

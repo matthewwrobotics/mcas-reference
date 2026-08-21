@@ -29,6 +29,7 @@ validation, so an entry that violates it cannot reach `main`:
 | No dosing, no efficacy claims | `scripts/lint-content.mjs` | CI fails |
 | Citations stay alive | `.github/workflows/maintenance.yml` | Opens an issue |
 | Entries do not go stale silently | `scripts/check-staleness.mjs` + visible badges | Reported weekly |
+| Ratings cite only sources read in full text | Editorial rule, published at `/methodology` | Paywalled sources are dropped, not approximated |
 
 ## Two design decisions worth explaining
 
@@ -65,6 +66,7 @@ for prose entries and schema-validated JSON for tabular data.
 | `npm run check` | `astro check` |
 | `npm run test` | Vitest |
 | `npm run staleness` | Report entries due for re-verification |
+| `npm run a11y` | axe sweep over a running preview server, naming the offending element |
 | `npm run build` | Production build; enforces every content schema |
 
 ## Adding an entry
