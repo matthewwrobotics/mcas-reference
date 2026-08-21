@@ -5,7 +5,8 @@
     "url": "https://www.monashfodmap.com/",
     "kind": "Proprietary laboratory database",
     "redistribution": "link-only",
-    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Their measured values are facts, and facts are not themselves copyrightable — but the database is accessed under terms of use, the compilation and its thresholds reflect their editorial judgement, and the certification mark is theirs. This site links out rather than restating, which also keeps every rating here traceable to something a reader can open."
+    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Their measured values are facts, and facts are not themselves copyrightable — but the database is accessed under terms of use, the compilation and its thresholds reflect their editorial judgement, and the certification mark is theirs. This site links out rather than restating, which also keeps every rating here traceable to something a reader can open.",
+    "linkReason": "Measured values licensed through their app; linked so every rating here stays traceable."
   },
   {
     "id": "sighi",
@@ -13,7 +14,8 @@
     "url": "https://www.histaminintoleranz.ch/en/introduction.html",
     "kind": "Patient organization compatibility list",
     "redistribution": "link-only",
-    "terms": "Widely used by patients and published by the Swiss Interest Group Histamine Intolerance under their own terms. Listed because readers will encounter it, and linked rather than reproduced. Note that comparative review has found published low-histamine lists disagree substantially with each other and with measured histamine content."
+    "terms": "Widely used by patients and published by the Swiss Interest Group Histamine Intolerance under their own terms. Listed because readers will encounter it, and linked rather than reproduced. Note that comparative review has found published low-histamine lists disagree substantially with each other and with measured histamine content.",
+    "linkReason": "Published by the organisation under its own terms; linked rather than reproduced."
   },
   {
     "id": "histamine-content-2021",
@@ -38,5 +40,14 @@
     "kind": "Peer-reviewed review, open access",
     "redistribution": "open",
     "terms": "Open access and read in full text. Bands foods by oxalate per serving rather than per 100 g, so its ranking of nuts relative to leafy greens differs from per-weight sources."
+  },
+  {
+    "id": "mastcell360",
+    "name": "Mast Cell 360 low-histamine food list",
+    "url": "https://mastcell360.com/low-histamine-foods-list/",
+    "kind": "Practitioner-authored food list",
+    "redistribution": "link-only",
+    "linkReason": "A practitioner's own compilation, so its groupings are editorial judgement rather than measurement — linked, never restated.",
+    "terms": "Widely read by patients, and included because readers will arrive having already seen it. Its authors describe it as drawn from 'the best research available about low histamine foods and our experience in the clinic with hundreds of very sensitive clients', and individual foods are not attributed to particular sources. That makes it a clinical opinion rather than a measurement, which is why it is link-only: its value lies in which foods it selects and how it groups them, and that selection is the authors' own work. Note that it places several foods — bananas and citrus among them — in its higher-histamine section, where laboratory analysis has found no detectable histamine."
   }
 ]

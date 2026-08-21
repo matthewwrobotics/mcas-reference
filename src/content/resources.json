@@ -92,5 +92,13 @@
     "kind": "registry",
     "description": "The primary registry, and the source this site uses for every trial status. Worth searching directly rather than relying on secondary trackers, which go stale without indicating that they have.",
     "lastVerified": "2026-08-20"
+  },
+  {
+    "id": "mastcell360-list",
+    "name": "Mast Cell 360 low-histamine food list",
+    "url": "https://mastcell360.com/low-histamine-foods-list/",
+    "kind": "practitioner-resource",
+    "description": "One of the most widely circulated low-histamine food lists, compiled by a practitioner from published research and clinical experience. Included because patients often arrive having already followed it, and because it illustrates what the 2021 review documents: several foods it groups as higher-histamine have no detectable histamine on analysis.",
+    "lastVerified": "2026-08-20"
   }
 ]

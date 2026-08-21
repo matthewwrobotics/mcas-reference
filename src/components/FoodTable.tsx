@@ -21,6 +21,7 @@ export interface SourceInfo {
   name: string;
   url: string;
   redistribution: 'open' | 'link-only';
+  linkReason?: string;
 }
 
 interface Props {
@@ -309,8 +310,8 @@ function FoodDetail({
                   {sources[r.source]?.name ?? r.source}
                 </a>
                 <p className="food-source-note">
-                  This source’s terms do not allow its values to be reproduced, so it is
-                  linked rather than restated.
+                  {sources[r.source]?.linkReason ??
+                    'Linked rather than restated; see /methodology for this source’s terms.'}
                   {r.note ? ` ${r.note}` : ''}
                 </p>
               </li>

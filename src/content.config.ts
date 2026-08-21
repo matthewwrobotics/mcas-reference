@@ -243,14 +243,31 @@ const foods = defineCollection({
 
 const sources = defineCollection({
   loader: file('./src/content/sources.json'),
-  schema: z.object({
-    name: z.string().min(1),
-    url: z.url(),
-    kind: z.string().min(1),
-    redistribution: z.enum(REDISTRIBUTION),
-    /** Why this source carries these terms — shown on /methodology. */
-    terms: z.string().min(1),
-  }),
+  schema: z
+    .object({
+      name: z.string().min(1),
+      url: z.url(),
+      kind: z.string().min(1),
+      redistribution: z.enum(REDISTRIBUTION),
+      /** One line shown beside every link-only rating in the food table. */
+      linkReason: z.string().min(1).max(200).optional(),
+      /** Why this source carries these terms — shown on /methodology. */
+      terms: z.string().min(1),
+    })
+    .superRefine((source, ctx) => {
+      // A link-only source appears in the table as a bare link. Without a
+      // reason next to it the reader cannot tell whether the value is missing
+      // or withheld, which are very different things.
+      if (source.redistribution === 'link-only' && !source.linkReason) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['linkReason'],
+          message:
+            `"${source.name}" is link-only and needs a linkReason: one line saying ` +
+            `why its values are linked rather than restated.`,
+        });
+      }
+    }),
 });
 
 const resources = defineCollection({
@@ -266,6 +283,7 @@ const resources = defineCollection({
       'key-paper',
       'registry',
       'reference',
+      'practitioner-resource',
     ]),
     description: z.string().min(1).max(400),
     year: z.number().int().min(1950).max(2100).optional(),

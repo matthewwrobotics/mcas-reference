@@ -3,7 +3,9 @@
     "id": "spinach",
     "name": "Spinach",
     "category": "Vegetable",
-    "aliases": ["Spinacia oleracea"],
+    "aliases": [
+      "Spinacia oleracea"
+    ],
     "lastVerified": "2026-08-20",
     "note": "Two axes worth separating. Spinach is unambiguously high in oxalate. Its histamine content is a different matter: it is present, and it rises the longer the leaves are stored.",
     "ratings": [
@@ -29,6 +31,11 @@
         "axis": "fodmap",
         "source": "monash",
         "url": "https://www.monashfodmap.com/"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -50,6 +57,11 @@
         "source": "oxalate-stone-risk-2020",
         "rating": "high",
         "note": "Topmost band, above 200 mg per serving. Rhubarb also appears in this review's summary of biopsy-proven oxalate nephropathy case reports."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -77,6 +89,11 @@
         "axis": "fodmap",
         "source": "monash",
         "url": "https://www.monashfodmap.com/"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -84,7 +101,10 @@
     "id": "aged-cheddar",
     "name": "Aged cheddar cheese",
     "category": "Dairy",
-    "aliases": ["Matured cheddar", "Cured cheese"],
+    "aliases": [
+      "Matured cheddar",
+      "Cured cheese"
+    ],
     "lastVerified": "2026-08-20",
     "note": "Cured cheese is one of the few foods excluded by every published low-histamine diet, and here the measured content supports the exclusion. Ripening time matters more than variety.",
     "ratings": [
@@ -104,6 +124,11 @@
         "axis": "histamine",
         "source": "sighi",
         "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -130,6 +155,11 @@
         "axis": "histamine",
         "source": "sighi",
         "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -157,6 +187,11 @@
         "source": "monash",
         "url": "https://www.monashfodmap.com/",
         "note": "Ripeness changes the result; check the app rather than assuming."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -164,7 +199,11 @@
     "id": "orange",
     "name": "Orange",
     "category": "Fruit",
-    "aliases": ["Citrus sinensis", "Mandarin", "Citrus fruit"],
+    "aliases": [
+      "Citrus sinensis",
+      "Mandarin",
+      "Citrus fruit"
+    ],
     "lastVerified": "2026-08-20",
     "note": "The clearest published example of a food list and a laboratory disagreeing: 60% of reviewed low-histamine diets exclude citrus, and citrus contains no detectable histamine.",
     "ratings": [
@@ -178,6 +217,11 @@
         "axis": "histamine",
         "source": "sighi",
         "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   },
@@ -185,7 +229,9 @@
     "id": "tomato",
     "name": "Tomato",
     "category": "Vegetable",
-    "aliases": ["Solanum lycopersicum"],
+    "aliases": [
+      "Solanum lycopersicum"
+    ],
     "lastVerified": "2026-08-20",
     "ratings": [
       {
@@ -198,6 +244,11 @@
         "axis": "fodmap",
         "source": "monash",
         "url": "https://www.monashfodmap.com/"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
     ]
   }

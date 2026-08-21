@@ -12,7 +12,12 @@ const sourceEntries = await getCollection('sources');
 const sources: Record<string, SourceInfo> = Object.fromEntries(
   sourceEntries.map((s) => [
     s.id,
-    { name: s.data.name, url: s.data.url, redistribution: s.data.redistribution },
+    {
+      name: s.data.name,
+      url: s.data.url,
+      redistribution: s.data.redistribution,
+      linkReason: s.data.linkReason,
+    },
   ]),
 );
 const isLinkOnly = (id: string) => sources[id]?.redistribution === 'link-only';
