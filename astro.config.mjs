@@ -10,6 +10,12 @@ export default defineConfig({
   site: 'https://matthewwrobotics.github.io',
   base: '/mcas-reference',
   trailingSlash: 'ignore',
+  // Astro's HTML compression collapses the newline between prose and an inline
+  // element, so "…found that\n<a>only fermented foods…" renders as
+  // "thatonly fermented foods". On a site that is mostly cited prose that is a
+  // correctness bug, not a cosmetic one, and it fails silently on every future
+  // inline link. Costs roughly 3 KB per page before gzip; Lighthouse still 100.
+  compressHTML: false,
   integrations: [react(), sitemap()],
   vite: { plugins: [tailwindcss()] },
 });
