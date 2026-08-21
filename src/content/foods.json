@@ -1,62 +1,31 @@
 [
   {
-    "id": "spinach",
-    "name": "Spinach",
-    "category": "Vegetable",
+    "id": "aged-cheddar",
+    "name": "Aged cheddar cheese",
+    "category": "Dairy",
     "aliases": [
-      "Spinacia oleracea"
+      "Matured cheddar",
+      "Cured cheese"
     ],
     "lastVerified": "2026-08-20",
-    "note": "Two axes worth separating. Spinach is unambiguously high in oxalate. Its histamine content is a different matter: it is present, and it rises the longer the leaves are stored.",
+    "note": "Cured cheese is one of the few foods excluded by every published low-histamine diet, and here the measured content supports the exclusion. Ripening time matters more than variety.",
     "ratings": [
-      {
-        "axis": "oxalate",
-        "source": "oxalate-kidney-2020",
-        "rating": "high",
-        "note": "658 mg per 100 g — the highest single value in the review's table of higher-oxalate foods."
-      },
-      {
-        "axis": "oxalate",
-        "source": "oxalate-stone-risk-2020",
-        "rating": "high",
-        "note": "Placed in the topmost band, foods above 200 mg of oxalate per serving."
-      },
       {
         "axis": "histamine",
         "source": "histamine-content-2021",
-        "rating": "variable",
-        "note": "Histamine is detectable in spinach and increases substantially over refrigerated storage — one cited study measured a significant rise across 15 days. Spinach's relatively high pH permits growth of the bacteria that decarboxylate histidine into histamine, so freshness matters more here than the plant itself does."
+        "rating": "high",
+        "note": "Mean histamine in fermented foods surveyed ran 22–74 mg/kg, but the top 5% of cheese samples exceeded 203 mg/kg. The variability is the point: it depends on the hygiene of the raw milk and the histamine-forming capacity of the bacteria used, so two cheeses of the same type can differ greatly."
       },
       {
-        "axis": "fodmap",
-        "source": "monash",
-        "url": "https://www.monashfodmap.com/"
+        "axis": "tyramine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Tyramine reached 1500 mg/kg in cheese — higher than the histamine levels — and is produced by many of the lactic acid bacteria used in fermentation."
       },
       {
         "axis": "histamine",
-        "source": "mastcell360",
-        "url": "https://mastcell360.com/low-histamine-foods-list/"
-      }
-    ]
-  },
-  {
-    "id": "rhubarb",
-    "name": "Rhubarb",
-    "category": "Vegetable",
-    "aliases": [],
-    "lastVerified": "2026-08-20",
-    "ratings": [
-      {
-        "axis": "oxalate",
-        "source": "oxalate-kidney-2020",
-        "rating": "high",
-        "note": "433 mg per 100 g."
-      },
-      {
-        "axis": "oxalate",
-        "source": "oxalate-stone-risk-2020",
-        "rating": "high",
-        "note": "Topmost band, above 200 mg per serving. Rhubarb also appears in this review's summary of biopsy-proven oxalate nephropathy case reports."
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
       },
       {
         "axis": "histamine",
@@ -98,63 +67,23 @@
     ]
   },
   {
-    "id": "aged-cheddar",
-    "name": "Aged cheddar cheese",
-    "category": "Dairy",
-    "aliases": [
-      "Matured cheddar",
-      "Cured cheese"
-    ],
-    "lastVerified": "2026-08-20",
-    "note": "Cured cheese is one of the few foods excluded by every published low-histamine diet, and here the measured content supports the exclusion. Ripening time matters more than variety.",
-    "ratings": [
-      {
-        "axis": "histamine",
-        "source": "histamine-content-2021",
-        "rating": "high",
-        "note": "Mean histamine in fermented foods surveyed ran 22–74 mg/kg, but the top 5% of cheese samples exceeded 203 mg/kg. The variability is the point: it depends on the hygiene of the raw milk and the histamine-forming capacity of the bacteria used, so two cheeses of the same type can differ greatly."
-      },
-      {
-        "axis": "tyramine",
-        "source": "histamine-content-2021",
-        "rating": "high",
-        "note": "Tyramine reached 1500 mg/kg in cheese — higher than the histamine levels — and is produced by many of the lactic acid bacteria used in fermentation."
-      },
-      {
-        "axis": "histamine",
-        "source": "sighi",
-        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
-      },
-      {
-        "axis": "histamine",
-        "source": "mastcell360",
-        "url": "https://mastcell360.com/low-histamine-foods-list/"
-      }
-    ]
-  },
-  {
-    "id": "sauerkraut",
-    "name": "Sauerkraut",
-    "category": "Fermented",
+    "id": "amaranth",
+    "name": "Amaranth",
+    "category": "Grains and pseudocereals",
     "aliases": [],
     "lastVerified": "2026-08-20",
     "ratings": [
       {
-        "axis": "histamine",
-        "source": "histamine-content-2021",
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
         "rating": "high",
-        "note": "Named among the fermented products that can accumulate high histamine. Fermented foods were the only category excluded unanimously across all ten diets reviewed."
+        "note": "1090 mg per 100 g. The highest figure in the review’s table — above spinach."
       },
       {
-        "axis": "tyramine",
-        "source": "histamine-content-2021",
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
         "rating": "high",
-        "note": "Fermented vegetables reached tyramine levels up to 1700 mg/kg, the highest of any category measured."
-      },
-      {
-        "axis": "histamine",
-        "source": "sighi",
-        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+        "note": "Banded as high, above 50 mg per serving. Grouped with quinoa as a pseudocereal."
       },
       {
         "axis": "histamine",
@@ -196,6 +125,304 @@
     ]
   },
   {
+    "id": "beans",
+    "name": "Beans",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "The two reviews disagree, and the reason is the denominator. One measures per 100 g, the other bands per serving — and a serving of cooked beans is considerably more than 100 g. Neither is wrong; a reader comparing two food lists without checking the unit would conclude they contradict each other.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "moderate",
+        "note": "25 mg per 100 g. 25 mg per 100 g — below the 50 mg threshold the other review uses for its high band."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Banded as high, above 50 mg per serving."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "beets",
+    "name": "Beets",
+    "category": "Vegetable",
+    "aliases": [
+      "Beetroot"
+    ],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "61 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "brewed-tea",
+    "name": "Brewed tea",
+    "category": "Beverage",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "low",
+        "note": "5.6 mg per 100 g. Low per 100 g, but the companion review records a case of oxalate nephropathy attributed to black iced tea in a patient with existing kidney disease — volume can outrun concentration."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "canned-sardines",
+    "name": "Canned sardines",
+    "category": "Fish",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "The exception to an otherwise reassuring picture for fish. Most fishery products carry little histamine — EFSA found it in only 27% of 6,329 European samples, generally at low levels — but where freshness failed before processing, the result is locked in.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "657 mg/kg was measured in canned sardines — the single highest fish figure reported. Sardines are a scombroid species, whose high free histidine content is the substrate spoilage bacteria convert into histamine. Biogenic amines are thermostable, so canning does not reduce what has already formed."
+      }
+    ]
+  },
+  {
+    "id": "cocoa-powder",
+    "name": "Cocoa powder",
+    "category": "Other",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "Appears both in the oxalate tables and among the foods implicated in reported cases of oxalate nephropathy.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "111 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Also named in this review’s summary of biopsy-proven oxalate nephropathy case reports."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "cornmeal",
+    "name": "Cornmeal",
+    "category": "Grains and pseudocereals",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "Another per-100 g versus per-serving disagreement. Worth noticing that the conflict here is not about the food at all — both reviews would agree on the number.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "moderate",
+        "note": "25.6 mg per 100 g. 25.6 mg per 100 g, below the other review’s 50 mg high-band threshold."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Listed by name in the high band."
+      }
+    ]
+  },
+  {
+    "id": "dry-fermented-sausage",
+    "name": "Dry-fermented sausage",
+    "category": "Fermented",
+    "aliases": [
+      "Salami",
+      "Chorizo",
+      "Cured sausage"
+    ],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Mean histamine across fermented foods ran 22–74 mg/kg, with the top 5% of dry-fermented sausage samples above 130 mg/kg. Excluded by every low-histamine diet reviewed."
+      },
+      {
+        "axis": "tyramine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Reached 750 mg/kg — produced by the same lactic acid bacteria that drive the fermentation."
+      }
+    ]
+  },
+  {
+    "id": "eggplant",
+    "name": "Eggplant",
+    "category": "Vegetable",
+    "aliases": [
+      "Aubergine"
+    ],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "variable",
+        "note": "One of only three plant foods in which histamine was actually detected, with tomato and spinach. Accumulation has been linked to bacterial activity during storage, so freshness affects the answer."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "fresh-salmon",
+    "name": "Fresh salmon",
+    "category": "Fish",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "variable",
+        "note": "Most fresh fish showed no histamine or very little, with 95% of samples below 20 mg/kg — but 111 mg/kg was measured in one fresh salmon sample. The variable that moves this is handling, not species."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "hazelnuts",
+    "name": "Hazelnuts",
+    "category": "Nuts and seeds",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "100 mg per 100 g. Figure is for raw hazelnuts."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "lentils",
+    "name": "Lentils",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "low",
+        "note": "8 mg per 100 g. Figure is for boiled lentils."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "miso",
+    "name": "Miso",
+    "category": "Fermented",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "High on two independent axes, which is unusual — most entries here are a concern on one.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Soy-fermented products carried the highest histamine of any category surveyed: 5% of samples exceeded 486 mg/kg, against 203 mg/kg for cheese."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Miso soup is named in the high oxalate band."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "okra",
+    "name": "Okra",
+    "category": "Vegetable",
+    "aliases": [
+      "Gombo",
+      "Bamia",
+      "Hibiscus esculentus"
+    ],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
     "id": "orange",
     "name": "Orange",
     "category": "Fruit",
@@ -226,6 +453,302 @@
     ]
   },
   {
+    "id": "peanuts",
+    "name": "Peanuts",
+    "category": "Nuts and seeds",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "94.5 mg per 100 g. Peanut is also the implicated food in one of the biopsy-proven oxalate nephropathy case reports the companion review summarises."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "peas",
+    "name": "Peas",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "50 mg per 100 g. Figure is for raw peas, right at the 50 mg high-band threshold."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "No significant histamine, but among the foods carrying putrescine at 25–150 mg/kg that published low-histamine diets nonetheless do not exclude."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "pistachios",
+    "name": "Pistachio nuts",
+    "category": "Nuts and seeds",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "moderate",
+        "note": "49 mg per 100 g. Just under the 50 mg threshold the companion review uses for its high band — a reminder that the boundary is a convention, not a cliff."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "potatoes",
+    "name": "Potatoes",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "50 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Banded specifically as potatoes with skin, which is where most of the oxalate sits."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "quinoa",
+    "name": "Quinoa",
+    "category": "Grains and pseudocereals",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Banded as a pseudocereal alongside amaranth."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "raspberries",
+    "name": "Raspberries",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "low",
+        "note": "19.2 mg per 100 g."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "rhubarb",
+    "name": "Rhubarb",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "433 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Topmost band, above 200 mg per serving. Rhubarb also appears in this review's summary of biopsy-proven oxalate nephropathy case reports."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "rice-bran",
+    "name": "Rice bran",
+    "category": "Grains and pseudocereals",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "112 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Topmost band, above 200 mg per serving. Bran is dense, so a serving carries far more than its per-100 g figure suggests relative to a leafy green."
+      }
+    ]
+  },
+  {
+    "id": "sauerkraut",
+    "name": "Sauerkraut",
+    "category": "Fermented",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Named among the fermented products that can accumulate high histamine. Fermented foods were the only category excluded unanimously across all ten diets reviewed."
+      },
+      {
+        "axis": "tyramine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Fermented vegetables reached tyramine levels up to 1700 mg/kg, the highest of any category measured."
+      },
+      {
+        "axis": "histamine",
+        "source": "sighi",
+        "url": "https://www.histaminintoleranz.ch/en/introduction.html"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "soybeans",
+    "name": "Soybeans",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "77 mg per 100 g."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "No significant histamine detected, though soybeans carry relevant amounts of putrescine. Note that fermented soy products are an entirely different matter — see miso."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "category": "Vegetable",
+    "aliases": [
+      "Spinacia oleracea"
+    ],
+    "lastVerified": "2026-08-20",
+    "note": "Two axes worth separating. Spinach is unambiguously high in oxalate. Its histamine content is a different matter: it is present, and it rises the longer the leaves are stored.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "658 mg per 100 g — the highest single value in the review's table of higher-oxalate foods."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Placed in the topmost band, foods above 200 mg of oxalate per serving."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "variable",
+        "note": "Histamine is detectable in spinach and increases substantially over refrigerated storage — one cited study measured a significant rise across 15 days. Spinach's relatively high pH permits growth of the bacteria that decarboxylate histidine into histamine, so freshness matters more here than the plant itself does."
+      },
+      {
+        "axis": "fodmap",
+        "source": "monash",
+        "url": "https://www.monashfodmap.com/"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "tofu",
+    "name": "Tofu",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "274 mg per 100 g."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
     "id": "tomato",
     "name": "Tomato",
     "category": "Vegetable",
@@ -244,6 +767,72 @@
         "axis": "fodmap",
         "source": "monash",
         "url": "https://www.monashfodmap.com/"
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "whole-grain-flour",
+    "name": "Whole-grain flour",
+    "category": "Grains and pseudocereals",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "The widest gap between the two reviews. One measured a specific flour; the other banded a whole category. A category band cannot be finer than its coarsest member, which is how a food measured at 11.6 mg per 100 g ends up inside a band defined as above 50 mg per serving.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-kidney-2020",
+        "rating": "low",
+        "note": "11.6 mg per 100 g. 11.6 mg per 100 g — the lowest cereal figure in the table."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving. Covered by the high band as “wholegrain cereals”, a category rather than a specific flour."
+      }
+    ]
+  },
+  {
+    "id": "wine",
+    "name": "Wine",
+    "category": "Beverage",
+    "aliases": [],
+    "lastVerified": "2026-08-20",
+    "note": "One of the clearest cases where a food is excluded for what it does to histamine metabolism rather than for the histamine it contains.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "Histamine and other biogenic amines in fermented beverages were much lower than in other fermented foods — yet wine is excluded by every low-histamine diet reviewed. The reason offered is not its histamine content: alcohol and its metabolite acetaldehyde compete with histamine for aldehyde dehydrogenase, so drinking alongside histamine-containing food can raise the effective dose from that food."
+      },
+      {
+        "axis": "histamine",
+        "source": "mastcell360",
+        "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ]
+  },
+  {
+    "id": "zucchini",
+    "name": "Zucchini",
+    "category": "Vegetable",
+    "aliases": [
+      "Courgette"
+    ],
+    "lastVerified": "2026-08-20",
+    "note": "The reverse of the banana case, and the more revealing one. If putrescine is the reason citrus is excluded, the published diets are not applying that reason consistently.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "low",
+        "note": "No significant histamine. Zucchini does carry putrescine, at up to 25–150 mg/kg — the same compound cited to justify excluding bananas and citrus — and yet no reviewed low-histamine diet excludes it. The review names this inconsistency directly."
       },
       {
         "axis": "histamine",

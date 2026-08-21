@@ -31,7 +31,7 @@
     "url": "https://pubmed.ncbi.nlm.nih.gov/32887293/",
     "kind": "Peer-reviewed review, open access",
     "redistribution": "open",
-    "terms": "Open access and read in full text. Reports oxalate content per 100 g of food, which is why its rankings can differ from sources reporting per serving."
+    "terms": "Open access and read in full text. Reports oxalate content per 100 g of food, which is why its rankings can differ from sources reporting per serving. Its table gives numbers rather than categories, so the low/moderate/high shown here is a mapping: at or above 50 mg per 100 g is high, using the threshold the companion kidney-stone review publishes for its own high band; 20 to 50 mg is moderate and below 20 mg is low. Those two lower boundaries are this site's, not the paper's, and every entry states the measured figure so you can apply your own."
   },
   {
     "id": "oxalate-stone-risk-2020",
@@ -39,7 +39,7 @@
     "url": "https://pubmed.ncbi.nlm.nih.gov/32183500/",
     "kind": "Peer-reviewed review, open access",
     "redistribution": "open",
-    "terms": "Open access and read in full text. Bands foods by oxalate per serving rather than per 100 g, so its ranking of nuts relative to leafy greens differs from per-weight sources."
+    "terms": "Open access and read in full text. Bands foods by oxalate per serving rather than per 100 g, so its ranking of dense foods such as bran relative to leafy greens differs from per-weight sources. Both of its bands — above 200 mg and above 50 mg per serving — are shown here as high, with the band named in each entry's note."
   },
   {
     "id": "mastcell360",

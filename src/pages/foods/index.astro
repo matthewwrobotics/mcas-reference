@@ -74,8 +74,21 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
     <p>
       {
         disagreementCount === 0
-          ? 'Where two citable sources give the same axis different values, the table says “sources differ” and shows both rather than picking a winner. None of the entries currently seeded do — every rating here was read from the full text of an open-access paper, and on these foods those papers agree.'
+          ? 'Where two citable sources give the same axis different values, the table says “sources differ” and shows both rather than picking a winner. None of the entries currently seeded do.'
           : `Where two citable sources give the same axis different values, the table says “sources differ” and shows both rather than picking a winner — currently on ${disagreementCount} of ${foods.length} entries.`
+      }
+      {
+        disagreementCount > 0 && (
+          <span>
+            {' '}
+            Every one of those disagreements has the same cause, and it is not the food:
+            one review measures oxalate per 100 grams, the other bands it per serving, and
+            servings differ enormously by food. Cooked beans and leafy greens are not
+            weighed alike. Each entry says which unit produced which figure, because that
+            is the part a reader needs in order to reconcile two food lists that appear to
+            contradict each other.
+          </span>
+        )
       }
     </p>
   </div>
@@ -87,11 +100,14 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
       Why some sources show no rating
     </h2>
     <p class="mt-2 leading-relaxed">
-      {linkOnlySources.length} of the sources below publish their values under terms that
-      do not permit reproduction. Coarsening a measured value into “low” or “high” reduces
-      its precision but not its provenance — it is still that database's figure — so this
-      site links to those sources instead of restating them. The build enforces it: an
-      entry that puts a rating against a link-only source fails validation.
+      {linkOnlySources.length} of the sources used here are linked rather than restated,
+      for reasons that differ between them. For a laboratory database, coarsening a
+      measured value into “low” or “high” reduces its precision but not its provenance —
+      it is still that database's figure. For a practitioner's list, the value lies in
+      which foods it selects and how it groups them, and that selection is the author's
+      own work. Either way the build enforces it: an entry that puts a rating against a
+      link-only source fails validation, and a link-only source that does not explain
+      itself fails too.
     </p>
     <ul class="mt-3 space-y-2">
       {
