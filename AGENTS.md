@@ -41,3 +41,19 @@ build. Before changing anything under `src/content/`, understand that:
   re-reading them defeats the entire freshness mechanism.
 
 Run `npm run validate` before considering any content change done.
+
+## If the food table goes blank in dev
+
+Changing `astro.config.mjs` while the dev server is running invalidates Vite's
+dependency optimisation cache. The server restarts, but a browser tab held open
+across the restart can keep a stale reference, and the island then dies with
+`TypeError: _jsxDEV is not a function`. The dev server also logs
+`The collection "foods" does not exist or is empty` when its content store is
+stale.
+
+Fix: `npm run dev:clean`.
+
+Note that the error boundary in `FoodTable.tsx` does **not** catch this. That
+boundary protects against the island throwing during render; this failure is the
+JSX factory itself being undefined, so constructing the fallback element throws
+too. It is a dev-only failure — production builds are unaffected.

@@ -61,6 +61,7 @@ for prose entries and schema-validated JSON for tabular data.
 | Command | Does |
 | --- | --- |
 | `npm run dev` | Dev server at `localhost:4321/mcas-reference` |
+| `npm run dev:clean` | Same, after clearing Vite and content caches — use if an island goes blank in dev |
 | `npm run validate` | Lint, typecheck, test, and build — run before every commit |
 | `npm run lint` | Editorial policy check (dosing, efficacy claims, insecure links) |
 | `npm run check` | `astro check` |
