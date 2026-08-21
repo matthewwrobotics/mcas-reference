@@ -44,10 +44,13 @@ jobs:
           cp -r dist _linkcheck/mcas-reference
           echo "Staged $(find _linkcheck -name '*.html' | wc -l) HTML files"
 
-      # Accepted codes are deliberately broad. PubMed answers non-browser agents
-      # with 203, and several patient-organization sites answer bots with 403 —
-      # both mean "the page is there", and treating them as failures would train
-      # everyone to ignore this job's issues.
+      # Accepted codes are deliberately broad. Sites behind bot mitigation answer
+      # a checker with whatever their edge decides that day — tmsforacure.org has
+      # returned 200, 202 and 403 across successive runs, and PubMed answers
+      # non-browser agents with 203. All of them mean "the page is there".
+      # Chasing individual codes one incident at a time trains everyone to ignore
+      # this job, so the whole 2xx range is accepted and the redirects with it.
+      # What this job is really for is citations that have gone 404 or moved.
       - name: Link check
         id: lychee
         uses: lycheeverse/lychee-action@v2
@@ -59,7 +62,7 @@ jobs:
             --max-retries 2
             --max-concurrency 8
             --timeout 30
-            --accept 200,203,206,301,302,403,429
+            --accept 200..=299,301,302,307,308,403,429
             --user-agent "Mozilla/5.0 (compatible; mcas-reference link checker)"
             "_linkcheck/mcas-reference/*.html"
             "_linkcheck/mcas-reference/**/*.html"

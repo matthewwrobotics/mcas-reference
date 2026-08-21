@@ -13,6 +13,10 @@ should be `rct-adjacent`.
 No implementation changes have been made yet; this file only records the
 discussion and supporting research.
 
+The broader ongoing medication/supplement audit and missing-candidate screen is
+in `RESEARCH_HANDOFF.md`. Treat that as the living evidence record; this file is
+the concise UX decision handoff.
+
 ## Recommended editorial changes
 
 1. Remove the public confound-risk badge and its `low` / `moderate` / `high`
@@ -53,8 +57,8 @@ Verified sources:
   https://pubmed.ncbi.nlm.nih.gov/25046337/
 - FDA’s February 2024 food-allergy approval announcement:
   https://www.fda.gov/news-events/press-announcements/fda-approves-first-medication-help-reduce-allergic-reactions-multiple-foods-after-accidental
-- 2024 FDA Xolair prescribing information:
-  https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/103976s5245lbl.pdf
+- Current 2026 FDA Xolair prescribing information:
+  https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/103976s5253lbl.pdf
 - MCAS-specific systematic review already used by the entry, PMID 39741373:
   https://pubmed.ncbi.nlm.nih.gov/39741373/
 

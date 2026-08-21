@@ -27,6 +27,69 @@ For every existing entry and candidate, distinguish:
 Claude should not treat a candidate as approved for publication merely because
 it appears in the discovery queue.
 
+## Current decision snapshot
+
+This is the short routing layer; the detailed evidence and URLs appear below.
+
+### Existing entries needing correction or stronger sourcing
+
+- **Omalizumab, ketotifen, montelukast, famotidine, and DAO:** the current broad
+  tier definition makes them `rct-adjacent`, although their direct MCAS evidence
+  is weaker. This is a tier-model issue, not five isolated exceptions.
+- **Cromolyn, cetirizine, and masitinib:** add the primary studies that actually
+  support their displayed tier.
+- **Masitinib:** track the direct MCAS trial `NCT05449444` separately from the
+  mastocytosis trial; both registry records are currently `UNKNOWN`.
+- **Avapritinib, cromolyn, cetirizine, and ketotifen:** narrow or correct the
+  overbroad regulatory/mechanistic wording documented below.
+- **Luteolin and quercetin:** retain `mechanistic` but replace review-only logic
+  with primary human-mast-cell sources and model/exposure caveats.
+- **PEA:** retain `mechanistic`; the only direct randomized idiopathic-MCAS
+  study terminated after two participants and cannot estimate an effect.
+
+### Highest-priority missing medication candidates
+
+- **Aspirin:** direct observational MCAS evidence plus a mediator-synthesis
+  mechanism; needs prominent reaction/bleeding/leukotriene-shift context.
+- **Rupatadine:** mastocytosis RCT, human mast-cell PAF studies, and a distinct
+  H1-plus-PAF mechanism; approved in Canada, not the US.
+- **Remibrutinib:** phase 3 CSU evidence, BTK mechanism, and US CSU approval in
+  2025; no direct MCAS outcomes located.
+- **Barzolvolimab:** anti-KIT mast-cell-depleting biologic with phase 1b/2 CSU
+  randomized evidence and active-not-recruiting phase 3 trials; investigational.
+- **Hydroxyzine:** randomized mastocytosis evidence; add only if the index gives
+  first-generation H1 drugs a distinct class slot.
+- **Midostaurin and imatinib:** necessary comparators if the site continues to
+  cover clonal systemic-mastocytosis KIT inhibitors alongside MCAS therapies.
+- **Epinephrine:** belongs in a separate emergency-intervention structure, not
+  the chronic-treatment evidence schema.
+
+### Highest-priority missing supplement candidates
+
+- **Resveratrol:** primary mature human intestinal and skin mast-cell studies;
+  retain mechanistic-only framing because effects vary by mediator/model.
+- **EGCG:** primary human-mast-cell FcεRI work; keep EGCG, methylated
+  derivatives, green-tea extract, and tea as separate evidence objects.
+- **Curcumin, butyrate, cinnamon/cinnamaldehyde, vitamin D metabolites, and
+  omega-3 fatty acids:** credible but currently deferred because formulation,
+  route, exposure, or tier semantics would make a generic consumer entry
+  misleading.
+- **Vitamin C, Boswellia, kaempferol, and the long-tail polyphenol list:** do not
+  prioritize under the stricter human-bridge rule.
+
+### Structural decisions Claude should make before bulk edits
+
+- Remove the patient-facing `confoundRisk` score as requested; preserve precise
+  evidence limitations in prose rather than an ordinal “risk” badge.
+- Replace the one-dimensional tier with, or visibly pair it with, direct-MCAS
+  evidence and related-condition evidence so Xolair-like cases are legible.
+- Require evaluable public randomized results for an RCT badge; a protocol or a
+  two-person terminated trial is not evidence of effect.
+- Give dietary supplements a regulatory label that explicitly says they are not
+  FDA-approved drugs; `otc` is not adequate.
+- Adopt the class-representation rule below before adding near-duplicate H1,
+  H2, or leukotriene drugs.
+
 ## Source and verification rules
 
 - Prefer primary trials, regulator labels, and trial registries over reviews.
@@ -696,6 +759,51 @@ Verdict: if the clonal-disease comparator section remains, add as
 It should not be generalized to common KIT D816V-positive disease or nonclonal
 MCAS.
 
+#### Briquilimab — watchlist anti-KIT candidate, results not yet public
+
+`NCT06162728`, an 87-participant early-phase CSU study, is `COMPLETED` and was
+registry-verified 2026-08, but no results are posted:
+https://clinicaltrials.gov/study/NCT06162728
+
+Related inducible-urticaria, asthma, and extension studies were terminated for
+company-priority reasons; the registry does not attribute those terminations to
+safety. Verdict: watchlist only until the completed CSU comparison is publicly
+reported. Do not infer success or failure from completion status.
+
+### Deprioritized or stopped adjacent pipeline candidates
+
+Keep these in the research log so discontinued programs are not repeatedly
+rediscovered and presented as new hope:
+
+- **THB001 (anti-KIT):** `NCT05510843` terminated after drug-induced liver
+  injury was observed in two of the first five participants:
+  https://clinicaltrials.gov/study/NCT05510843
+- **EP262 (MRGPRX2 antagonist):** CSU phase 2 `NCT06077773` terminated after
+  part 1 for a stated strategic business decision; results are posted. Do not
+  call it an active program:
+  https://clinicaltrials.gov/study/NCT06077773
+- **AK006 (anti-Siglec-6):** early CSU study `NCT06072157` completed without
+  posted registry results. A 2026 peer-reviewed pipeline review reports the CSU
+  program was halted for lack of efficacy (PMID 41654334); retain as a stopped
+  watch item unless the sponsor publishes contrary primary data:
+  https://pubmed.ncbi.nlm.nih.gov/41654334/
+- **Fenebrutinib (BTK inhibitor):** phase 2 CSU RCT, PMID 34750553, showed a
+  pharmacologic signal but also liver-enzyme elevations; the extension registry
+  was terminated and the program did not progress for CSU. Remibrutinib now has
+  phase 3 evidence and FDA approval, so fenebrutinib is a historical comparator,
+  not a priority entry:
+  https://pubmed.ncbi.nlm.nih.gov/34750553/
+- **Tezepelumab (anti-TSLP):** phase 2b CSU study did not meet its primary
+  endpoint, PMID 39956278:
+  https://pubmed.ncbi.nlm.nih.gov/39956278/
+- **Benralizumab (anti-IL-5R):** randomized CSU trial did not separate from
+  placebo on the prespecified clinical outcomes, PMID 38367194:
+  https://pubmed.ncbi.nlm.nih.gov/38367194/
+- **Mepolizumab (anti-IL-5):** direct CSU registry study `NCT03494881` completed
+  with only ten participants and posted results; this is too small and indirect
+  to prioritize over mast-cell-directed candidates:
+  https://clinicaltrials.gov/study/NCT03494881
+
 ### Scope decision: multiple drugs from the same class
 
 The current index lists cetirizine as a representative second-generation H1
@@ -705,6 +813,34 @@ should receive separate entries. Claude needs an editorial rule before the
 research expands into repetitive class entries. Until then, research class
 representatives and clinically meaningful mechanistic differences rather than
 creating a long list of near-duplicates.
+
+Recommended finite rule:
+
+1. Keep one representative entry for a class when members share the same target,
+   evidence population, route, and regulatory story.
+2. Give a separate entry only when at least one material distinction is sourced:
+   an additional mediator target, a different generation with a materially
+   different labelled safety/central-nervous-system profile, direct mast-cell-
+   disorder evidence absent for the representative, or a distinct regulatory or
+   trial status patients need to understand.
+3. List aliases and same-class examples inside the representative page only when
+   the text does not imply interchangeability.
+4. Do not create pages solely because a brand is popular.
+
+Applied now:
+
+- retain cetirizine as the second-generation H1 representative;
+- consider hydroxyzine as a first-generation H1 representative;
+- give rupatadine a separate page because PAF antagonism and a mastocytosis RCT
+  make it materially distinct;
+- retain famotidine as the H2 representative rather than adding cimetidine and
+  other near-duplicates;
+- retain montelukast as the leukotriene-receptor representative; consider
+  zileuton separately because it inhibits leukotriene synthesis rather than the
+  receptor;
+- do not add zafirlukast, loratadine, fexofenadine, levocetirizine,
+  desloratadine, bilastine, azelastine, or chlorpheniramine as separate pages
+  without a new distinction that meets the rule.
 
 ## Unlisted supplement discovery queue
 
@@ -876,6 +1012,21 @@ The EPA/DHA study did not reduce IgE-mediated LAD2 degranulation, although it
 did alter selected cytokine/ROS endpoints. Verdict: defer or present only as a
 narrow mechanistic entry; do not collapse ALA, EPA, DHA, and generic fish oil.
 
+### Long-tail nutraceutical screen — do not admit on review-table presence alone
+
+The structured candidate extraction from PMID 37998337 also produced
+astaxanthin, fucoxanthin, glutamine, arginine, glycine, lycopene, myricetin,
+naringenin, nobiletin, tangeretin, and other carotenoid/flavonoid derivatives.
+Most entries in the review tables are based on a mast-cell line or animal model,
+often at experimental concentrations, rather than a defined human supplement
+with an adjacent controlled trial.
+
+Verdict: hold this long tail outside the publication queue unless a later pass
+finds either primary human mast-cell evidence with a plausible exposure bridge
+or controlled human evidence for the same compound, formulation, and route.
+This is a documented exclusion, not an assertion that the compounds have no
+biological effects.
+
 ## Cross-cutting methodology issue for Claude
 
 The current `rct-adjacent` definition is broad enough that almost every listed
@@ -890,6 +1041,21 @@ Before bulk reclassification, decide what the badge is meant to answer:
 2. **Strongest evidence specifically in MCAS** — then the current definition
    and several existing `rct-adjacent` entries are misleading and the tier model
    should be redesigned.
+
+Preferred patient-facing model: show two compact evidence statements rather
+than forcing both into one ordinal badge:
+
+- **Direct MCAS evidence:** none / case report / observational / randomized
+  results.
+- **Related-condition evidence:** condition plus design, for example
+  “randomized trials — CSU and food allergy.”
+
+Then keep **regulatory status** as a third independent fact. For Xolair this
+would read: direct MCAS evidence observational; related evidence randomized in
+CSU/food allergy; FDA-approved for other indications. For PEA/FSD201 it would
+read: direct MCAS trial terminated with no interpretable comparison, not “RCT
+in MCAS.” This is more informative than replacing one confusing score with a
+different one.
 
 The user has also asked to remove the separate `confoundRisk` label because it
 can be mistaken for medication danger. Do not implement piecemeal: methodology,
