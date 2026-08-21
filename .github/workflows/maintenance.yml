@@ -31,13 +31,18 @@ jobs:
       # citations *and* every internal link, including ones generated from data.
       #
       # The site is served from a base path, so root-relative hrefs look like
-      # /mcas-reference/foods. Staging dist under a matching directory lets
-      # lychee resolve those against the filesystem instead of reporting every
-      # internal link as broken.
+      # /mcas-reference/foods. Staging dist under a matching directory, and
+      # pointing --root-dir at the parent, lets lychee resolve those against the
+      # filesystem instead of reporting every internal link as broken.
+      #
+      # --root-dir, not --base: base is for rewriting relative links against a
+      # URL, and rejects a non-absolute path outright. It must also be absolute,
+      # hence github.workspace.
       - name: Stage built site under its base path
         run: |
           mkdir -p _linkcheck
           cp -r dist _linkcheck/mcas-reference
+          echo "Staged $(find _linkcheck -name '*.html' | wc -l) HTML files"
 
       # Accepted codes are deliberately broad. PubMed answers non-browser agents
       # with 203, and several patient-organization sites answer bots with 403 —
@@ -49,13 +54,14 @@ jobs:
         with:
           fail: false
           args: >-
-            --base _linkcheck
+            --root-dir ${{ github.workspace }}/_linkcheck
             --no-progress
             --max-retries 2
             --max-concurrency 8
             --timeout 30
             --accept 200,203,206,301,302,403,429
             --user-agent "Mozilla/5.0 (compatible; mcas-reference link checker)"
+            "_linkcheck/mcas-reference/*.html"
             "_linkcheck/mcas-reference/**/*.html"
           output: ./lychee/out.md
 
