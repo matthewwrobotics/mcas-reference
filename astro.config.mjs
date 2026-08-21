@@ -17,5 +17,24 @@ export default defineConfig({
   // inline link. Costs roughly 3 KB per page before gzip; Lighthouse still 100.
   compressHTML: false,
   integrations: [react(), sitemap()],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    // Pre-bundle the React runtimes at dev-server start instead of letting Vite
+    // discover them lazily. Lazy discovery triggers a mid-session
+    // "re-optimizing dependencies" pass, and a browser tab held open across it
+    // can end up with `react/jsx-dev-runtime` resolved to a half-initialised
+    // module — `jsxDEV` comes back undefined and the island dies on its first
+    // JSX call, after the server-rendered markup has already painted. The
+    // visible symptom is the food table appearing for a moment and then
+    // vanishing. Production builds never hit this; it is a dev-only path.
+    optimizeDeps: {
+      include: [
+        'react',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'react-dom',
+        'react-dom/client',
+      ],
+    },
+  },
 });
