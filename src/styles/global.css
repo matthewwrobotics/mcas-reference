@@ -414,3 +414,7 @@ a.badge:hover { border-color: currentColor; }
   .sheet-layout { display: block; }
   .sheet-picker { display: none !important; }
 }
+
+/* Fallback rendering used when the food table fails to hydrate. */
+.food-static-entry { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.food-static-entry h3 { font-size: 1.05rem; font-weight: 650; }

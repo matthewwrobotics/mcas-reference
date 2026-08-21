@@ -59,9 +59,19 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
       the literature does not have.
     </p>
     <p>
-      So where sources differ, this table says <em>sources differ</em> and shows you both,
-      rather than picking a winner. {disagreementCount} of {foods.length} entries currently
-      carry a disagreement.
+      The conflict you will meet most often is not between two laboratories — it is
+      between a <em>food list</em> and a <em>measurement</em>. Citrus is the clearest
+      case: 60% of the reviewed diets exclude it, and it contains no detectable
+      histamine at all. Those entries carry a note explaining what the exclusion is
+      actually based on, because “avoid this” and “this contains that” are different
+      claims and deserve to be read differently.
+    </p>
+    <p>
+      {
+        disagreementCount === 0
+          ? 'Where two citable sources give the same axis different values, the table says “sources differ” and shows both rather than picking a winner. None of the entries currently seeded do — every rating here was read from the full text of an open-access paper, and on these foods those papers agree.'
+          : `Where two citable sources give the same axis different values, the table says “sources differ” and shows both rather than picking a winner — currently on ${disagreementCount} of ${foods.length} entries.`
+      }
     </p>
   </div>
 

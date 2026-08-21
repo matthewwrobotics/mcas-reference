@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState, useId } from 'react';
+import { Component, Fragment, useMemo, useState, useId, type ReactNode } from 'react';
 import {
   RATING_AXIS_INFO,
   RATING_LABELS,
@@ -36,7 +36,70 @@ const RATING_CLASS: Record<Rating, string> = {
   variable: 'rating-variable',
 };
 
-export default function FoodTable({ foods, sources, axes }: Props) {
+/**
+ * The table is server-rendered, so it is readable with no JavaScript at all.
+ * The risk this guards against is the opposite case: JavaScript runs, the
+ * island throws while hydrating, React unmounts the tree, and the data
+ * disappears from a page that was showing it a moment earlier.
+ *
+ * For a reference table that is the whole point of the page, silently losing
+ * the content is the worst possible failure. The boundary falls back to a
+ * plain, stateless rendering of exactly the same data — no filters, no expand
+ * buttons, nothing that can throw twice.
+ */
+class TableBoundary extends Component<
+  { fallback: ReactNode; children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error('Food table failed to hydrate; showing the static table.', error);
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
+export default function FoodTable(props: Props) {
+  return (
+    <TableBoundary fallback={<StaticFoodTable {...props} />}>
+      <InteractiveFoodTable {...props} />
+    </TableBoundary>
+  );
+}
+
+/** Every rating, every source, no interactivity and no state to go wrong. */
+function StaticFoodTable({ foods, sources }: Props) {
+  return (
+    <div>
+      <h2 className="sr-only">Food directory</h2>
+      <p className="food-count">
+        Showing all {foods.length} foods. Filtering is unavailable in this browser, so
+        every source is listed inline instead.
+      </p>
+      <div className="food-static">
+        {foods.map((food) => (
+          <section key={food.id} className="food-static-entry">
+            <h3>
+              {food.name}
+              <span className="food-category">{food.category}</span>
+            </h3>
+            {food.note && <p className="food-note">{food.note}</p>}
+            <FoodDetail food={food} sources={sources} axes={food.groups.map((g) => g.axis)} />
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function InteractiveFoodTable({ foods, sources, axes }: Props) {
   const [query, setQuery] = useState('');
   const [axis, setAxis] = useState<RatingAxis | 'all'>('all');
   const [onlyDisagreements, setOnlyDisagreements] = useState(false);

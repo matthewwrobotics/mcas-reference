@@ -5,7 +5,7 @@
     "url": "https://www.monashfodmap.com/",
     "kind": "Proprietary laboratory database",
     "redistribution": "link-only",
-    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Bucketing their measured values into low/moderate/high would reduce their precision without changing where the values came from, so this site does not restate them. Entries citing Monash link out instead."
+    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Their measured values are facts, and facts are not themselves copyrightable — but the database is accessed under terms of use, the compilation and its thresholds reflect their editorial judgement, and the certification mark is theirs. This site links out rather than restating, which also keeps every rating here traceable to something a reader can open."
   },
   {
     "id": "sighi",
@@ -13,54 +13,30 @@
     "url": "https://www.histaminintoleranz.ch/en/introduction.html",
     "kind": "Patient organization compatibility list",
     "redistribution": "link-only",
-    "terms": "Widely used by patients and published by the Swiss Interest Group Histamine Intolerance under their own terms. Listed here because readers will encounter it, and linked rather than reproduced."
+    "terms": "Widely used by patients and published by the Swiss Interest Group Histamine Intolerance under their own terms. Listed because readers will encounter it, and linked rather than reproduced. Note that comparative review has found published low-histamine lists disagree substantially with each other and with measured histamine content."
   },
   {
     "id": "histamine-content-2021",
     "name": "Low-Histamine Diets: Is the Exclusion of Foods Justified by Their Histamine Content? (Nutrients, 2021)",
     "url": "https://pubmed.ncbi.nlm.nih.gov/33919293/",
-    "kind": "Peer-reviewed comparative review",
+    "kind": "Peer-reviewed comparative review, open access",
     "redistribution": "open",
-    "terms": "Peer-reviewed publication. This site characterises its findings categorically and cites it; it does not reproduce its tables."
+    "terms": "Open access and read in full text for every rating attributed to it here. Compares ten published low-histamine diets against measured histamine and biogenic amine content."
   },
   {
-    "id": "biogenic-amines-1999",
-    "name": "Biogenic amines in foods: histamine and food processing (Inflammation Research, 1999)",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/10442480/",
-    "kind": "Peer-reviewed review",
+    "id": "oxalate-kidney-2020",
+    "name": "Dietary Oxalate Intake and Kidney Outcomes (Nutrients, 2020)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32887293/",
+    "kind": "Peer-reviewed review, open access",
     "redistribution": "open",
-    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
+    "terms": "Open access and read in full text. Reports oxalate content per 100 g of food, which is why its rankings can differ from sources reporting per serving."
   },
   {
-    "id": "oxalate-intake-2000",
-    "name": "Estimation of the oxalate content of foods and daily oxalate intake (Kidney International, 2000)",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/10760101/",
-    "kind": "Peer-reviewed analytical study",
+    "id": "oxalate-stone-risk-2020",
+    "name": "Risk of Kidney Stones: Influence of Dietary Factors, Dietary Patterns, and Vegetarian-Vegan Diets (Nutrients, 2020)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32183500/",
+    "kind": "Peer-reviewed review, open access",
     "redistribution": "open",
-    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
-  },
-  {
-    "id": "oxalate-cooking-2005",
-    "name": "Effect of different cooking methods on vegetable oxalate content (J. Agricultural and Food Chemistry, 2005)",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/15826055/",
-    "kind": "Peer-reviewed analytical study",
-    "redistribution": "open",
-    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced. Reports values for prepared rather than raw vegetables, which is why it sometimes disagrees with raw-food tables."
-  },
-  {
-    "id": "salicylates-foods-1985",
-    "name": "Salicylates in foods (J. American Dietetic Association, 1985)",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/4019987/",
-    "kind": "Peer-reviewed analytical study",
-    "redistribution": "open",
-    "terms": "Peer-reviewed publication and the origin of most published salicylate food lists. Cited and characterised rather than reproduced; note its age when weighing it."
-  },
-  {
-    "id": "salicylates-scotland-2011",
-    "name": "A systematic review of salicylates in foods: estimated daily intake of a Scottish population (Molecular Nutrition & Food Research, 2011)",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/21351247/",
-    "kind": "Peer-reviewed systematic review",
-    "redistribution": "open",
-    "terms": "Peer-reviewed publication, cited and characterised rather than reproduced."
+    "terms": "Open access and read in full text. Bands foods by oxalate per serving rather than per 100 g, so its ranking of nuts relative to leafy greens differs from per-weight sources."
   }
 ]

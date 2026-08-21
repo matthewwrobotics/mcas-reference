@@ -3,19 +3,11 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
 import { EVIDENCE_TIERS, EVIDENCE_TIER_INFO } from '../lib/vocab';
-import { axisGroups } from '../lib/derive';
 
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
 const supplements = (await getCollection('supplements')).filter((e) => !e.data.draft);
 const foods = await getCollection('foods');
 const resources = await getCollection('resources');
-const sources = await getCollection('sources');
-
-const isLinkOnly = (id: string) =>
-  sources.find((s) => s.id === id)?.data.redistribution === 'link-only';
-const disagreements = foods.filter((f) =>
-  axisGroups(f.data.ratings, isLinkOnly).some((g) => g.disagreement),
-).length;
 
 const treatments = [...medications, ...supplements];
 const flagged = treatments.filter((e) => e.data.confoundRisk).length;
@@ -41,7 +33,7 @@ const SECTIONS = [
     label: 'Food & triggers',
     count: foods.length,
     blurb:
-      'FODMAP, histamine, oxalate and salicylate ratings shown per source — including where published sources disagree.',
+      'FODMAP, histamine, oxalate and tyramine ratings shown per source, with the basis for each exclusion recorded rather than assumed.',
   },
   {
     path: '/resources',
@@ -125,10 +117,11 @@ const SECTIONS = [
           Average away a disagreement
         </dt>
         <dd>
-          Published food lists contradict each other more than patients are usually told.
-          Where sources differ, the food directory shows both and says so — currently on
-          {disagreements} of {foods.length} entries — rather than merging them into one
-          confident-looking number.
+          Published food lists contradict each other more than patients are usually told,
+          and the sharpest conflicts are between a list and a laboratory: 60% of reviewed
+          low-histamine diets exclude citrus, which contains no detectable histamine.
+          Ratings are stored and shown per source so those conflicts stay visible instead
+          of being averaged into one confident-looking number.
         </dd>
       </div>
       <div>

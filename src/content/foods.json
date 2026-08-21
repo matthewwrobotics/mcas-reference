@@ -5,19 +5,25 @@
     "category": "Vegetable",
     "aliases": ["Spinacia oleracea"],
     "lastVerified": "2026-08-20",
-    "note": "A clear case for reading sources separately rather than averaging them: the two oxalate figures below are not in conflict about the plant, they are measuring different preparations of it.",
+    "note": "Two axes worth separating. Spinach is unambiguously high in oxalate. Its histamine content is a different matter: it is present, and it rises the longer the leaves are stored.",
     "ratings": [
       {
         "axis": "oxalate",
-        "source": "oxalate-intake-2000",
+        "source": "oxalate-kidney-2020",
         "rating": "high",
-        "note": "Among the highest-oxalate foods in the analysed set."
+        "note": "658 mg per 100 g — the highest single value in the review's table of higher-oxalate foods."
       },
       {
         "axis": "oxalate",
-        "source": "oxalate-cooking-2005",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Placed in the topmost band, foods above 200 mg of oxalate per serving."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-content-2021",
         "rating": "variable",
-        "note": "Boiling substantially reduces soluble oxalate, so a cooked-and-drained portion does not carry the raw figure."
+        "note": "Histamine is detectable in spinach and increases substantially over refrigerated storage — one cited study measured a significant rise across 15 days. Spinach's relatively high pH permits growth of the bacteria that decarboxylate histidine into histamine, so freshness matters more here than the plant itself does."
       },
       {
         "axis": "fodmap",
@@ -35,9 +41,15 @@
     "ratings": [
       {
         "axis": "oxalate",
-        "source": "oxalate-intake-2000",
+        "source": "oxalate-kidney-2020",
         "rating": "high",
-        "note": "Consistently reported among the highest-oxalate foods."
+        "note": "433 mg per 100 g."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Topmost band, above 200 mg per serving. Rhubarb also appears in this review's summary of biopsy-proven oxalate nephropathy case reports."
       }
     ]
   },
@@ -47,11 +59,19 @@
     "category": "Nuts and seeds",
     "aliases": [],
     "lastVerified": "2026-08-20",
+    "note": "A good illustration of why the unit matters. Both sources below call almonds high in oxalate, but they rank almonds against spinach differently — because one measures per 100 g and the other per serving, and a serving of nuts is far smaller than a serving of greens. Neither is wrong; a reader comparing two food lists without noticing the denominator would think they contradict each other.",
     "ratings": [
       {
         "axis": "oxalate",
-        "source": "oxalate-intake-2000",
-        "rating": "high"
+        "source": "oxalate-kidney-2020",
+        "rating": "high",
+        "note": "407 mg per 100 g, listed in the same table as spinach at 658 mg."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-stone-risk-2020",
+        "rating": "high",
+        "note": "Banded as high, above 50 mg per serving — explicitly below the very-high band that holds spinach and rhubarb."
       },
       {
         "axis": "fodmap",
@@ -64,21 +84,21 @@
     "id": "aged-cheddar",
     "name": "Aged cheddar cheese",
     "category": "Dairy",
-    "aliases": ["Matured cheddar"],
+    "aliases": ["Matured cheddar", "Cured cheese"],
     "lastVerified": "2026-08-20",
-    "note": "Histamine accumulates with ripening time, so age matters more than variety. Fermented foods are the one category every published low-histamine diet excludes.",
+    "note": "Cured cheese is one of the few foods excluded by every published low-histamine diet, and here the measured content supports the exclusion. Ripening time matters more than variety.",
     "ratings": [
       {
         "axis": "histamine",
         "source": "histamine-content-2021",
         "rating": "high",
-        "note": "Fermented foods were the only category excluded unanimously across the ten low-histamine diets reviewed, and the exclusion is supported by measured histamine content."
+        "note": "Mean histamine in fermented foods surveyed ran 22–74 mg/kg, but the top 5% of cheese samples exceeded 203 mg/kg. The variability is the point: it depends on the hygiene of the raw milk and the histamine-forming capacity of the bacteria used, so two cheeses of the same type can differ greatly."
       },
       {
         "axis": "tyramine",
-        "source": "biogenic-amines-1999",
+        "source": "histamine-content-2021",
         "rating": "high",
-        "note": "Tyramine also accumulates during ripening."
+        "note": "Tyramine reached 1500 mg/kg in cheese — higher than the histamine levels — and is produced by many of the lactic acid bacteria used in fermentation."
       },
       {
         "axis": "histamine",
@@ -98,7 +118,13 @@
         "axis": "histamine",
         "source": "histamine-content-2021",
         "rating": "high",
-        "note": "Fermented vegetable; excluded by every low-histamine diet reviewed, with measured content supporting the exclusion."
+        "note": "Named among the fermented products that can accumulate high histamine. Fermented foods were the only category excluded unanimously across all ten diets reviewed."
+      },
+      {
+        "axis": "tyramine",
+        "source": "histamine-content-2021",
+        "rating": "high",
+        "note": "Fermented vegetables reached tyramine levels up to 1700 mg/kg, the highest of any category measured."
       },
       {
         "axis": "histamine",
@@ -119,7 +145,7 @@
         "axis": "histamine",
         "source": "histamine-content-2021",
         "rating": "low",
-        "note": "Frequently listed on low-histamine diets, but the review attributes that to putrescine — which may interfere with DAO-mediated histamine degradation in the gut — rather than to the banana's own histamine content."
+        "note": "Bananas fall in the 68% of foods excluded by low-histamine diets in which no significant histamine was detected. They do carry putrescine, which has been proposed — on limited evidence, chiefly one 1985 animal study — to compete with histamine for the DAO enzyme. The exclusion may be reasonable; it is not about the banana's histamine content."
       },
       {
         "axis": "histamine",
@@ -138,19 +164,15 @@
     "id": "orange",
     "name": "Orange",
     "category": "Fruit",
-    "aliases": ["Citrus sinensis"],
+    "aliases": ["Citrus sinensis", "Mandarin", "Citrus fruit"],
     "lastVerified": "2026-08-20",
+    "note": "The clearest published example of a food list and a laboratory disagreeing: 60% of reviewed low-histamine diets exclude citrus, and citrus contains no detectable histamine.",
     "ratings": [
       {
         "axis": "histamine",
         "source": "histamine-content-2021",
         "rating": "low",
-        "note": "Citrus is frequently excluded from low-histamine diets; the review attributes this to putrescine content rather than to histamine."
-      },
-      {
-        "axis": "salicylate",
-        "source": "salicylates-foods-1985",
-        "rating": "high"
+        "note": "No histamine detected in citrus, yet 60% of the ten reviewed low-histamine diets exclude it. What citrus does carry is putrescine, at a mean of 79 mg/kg and up to 173 mg/kg in mandarins — among the highest of any food surveyed."
       },
       {
         "axis": "histamine",
@@ -167,15 +189,10 @@
     "lastVerified": "2026-08-20",
     "ratings": [
       {
-        "axis": "salicylate",
-        "source": "salicylates-foods-1985",
-        "rating": "high"
-      },
-      {
-        "axis": "salicylate",
-        "source": "salicylates-scotland-2011",
-        "rating": "moderate",
-        "note": "Later systematic review working from dietary-intake modelling rather than the 1985 assay; places tomato lower than the original list does."
+        "axis": "histamine",
+        "source": "histamine-content-2021",
+        "rating": "variable",
+        "note": "One of the few plant foods in which histamine was actually detected, alongside eggplant and spinach. Levels may be partly physiological, but accumulation has been linked to bacterial activity during storage — so, as with spinach, freshness affects the answer."
       },
       {
         "axis": "fodmap",
