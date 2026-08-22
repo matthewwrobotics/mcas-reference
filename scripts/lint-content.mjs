@@ -168,6 +168,43 @@ for (const dir of PROSE_DIRS) {
   }
 }
 
+// --- aliases must be synonyms, not preparations ----------------------------
+
+/**
+ * "Aged cheddar" is not another name for cheddar. It is a different food with
+ * different measured content, and hiding that distinction in an alias is how a
+ * generic entry quietly absorbs measurements it should not carry. Preparation
+ * belongs in `form`, or in a separate entry.
+ */
+const PREPARATION_WORDS =
+  /\b(boiled|canned|dried|aged|raw|cooked|fresh|frozen|smoked|cured|fermented|pickled|juice|powder|concentrate|roasted|matured|ripened)\b/i;
+
+for (const file of ['src/content/foods.json']) {
+  let entries;
+  try {
+    entries = JSON.parse(readFileSync(join(ROOT, file), 'utf8'));
+  } catch (err) {
+    problems.push({ file, line: 0, message: `Could not read or parse: ${err.message}` });
+    continue;
+  }
+  for (const entry of entries) {
+    for (const alias of entry.aliases ?? []) {
+      const hit = PREPARATION_WORDS.exec(alias);
+      if (hit) {
+        problems.push({
+          file,
+          line: 0,
+          message:
+            `preparation in alias: "${entry.id}" lists “${alias}” as an alias, but ` +
+            `“${hit[0]}” describes a preparation rather than another name for the same ` +
+            `food. Measured content differs by preparation — use the \`form\` field, ` +
+            `or give it its own entry.`,
+        });
+      }
+    }
+  }
+}
+
 // --- prose outside the Markdown collections -------------------------------
 
 for (const { file, fields } of JSON_PROSE) {

@@ -3,10 +3,7 @@
     "id": "aged-cheddar",
     "name": "Aged cheddar cheese",
     "category": "Dairy",
-    "aliases": [
-      "Matured cheddar",
-      "Cured cheese"
-    ],
+    "aliases": [],
     "lastVerified": "2026-08-20",
     "note": "Cured cheese is one of the few foods excluded by every published low-histamine diet, and here the measured content supports the exclusion. Ripening time matters more than variety.",
     "ratings": [
@@ -32,7 +29,8 @@
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
-    ]
+    ],
+    "form": "aged"
   },
   {
     "id": "almonds",
@@ -93,11 +91,62 @@
     ]
   },
   {
+    "id": "apple",
+    "name": "Apple",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected in seven samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "3.5 mg total oxalate per 100 g in a single raw Granny Smith sample — one cultivar, one sample."
+      }
+    ]
+  },
+  {
+    "id": "avocado",
+    "name": "Avocado",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "note": "The two histamine sources differ, and neither is wrong: they measured different produce. Geography, cultivar, storage and assay all move this result.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "variable",
+        "note": "Five Spanish-market samples were not detected, while one cited report measured 23 mg/kg. Avocado is named as one of only four plant foods with reported histamine."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected in five Brazilian samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "1.3 mg total oxalate per 100 g fresh weight, two raw samples."
+      }
+    ]
+  },
+  {
     "id": "banana",
     "name": "Banana",
     "category": "Fruit",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "note": "Commonly excluded from low-histamine diets for a reason that is not histamine. Worth knowing before eliminating it.",
     "ratings": [
       {
@@ -121,6 +170,24 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Histamine was not detected, but putrescine measured 15–50 mg/kg and banana sits in the paper’s high-other-amines group."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected across twelve samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "6.8 mg total oxalate per 100 g raw."
       }
     ]
   },
@@ -130,24 +197,42 @@
     "category": "Legumes",
     "aliases": [],
     "lastVerified": "2026-08-20",
-    "note": "The two reviews disagree, and the reason is the denominator. One measures per 100 g, the other bands per serving — and a serving of cooked beans is considerably more than 100 g. Neither is wrong; a reader comparing two food lists without checking the unit would conclude they contradict each other.",
+    "note": "The two reviews disagree and this entry used to explain why. It should not have: a later review compiling total oxalate across bean type, form and boiling reports values from 13.9 to 547.9 mg per 100 g. A spread that wide means the two reviews may simply have measured different beans. The differing denominators — per 100 g against per serving — are one candidate explanation, not the answer.",
     "ratings": [
       {
         "axis": "oxalate",
         "source": "oxalate-kidney-2020",
         "rating": "moderate",
-        "note": "25 mg per 100 g. 25 mg per 100 g — below the 50 mg threshold the other review uses for its high band."
+        "note": "25 mg per 100 g."
       },
       {
         "axis": "oxalate",
         "source": "oxalate-stone-risk-2020",
         "rating": "high",
-        "note": "Banded as high, above 50 mg per serving. Banded as high, above 50 mg per serving."
+        "note": "Banded as high, above 50 mg per serving."
       },
       {
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ],
+    "form": "unspecified"
+  },
+  {
+    "id": "beer",
+    "name": "Beer",
+    "category": "Beverage",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "fermented",
+    "note": "A fermented drink with low measured histamine. That is a statement about content only — see the wine entry for the separate question of what alcohol does to histamine metabolism.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Multiple styles were not detected or below 1.5 mg/L."
       }
     ]
   },
@@ -180,6 +265,23 @@
     ]
   },
   {
+    "id": "brewed-coffee",
+    "name": "Brewed coffee",
+    "category": "Beverage",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "juice",
+    "note": "The beverage, not the bean: defective green beans gave different results in the same review, so this entry does not cover “coffee” generally.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Regular, decaffeinated and organic coffee beverages were all not detected."
+      }
+    ]
+  },
+  {
     "id": "brewed-tea",
     "name": "Brewed tea",
     "category": "Beverage",
@@ -197,14 +299,15 @@
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
-    ]
+    ],
+    "form": "juice"
   },
   {
     "id": "canned-sardines",
     "name": "Canned sardines",
     "category": "Fish",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "note": "The exception to an otherwise reassuring picture for fish. Most fishery products carry little histamine — EFSA found it in only 27% of 6,329 European samples, generally at low levels — but where freshness failed before processing, the result is locked in.",
     "ratings": [
       {
@@ -212,6 +315,59 @@
         "source": "histamine-content-2021",
         "rating": "high",
         "note": "657 mg/kg was measured in canned sardines — the single highest fish figure reported. Sardines are a scombroid species, whose high free histidine content is the substrate spoilage bacteria convert into histamine. Biogenic amines are thermostable, so canning does not reduce what has already formed."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "variable",
+        "note": "Across Brazilian canned preparations, mostly low but reaching the moderate band in some."
+      }
+    ],
+    "form": "canned"
+  },
+  {
+    "id": "canned-tuna",
+    "name": "Canned tuna",
+    "category": "Fish",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "canned",
+    "note": "Not merged with fresh or frozen tuna. Tuna is a scombroid species, so what happened before canning determines the result — and canning cannot undo it.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "variable",
+        "note": "Across products and studies, from not detected to above 80 mg/kg. Form, packing medium and study all move it."
+      }
+    ]
+  },
+  {
+    "id": "chickpeas",
+    "name": "Chickpeas",
+    "category": "Legumes",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "dried",
+    "note": "The clearest illustration on this site that “low histamine” and “low in all amines” are not the same statement.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Not detected."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Grouped explicitly with foods high in other amines: spermidine 15–85 and spermine 4–32 mg/kg fresh weight. Whether that matters clinically rests on the DAO-competition hypothesis, which is not established."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "14.3 mg total oxalate per 100 g for dry seeds, two samples."
       }
     ]
   },
@@ -240,27 +396,34 @@
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
-    ]
+    ],
+    "form": "powder"
   },
   {
     "id": "cornmeal",
     "name": "Cornmeal",
     "category": "Grains and pseudocereals",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "note": "Another per-100 g versus per-serving disagreement. Worth noticing that the conflict here is not about the food at all — both reviews would agree on the number.",
     "ratings": [
       {
         "axis": "oxalate",
         "source": "oxalate-kidney-2020",
         "rating": "moderate",
-        "note": "25.6 mg per 100 g. 25.6 mg per 100 g, below the other review’s 50 mg high-band threshold."
+        "note": "25.6 mg per 100 g."
       },
       {
         "axis": "oxalate",
         "source": "oxalate-stone-risk-2020",
         "rating": "high",
         "note": "Banded as high, above 50 mg per serving. Listed by name in the high band."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected across ten samples."
       }
     ]
   },
@@ -270,10 +433,9 @@
     "category": "Fermented",
     "aliases": [
       "Salami",
-      "Chorizo",
-      "Cured sausage"
+      "Chorizo"
     ],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "histamine",
@@ -286,8 +448,15 @@
         "source": "histamine-content-2021",
         "rating": "high",
         "note": "Reached 750 mg/kg — produced by the same lactic acid bacteria that drive the fermentation."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "variable",
+        "note": "Across product types and studies, from not detected to well above 50 mg/kg."
       }
-    ]
+    ],
+    "form": "fermented"
   },
   {
     "id": "eggplant",
@@ -296,7 +465,7 @@
     "aliases": [
       "Aubergine"
     ],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "histamine",
@@ -308,6 +477,18 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "variable",
+        "note": "Whole, peel, pulp and core measurements span the site’s bands, so no single label represents the food."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "variable",
+        "note": "Roughly 12.8 to 55 mg total oxalate per 100 g across raw and boiled datasets, crossing the site’s bands."
       }
     ]
   },
@@ -329,7 +510,8 @@
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
-    ]
+    ],
+    "form": "raw"
   },
   {
     "id": "hazelnuts",
@@ -352,11 +534,34 @@
     ]
   },
   {
+    "id": "kiwi",
+    "name": "Kiwi",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "note": "Kiwi is often described as a histamine “liberator”. The review this entry draws on says the proposed releasing mechanisms remain poorly understood, so no such axis exists here.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Ranged from not detected to 2 mg/kg."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Placed in the low-all-amines group."
+      }
+    ]
+  },
+  {
     "id": "lentils",
     "name": "Lentils",
     "category": "Legumes",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "oxalate",
@@ -368,8 +573,15 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Histamine was not detected, while spermidine measured 15–107 mg/kg."
       }
-    ]
+    ],
+    "form": "boiled"
   },
   {
     "id": "miso",
@@ -395,6 +607,35 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      }
+    ],
+    "form": "fermented"
+  },
+  {
+    "id": "mushrooms",
+    "name": "Mushrooms",
+    "category": "Other",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "note": "Another separation between preformed histamine and the other amines, this time consistent across several mushroom types.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Not detected in the reviewed mushroom data."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Putrescine from not detected to 156 and spermidine 9 to 155 mg/kg; placed in the high-other-amines group."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected across Pleurotus, Agaricus, shiitake, portobello, cooked and canned samples, though the individual groups were small."
       }
     ]
   },
@@ -431,7 +672,7 @@
       "Mandarin",
       "Citrus fruit"
     ],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "note": "The clearest published example of a food list and a laboratory disagreeing: 60% of reviewed low-histamine diets exclude citrus, and citrus contains no detectable histamine.",
     "ratings": [
       {
@@ -449,6 +690,24 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Citrus putrescine measured 7–200 mg/kg."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Fourteen samples, mean 0.1 mg/kg."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "1.8 mg total oxalate per 100 g raw."
       }
     ]
   },
@@ -457,7 +716,7 @@
     "name": "Peanuts",
     "category": "Nuts and seeds",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "oxalate",
@@ -469,6 +728,18 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "In the paper’s low-all-amines group — unlike the generic “nuts” grouping it is often folded into."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Low across every measured amine."
       }
     ]
   },
@@ -496,7 +767,8 @@
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
       }
-    ]
+    ],
+    "form": "raw"
   },
   {
     "id": "pistachios",
@@ -636,7 +908,7 @@
     "name": "Sauerkraut",
     "category": "Fermented",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "histamine",
@@ -659,6 +931,30 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "7.1 mg total oxalate per 100 g in the reported raw product."
+      }
+    ],
+    "form": "fermented"
+  },
+  {
+    "id": "soy-sauce",
+    "name": "Soy sauce",
+    "category": "Fermented",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "fermented",
+    "note": "Kept separate from soybeans deliberately. The same starting material, fermented, produces a completely different measurement.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "variable",
+        "note": "Forty-two samples, mean 123 mg/L, range from not detected to 307. The product-to-product spread is the finding."
       }
     ]
   },
@@ -667,7 +963,7 @@
     "name": "Soybeans",
     "category": "Legumes",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "oxalate",
@@ -685,6 +981,12 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "High putrescine and polyamines, including spermidine up to 389 mg/kg."
       }
     ]
   },
@@ -729,6 +1031,81 @@
     ]
   },
   {
+    "id": "strawberry",
+    "name": "Strawberry",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "note": "Three independent sources agree the measured content is low on every axis they cover — which is worth knowing, because strawberry appears on elimination lists for reasons that are not preformed histamine.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Not detected. Grouped among foods with low levels of all measured amines."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Putrescine 2–6, cadaverine not detected to 4, spermidine 5–10 mg/kg fresh weight; the remaining measured amines low or not detected."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected in seven samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "2.9 mg total oxalate per 100 g fresh weight, eight raw samples."
+      }
+    ]
+  },
+  {
+    "id": "sweet-potato",
+    "name": "Sweet potato",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "note": "Low on one axis and high on another, which is the whole reason these axes are kept apart. The oxalate figure comes from a kidney-stone literature and says nothing about mast cells.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Mean 0.60 mg/kg across three samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "high",
+        "note": "495.6 mg total oxalate per 100 g fresh weight, two raw samples."
+      }
+    ]
+  },
+  {
+    "id": "swiss-chard",
+    "name": "Swiss chard",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-22",
+    "form": "raw",
+    "note": "Rated high rather than variable: the magnitude moves a great deal between datasets, but every reported total stays above the high boundary.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "high",
+        "note": "874 mg total oxalate per 100 g raw in one dataset and 1458.1 in another, with substantially different leaf/stem and raw/boiled results."
+      }
+    ]
+  },
+  {
     "id": "tofu",
     "name": "Tofu",
     "category": "Legumes",
@@ -755,7 +1132,7 @@
     "aliases": [
       "Solanum lycopersicum"
     ],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "ratings": [
       {
         "axis": "histamine",
@@ -772,6 +1149,12 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected to 9.5 mg/kg across the Brazilian datasets."
       }
     ]
   },
@@ -787,7 +1170,7 @@
         "axis": "oxalate",
         "source": "oxalate-kidney-2020",
         "rating": "low",
-        "note": "11.6 mg per 100 g. 11.6 mg per 100 g — the lowest cereal figure in the table."
+        "note": "11.6 mg per 100 g."
       },
       {
         "axis": "oxalate",
@@ -802,7 +1185,7 @@
     "name": "Wine",
     "category": "Beverage",
     "aliases": [],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-22",
     "note": "One of the clearest cases where a food is excluded for what it does to histamine metabolism rather than for the histamine it contains.",
     "ratings": [
       {
@@ -815,6 +1198,12 @@
         "axis": "histamine",
         "source": "mastcell360",
         "url": "https://mastcell360.com/low-histamine-foods-list/"
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Low by measured content across the listed wines. The alcohol-metabolism question on this entry is separate and unaffected."
       }
     ]
   },

@@ -278,6 +278,29 @@ export const RATING_AXIS_INFO: Record<
   lectin: { label: 'Lectin', definition: 'Lectin content.' },
 };
 
+/**
+ * Preparation, kept as its own field rather than folded into the name.
+ *
+ * A 2023 review compiling oxalate across bean type and preparation reports
+ * values from 13.9 to 547.9 mg per 100 g. A single "Beans" entry makes that
+ * range disappear. Where a source measured a specific form, the entry says so
+ * here — and `aliases` is policed by the content lint so preparations cannot
+ * be smuggled in as synonyms instead.
+ */
+export const FOOD_FORMS = [
+  'raw',
+  'boiled',
+  'cooked',
+  'canned',
+  'dried',
+  'aged',
+  'fermented',
+  'juice',
+  'powder',
+  'unspecified',
+] as const;
+export type FoodForm = (typeof FOOD_FORMS)[number];
+
 export const RATINGS = ['low', 'moderate', 'high', 'variable'] as const;
 export type Rating = (typeof RATINGS)[number];
 

@@ -308,6 +308,7 @@ a.badge:hover { border-color: currentColor; }
 .food-name { display: block; }
 .food-category { display: block; font-size: 0.78rem; font-weight: 400; color: var(--text-faint); }
 .food-none { color: var(--text-faint); }
+.food-form { font-weight: 400; color: var(--text-muted); }
 
 .food-expand {
   padding: 0.25rem 0.6rem;

@@ -27,6 +27,7 @@ const foods: FoodRow[] = foodEntries
     id: f.id,
     name: f.data.name,
     category: f.data.category,
+    form: f.data.form,
     aliases: f.data.aliases,
     note: f.data.note,
     lastVerified: f.data.lastVerified.toISOString(),
@@ -81,12 +82,14 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
         disagreementCount > 0 && (
           <span>
             {' '}
-            Every one of those disagreements has the same cause, and it is not the food:
-            one review measures oxalate per 100 grams, the other bands it per serving, and
-            servings differ enormously by food. Cooked beans and leafy greens are not
-            weighed alike. Each entry says which unit produced which figure, because that
-            is the part a reader needs in order to reconcile two food lists that appear to
-            contradict each other.
+            They divide into two kinds, and the difference matters. Some are an artefact
+            of measurement: one oxalate review reports per 100 grams and the other bands
+            per serving, and servings differ enormously by food. Others are real
+            differences in what was measured — the histamine content of avocado, tomato
+            or canned sardines genuinely varies by region, cultivar, storage and assay.
+            Each entry says which kind it is, because "these two papers used different
+            units" and "this food is not the same everywhere" call for different
+            responses from a reader.
           </span>
         )
       }

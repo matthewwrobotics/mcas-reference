@@ -11,6 +11,7 @@ export interface FoodRow {
   id: string;
   name: string;
   category: string;
+  form?: string;
   aliases: string[];
   note?: string;
   lastVerified: string;
@@ -89,6 +90,9 @@ function StaticFoodTable({ foods, sources }: Props) {
           <section key={food.id} className="food-static-entry">
             <h3>
               {food.name}
+              {food.form && food.form !== 'unspecified' && (
+                <span className="food-form"> · {food.form}</span>
+              )}
               <span className="food-category">{food.category}</span>
             </h3>
             {food.note && <p className="food-note">{food.note}</p>}
@@ -203,7 +207,12 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
                 <Fragment key={food.id}>
                   <tr>
                     <th scope="row">
-                      <span className="food-name">{food.name}</span>
+                      <span className="food-name">
+                        {food.name}
+                        {food.form && food.form !== 'unspecified' && (
+                          <span className="food-form"> · {food.form}</span>
+                        )}
+                      </span>
                       <span className="food-category">{food.category}</span>
                     </th>
                     {visibleAxes.map((a) => (

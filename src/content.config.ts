@@ -7,6 +7,7 @@ import {
   ESTABLISHED_BASIS,
   MAST_CELL_BASIS,
   QUALIFYING_CITATION_TYPES,
+  FOOD_FORMS,
   RATING_AXES,
   RATINGS,
   REDISTRIBUTION,
@@ -198,6 +199,8 @@ const foods = defineCollection({
     .object({
       name: z.string().min(1),
       category: z.string().min(1),
+      /** Preparation, where a source measured a specific one. */
+      form: z.enum(FOOD_FORMS).optional(),
       aliases: z.array(z.string()).default([]),
       ratings: z.array(foodRating).min(1),
       note: z.string().optional(),

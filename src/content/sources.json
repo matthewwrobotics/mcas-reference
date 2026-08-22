@@ -49,5 +49,29 @@
     "redistribution": "link-only",
     "linkReason": "A practitioner's own compilation, so its groupings are editorial judgement rather than measurement — linked, never restated.",
     "terms": "Widely read by patients, and included because readers will arrive having already seen it. Its authors describe it as drawn from 'the best research available about low histamine foods and our experience in the clinic with hundreds of very sensitive clients', and individual foods are not attributed to particular sources. That makes it a clinical opinion rather than a measurement, which is why it is link-only: its value lies in which foods it selects and how it groups them, and that selection is the authors' own work. Note that it places several foods — bananas and citrus among them — in its higher-histamine section, where laboratory analysis has found no detectable histamine."
+  },
+  {
+    "id": "plant-amines-2018",
+    "name": "Biogenic Amines in Plant-Origin Foods: Are They Frequently Underestimated in Low-Histamine Diets? (Foods, 2018)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30558197/",
+    "kind": "Peer-reviewed food-composition review, open access",
+    "redistribution": "open",
+    "terms": "CC BY 4.0 and read in full text. Table 4 reports measured ranges of histamine, tyramine, putrescine, cadaverine, spermidine and spermine in non-fermented plant foods, in mg/kg fresh weight. Other-amine ratings here follow the paper's own high-versus-low groupings rather than any clinical threshold, and tyramine stays on its separate axis. Two reading rules matter: a dash means the value was not reported and is never recorded here as low, and 'not detected' means below the cited study's detection limit rather than absent. The paper proposes that putrescine and the polyamines may compete with histamine for the DAO enzyme; that is a hypothesis, and notes here describe content first."
+  },
+  {
+    "id": "oxalate-foods-2023",
+    "name": "Oxalate in Foods: Extraction Conditions, Analytical Methods, Occurrence, and Health Implications (Foods, 2023)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/37685134/",
+    "kind": "Peer-reviewed food-composition review, open access",
+    "redistribution": "open",
+    "terms": "CC BY 4.0 and read in full text. Table 5 compiles total, soluble and insoluble oxalate per 100 g fresh weight across many analytical studies. Ratings use the same per-100-g mapping this site applies to its other numeric oxalate source — 50 mg or more is high, 20 to under 50 is moderate, under 20 is low — and those bands are this site's, not the paper's. Total oxalate is used where reported and soluble oxalate is never substituted for it. Preparation is kept in every note, because the review reports raw, boiled, dried and canned values that are not interchangeable, and it warns that cultivar, soil, harvest and analytical method all move the result."
+  },
+  {
+    "id": "histamine-brazil-2025",
+    "name": "Histamine in Brazilian Foods: Occurrence and Risk Assessment for Intoxication and Intolerance (Food Science & Nutrition, 2025)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/41256231/",
+    "kind": "Peer-reviewed systematic food-composition review, open access",
+    "redistribution": "open",
+    "terms": "CC BY 4.0 and read in full text. A PRISMA systematic review compiling histamine measurements in Brazilian-market foods from 1980 to 2024, in Tables 3 and 4. The paper uses four bands; this site merges its two lowest, mapping under 10 mg/kg or mg/L to low, 10 to 50 to moderate, and above 50 to high, with variable where the reported studies or range cross a band. This is a regional dataset rather than a universal property of the food, and sample sizes and product forms vary. Composition labels only — the paper's safety and intolerance language is deliberately not carried across."
   }
 ]
