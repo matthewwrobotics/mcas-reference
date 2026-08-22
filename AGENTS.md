@@ -42,6 +42,28 @@ build. Before changing anything under `src/content/`, understand that:
 
 Run `npm run validate` before considering any content change done.
 
+## Committing when another agent is working in the same tree
+
+**Never `git add -A` or `git add .` here.** Another agent writes content into
+this worktree, and its in-progress entries have been swept into a commit and
+deployed that way once already. Stage explicit paths:
+
+```
+git add src/content/medications/foo.md src/lib/bar.ts
+```
+
+Before committing, run `git status --porcelain` and account for every line. If a
+file appeared that you did not write, leave it — or verify it fully first and say
+in the message that you did.
+
+## Asserting an absence
+
+The schema forces a claim to be cited. It cannot force a search for evidence
+that was assumed away, so "there is no controlled evidence for X" is the one
+sentence no check on this site can catch. Three such sentences shipped and were
+false. Before writing one, search for the thing you are claiming does not
+exist.
+
 ## If an island goes blank in dev
 
 Symptom: the server-rendered content paints, then vanishes a fraction of a
