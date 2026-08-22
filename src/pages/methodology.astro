@@ -3,11 +3,13 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import {
   AGING_AFTER_DAYS,
-  DIRECT_EVIDENCE,
-  DIRECT_EVIDENCE_INFO,
-  OTHER_EVIDENCE_DESIGNS,
-  OTHER_EVIDENCE_LABELS,
+  ESTABLISHED_BASIS,
+  ESTABLISHED_BASIS_INFO,
+  MAST_CELL_BASIS,
+  MAST_CELL_BASIS_INFO,
   QUALIFYING_CITATION_TYPES,
+  type EstablishedBasis,
+  type MastCellBasis,
   REGULATORY_INFO,
   REGULATORY_STATUSES,
   STALE_AFTER_DAYS,
@@ -81,44 +83,56 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
   </section>
 
   <section class="mt-10" id="evidence-model">
-    <h2 class="font-serif text-2xl font-semibold">Evidence: two facts, not one grade</h2>
+    <h2 class="font-serif text-2xl font-semibold">Why there are no evidence grades</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>
-        This site used to give each entry a single evidence tier. That was wrong, and
-        omalizumab is the entry that showed why. It has randomised, placebo-controlled
-        trials behind it — in chronic spontaneous urticaria and in IgE-mediated food
-        allergy. In MCAS itself, the published record is uncontrolled case series. One
-        badge cannot say both. Grading it by its best evidence hid how thin the MCAS
-        record is; grading it by its MCAS evidence hid that real trials exist next door.
+        This site has tried two versions of an evidence grade and removed both. The
+        reason is a fact about the field rather than about the design: <strong>nothing
+        is approved for MCAS, and almost nothing has been tested in it.</strong> Any
+        badge answering “how strong is the evidence in MCAS?” returns the same weak
+        answer for nearly every entry, which distinguishes nothing and makes the whole
+        index read as a list of things that do not work.
       </p>
       <p>
-        So every entry now states two things separately, and a third fact —
-        <a href="#regulatory">regulatory status</a> — independently of both:
+        So each entry states two things that do vary, and a reader can weigh them
+        without being handed a verdict:
       </p>
       <ul class="ml-5 list-disc space-y-1">
-        <li><strong>Direct MCAS evidence:</strong> what has been studied in this condition.</li>
-        <li><strong>Evidence elsewhere:</strong> what design, and in what condition or model.</li>
+        <li><strong>Studied in</strong> — how directly it has been studied in mast cells.</li>
+        <li>
+          <strong>Approved for / trials in</strong> — the conditions it is actually
+          licensed for, or has published randomised trials in.
+        </li>
       </ul>
       <p>
-        Most treatments discussed for MCAS borrow their credibility from the second.
-        Saying so plainly is the single most useful thing this index does.
+        Neither says “effective”. An approval is a decision a regulator made and a trial
+        is a study that reported; drawing the conclusion is the reader's job and their
+        clinician's, not this site's.
       </p>
     </div>
 
     <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
-      Direct MCAS evidence
+      Studied in
     </h3>
+    <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+      Ordered from most to least direct, and used to order the index pages. The
+      distinction this exists to make is the last one: several widely used treatments do
+      not act on mast cells at all.
+    </p>
     <dl class="mt-3 space-y-4">
       {
-        DIRECT_EVIDENCE.map((level) => (
-          <div id={`direct-${level}`} class="card scroll-mt-6 p-4">
+        MAST_CELL_BASIS.map((basis: MastCellBasis) => (
+          <div id={`basis-${basis}`} class="card scroll-mt-6 p-4">
             <dt>
-              <span class:list={['badge', `direct-${level}`]}>
-                {DIRECT_EVIDENCE_INFO[level].label}
+              <span class:list={['badge', `basis-${basis}`]}>
+                {MAST_CELL_BASIS_INFO[basis].label}
+              </span>
+              <span class="ml-2 text-xs" style="color: var(--text-faint);">
+                {MAST_CELL_BASIS_INFO[basis].gloss}
               </span>
             </dt>
             <dd class="mt-2 text-sm" style="color: var(--text-muted);">
-              {DIRECT_EVIDENCE_INFO[level].definition}
+              {MAST_CELL_BASIS_INFO[basis].definition}
             </dd>
           </div>
         ))
@@ -126,22 +140,24 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
     </dl>
 
     <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
-      Evidence elsewhere
+      Approved for, and trials in
     </h3>
     <dl class="mt-3 space-y-2">
       {
-        OTHER_EVIDENCE_DESIGNS.map((design) => (
+        ESTABLISHED_BASIS.map((basis: EstablishedBasis) => (
           <div class="text-sm">
-            <dt class="font-semibold">{OTHER_EVIDENCE_LABELS[design]}</dt>
-            <dd style="color: var(--text-muted);">
-              Always shown with the condition or model it comes from, because “randomised
-              trials” means something entirely different in chronic urticaria than it
-              would in MCAS.
-            </dd>
+            <dt class="font-semibold">{ESTABLISHED_BASIS_INFO[basis].label}</dt>
+            <dd style="color: var(--text-muted);">{ESTABLISHED_BASIS_INFO[basis].definition}</dd>
           </div>
         ))
       }
     </dl>
+    <p class="prose-body mt-3 text-sm" style="color: var(--text-muted);">
+      Both are checked at build time. An entry listing an approved indication must cite
+      the current drug label, and one listing randomised trials must cite the published
+      report — because an approval list is exactly the kind of thing that gets written
+      from memory, and a wrong one is a false claim about what a regulator decided.
+    </p>
   </section>
 
   <section class="mt-10" id="limits">
@@ -155,9 +171,9 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         to the intervention. Publication then favours the series that improved.
       </p>
       <p>
-        So any entry without randomised results in MCAS must state, in plain prose, what
-        its evidence cannot establish. This is a schema rule: an entry that omits it
-        fails the build. It is not possible to quietly ship one.
+        So every entry must state, in plain prose, what its evidence cannot establish.
+        This is a schema rule: an entry that omits it fails the build. It is not
+        possible to quietly ship one.
       </p>
       <p>
         This replaced an earlier badge that read <em>“Confound risk: high”</em>. That
@@ -221,9 +237,9 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         was registered and then stopped updating; a palmitoylethanolamide study
         terminated after two participants, which cannot estimate an effect of any size.
         Both are facts about trials, not results from them. The schema enforces the
-        distinction: claiming randomised results in MCAS requires citing a peer-reviewed
-        primary report, so a protocol or an abandoned record cannot earn the strongest
-        badge.
+        distinction: listing a condition as having randomised trials requires citing the
+        peer-reviewed primary report, so a protocol or an abandoned record cannot be
+        presented as a result.
       </p>
     </div>
   </section>

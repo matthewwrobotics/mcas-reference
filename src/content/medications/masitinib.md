@@ -3,10 +3,10 @@ name: Masitinib
 aliases: ["AB1010"]
 summary: Investigational KIT and LYN kinase inhibitor; studied in indolent systemic mastocytosis, with no current regulatory approval.
 mechanismClass: Tyrosine kinase inhibitor (KIT, LYN, FYN)
-directEvidence: none
-otherEvidence:
-  design: randomized
-  context: indolent systemic mastocytosis
+mastCellBasis: mast-cell-disease
+establishedFor:
+  - condition: "indolent systemic mastocytosis"
+    basis: randomised-trials
 evidenceLimits: >
   A Phase 2 trial in MCAS itself was registered, but its record has not been updated since February 2023 and the registry now carries it as status unknown, so no evaluable result exists to report. The randomised evidence is in indolent systemic mastocytosis, and masitinib is not selective for the D816V mutation that drives most of that disease — which is the pharmacologic reason its activity there has been questioned.
 regulatory: investigational
@@ -16,6 +16,12 @@ trial:
   statusSource: clinicaltrials-gov
   verified: 2026-08-21
 citations:
+  - title: "Masitinib for treatment of severely symptomatic indolent systemic mastocytosis: a randomised, placebo-controlled, phase 3 study"
+    url: "https://pubmed.ncbi.nlm.nih.gov/28069279/"
+    sourceType: peer-reviewed
+    year: 2017
+    pmid: "28069279"
+    accessed: 2026-08-21
   - title: "An evaluation of masitinib for treating systemic mastocytosis"
     url: "https://pubmed.ncbi.nlm.nih.gov/31381378/"
     sourceType: review

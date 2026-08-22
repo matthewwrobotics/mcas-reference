@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import AppointmentBuilder, { type SheetItem } from '../components/AppointmentBuilder';
 import {
-  DIRECT_EVIDENCE_INFO,
-  OTHER_EVIDENCE_LABELS,
+  ESTABLISHED_BASIS_INFO,
+  MAST_CELL_BASIS_INFO,
   REGULATORY_INFO,
   TRIAL_STATUS_LABELS,
 } from '../lib/vocab';
@@ -18,11 +18,20 @@ const toItems = (entries: any[], section: string): SheetItem[] =>
       section,
       name: e.data.name,
       mechanismClass: e.data.mechanismClass,
-      tier: e.data.directEvidence,
-      tierLabel:
-        DIRECT_EVIDENCE_INFO[e.data.directEvidence as keyof typeof DIRECT_EVIDENCE_INFO].label,
-      otherEvidence: e.data.otherEvidence
-        ? `${OTHER_EVIDENCE_LABELS[e.data.otherEvidence.design as keyof typeof OTHER_EVIDENCE_LABELS]} — ${e.data.otherEvidence.context}`
+      tier: e.data.mastCellBasis,
+      tierLabel: `Studied in ${MAST_CELL_BASIS_INFO[e.data.mastCellBasis as keyof typeof MAST_CELL_BASIS_INFO].label.toLowerCase()}`,
+      otherEvidence: e.data.establishedFor.length
+        ? (['approved-us', 'approved-non-us', 'randomised-trials'] as const)
+            .map((b) => {
+              const conds = e.data.establishedFor
+                .filter((x: any) => x.basis === b)
+                .map((x: any) => x.condition);
+              return conds.length
+                ? `${ESTABLISHED_BASIS_INFO[b].label} ${conds.join(', ')}`
+                : null;
+            })
+            .filter(Boolean)
+            .join('; ')
         : undefined,
       regulatoryLabel: REGULATORY_INFO[e.data.regulatory as keyof typeof REGULATORY_INFO].label,
       evidenceLimits: e.data.evidenceLimits,
@@ -60,10 +69,11 @@ const items: SheetItem[] = [
         check, already sourced, so the conversation starts further along.
       </p>
       <p>
-        Everything printed carries two separate facts: what has been studied in MCAS
-        itself, and what has been studied elsewhere. Keeping them apart is the point. A
-        sheet that let randomised trials in another condition stand in for evidence in
-        this one would be worse than no sheet at all.
+        Everything printed carries two separate facts: how directly the treatment has
+        been studied in mast cells, and which conditions it is actually approved or
+        trialled for. Keeping those apart is the point. A sheet that let an approval in
+        another condition stand in for evidence in this one would be worse than no sheet
+        at all.
       </p>
     </div>
   </div>

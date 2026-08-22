@@ -162,7 +162,7 @@ export default function AppointmentBuilder({ items }: Props) {
                   <span className="sheet-block-class">{item.mechanismClass}</span>
                 </h3>
                 <p className="sheet-grades">
-                  <span className={`badge direct-${item.tier}`}>{item.tierLabel}</span>{' '}
+                  <span className={`badge basis-${item.tier}`}>{item.tierLabel}</span>{' '}
                   <span className="badge badge-neutral">{item.regulatoryLabel}</span>{' '}
                   {item.otherEvidence && (
                     <span className="badge badge-outline">{item.otherEvidence}</span>

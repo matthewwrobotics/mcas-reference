@@ -12,13 +12,19 @@ const entries = (await getCollection('supplements')).filter((e) => !e.data.draft
   description="Supplements with a published mechanism of action relevant to mast cell activation, each carrying an explicit evidence tier and confound-risk flag."
 >
   <h1 class="font-serif text-3xl font-semibold tracking-tight">Supplements</h1>
-  <p class="mt-3 max-w-prose" style="color: var(--text-muted);">
-    {entries.length} entries, strongest evidence first. Supplements are held to the same
-    inclusion bar as medications: a citable published mechanism, never forum consensus.
-    In practice most of what clears that bar sits at the mechanistic tier — laboratory
-    work rather than human outcome data — and the badges say so plainly rather than
-    letting a plausible mechanism read as a result.
-    <a href={href('/methodology')}>How the tiers are defined.</a>
+  <p class="prose-body mt-3" style="color: var(--text-muted);">
+    <strong style="color: var(--text);">
+      Nothing here is approved for MCAS, and almost nothing has been tested in it.
+    </strong>
+    Every entry borrows its evidence from somewhere else. What differs is where from —
+    and how good it is when it gets there. Entries are grouped below by how directly
+    they have been studied in mast cells, strongest first, and each states which
+    conditions it is actually approved or trialled for.
   </p>
+  <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
+    {entries.length} entries. No dosing, and no claim that anything here works.
+    <a href={href('/methodology')}>How this is decided.</a>
+  </p>
+
   <TreatmentIndex entries={entries} basePath="/supplements" />
 </Base>

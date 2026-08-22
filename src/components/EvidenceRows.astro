@@ -1,0 +1,83 @@
+---
+import {
+  ESTABLISHED_BASIS_INFO,
+  MAST_CELL_BASIS_INFO,
+  REGULATORY_INFO,
+  type EstablishedBasis,
+  type MastCellBasis,
+  type RegulatoryStatus,
+} from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Established {
+  condition: string;
+  basis: EstablishedBasis;
+}
+interface Props {
+  basis: MastCellBasis;
+  establishedFor: Established[];
+  regulatory: RegulatoryStatus;
+  compact?: boolean;
+}
+const { basis, establishedFor, regulatory, compact = false } = Astro.props;
+const info = MAST_CELL_BASIS_INFO[basis];
+
+// Group by basis so the label is written once per group rather than repeated
+// against every condition.
+const groups = (['approved-us', 'approved-non-us', 'randomised-trials'] as const)
+  .map((b) => ({
+    basis: b,
+    label: ESTABLISHED_BASIS_INFO[b].label,
+    conditions: establishedFor.filter((e) => e.basis === b).map((e) => e.condition),
+  }))
+  .filter((g) => g.conditions.length > 0);
+
+// Approval status only matters here when there is nothing to list — otherwise
+// the conditions above already say it, in more useful detail.
+const fallback = groups.some((g) => g.basis.startsWith('approved'))
+  ? null
+  : REGULATORY_INFO[regulatory].label;
+---
+
+<!--
+  Both facts live in this one component precisely so they cannot be separated.
+  An earlier version put the mast cell row in a card's header and the conditions
+  in its footer, with the summary paragraph between; entries then read as
+  "Ketotifen … randomised trials — allergic conjunctivitis and asthma", which is
+  the inference the split exists to prevent.
+-->
+<dl class:list={['evidence-rows', compact && 'evidence-rows-compact']}>
+  {
+    /* On index cards the group heading already states this, so repeating it in
+       every card is noise. On a detail page there is no heading, so it stays. */
+    !compact && (
+      <div>
+        <dt>Studied in</dt>
+        <dd>
+          <a href={href(`/methodology#basis-${basis}`)} class="evidence-key">{info.label}</a>
+          <span class="evidence-gloss">— {info.gloss}</span>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    groups.map((g) => (
+      <div>
+        <dt>{g.label}</dt>
+        <dd>{g.conditions.join(', ')}</dd>
+      </div>
+    ))
+  }
+
+  {
+    fallback && (
+      <div>
+        <dt>Approved for</dt>
+        <dd>
+          <span class="evidence-gloss">nothing — {fallback.toLowerCase()}</span>
+        </dd>
+      </div>
+    )
+  }
+</dl>

@@ -1,8 +1,8 @@
 ---
-import EvidenceBadge from './EvidenceBadge.astro';
-import StatusBadge from './StatusBadge.astro';
+import EvidenceRows from './EvidenceRows.astro';
 import LastVerified from './LastVerified.astro';
 import { byEvidenceThenName } from '../lib/derive';
+import { MAST_CELL_BASIS_INFO, type MastCellBasis } from '../lib/vocab';
 import { href } from '../lib/paths';
 
 interface Props {
@@ -11,42 +11,67 @@ interface Props {
 }
 const { entries, basePath } = Astro.props;
 const sorted = [...entries].sort((a, b) => byEvidenceThenName(a.data, b.data));
+
+// Group under the same headings the sort uses, so the ordering is legible
+// instead of being an unexplained sequence.
+const groups = (
+  Object.keys(MAST_CELL_BASIS_INFO) as MastCellBasis[]
+)
+  .map((basis) => ({
+    basis,
+    info: MAST_CELL_BASIS_INFO[basis],
+    items: sorted.filter((e) => e.data.mastCellBasis === basis),
+  }))
+  .filter((g) => g.items.length > 0);
 ---
 
-<ul class="mt-6 space-y-3">
-  {
-    sorted.map((entry) => (
-      <li class="card p-4">
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
-          <h2 class="text-lg font-semibold">
-            <a href={href(`${basePath}/${entry.id}`)} class="no-underline hover:underline" style="color: var(--text);">
-              {entry.data.name}
-            </a>
-          </h2>
-          <div class="flex flex-wrap items-center gap-2">
-            <EvidenceBadge level={entry.data.directEvidence} short />
-            <StatusBadge status={entry.data.regulatory} />
-          </div>
-        </div>
-        <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
-          {entry.data.summary}
-        </p>
-        <div class="mt-2.5 flex flex-wrap items-center gap-2">
-          <LastVerified date={entry.data.lastVerified} compact />
-          {entry.data.otherEvidence && (
-            <span class="badge badge-outline">
-              {entry.data.otherEvidence.design === 'randomized'
-                ? 'Randomised trials'
-                : entry.data.otherEvidence.design === 'observational'
-                  ? 'Observational studies'
-                  : 'Laboratory models'} — {entry.data.otherEvidence.context}
-            </span>
-          )}
-          {entry.data.trial?.status === 'unknown' && (
-            <span class="badge stale-stale">Trial status unknown</span>
-          )}
-        </div>
-      </li>
-    ))
-  }
-</ul>
+{
+  groups.map((group) => (
+    <section class="mt-8">
+      <h2 class="text-sm font-semibold" id={`group-${group.basis}`}>
+        {group.info.heading}
+        <span class="ml-2 font-normal" style="color: var(--text-faint);">
+          — {group.info.gloss}
+        </span>
+      </h2>
+
+      <ul class="mt-3 space-y-3">
+        {group.items.map((entry) => (
+          <li class="card p-4">
+            <h3 class="text-lg font-semibold">
+              <a
+                href={href(`${basePath}/${entry.id}`)}
+                class="no-underline hover:underline"
+                style="color: var(--text);"
+              >
+                {entry.data.name}
+              </a>
+              <span class="ml-2 text-sm font-normal" style="color: var(--text-faint);">
+                {entry.data.mechanismClass}
+              </span>
+            </h3>
+
+            <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
+              {entry.data.summary}
+            </p>
+
+            {/* Kept in one component so the two facts cannot drift apart. */}
+            <EvidenceRows
+              basis={entry.data.mastCellBasis}
+              establishedFor={entry.data.establishedFor}
+              regulatory={entry.data.regulatory}
+              compact
+            />
+
+            <p class="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
+              <LastVerified date={entry.data.lastVerified} compact />
+              {entry.data.trial?.status === 'unknown' && (
+                <span class="badge stale-stale">Trial status unknown</span>
+              )}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))
+}

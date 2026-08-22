@@ -145,25 +145,33 @@ describe('consensusRating', () => {
 });
 
 describe('byEvidenceThenName', () => {
-  it('sorts strongest direct evidence first, then alphabetically within a level', () => {
+  it('sorts most directly studied in mast cells first, then alphabetically', () => {
     const sorted = [
-      { directEvidence: 'none' as const, name: 'Quercetin' },
-      { directEvidence: 'randomized' as const, name: 'Zebra' },
-      { directEvidence: 'observational' as const, name: 'Beta' },
-      { directEvidence: 'observational' as const, name: 'Alpha' },
+      { mastCellBasis: 'downstream' as const, name: 'Cetirizine' },
+      { mastCellBasis: 'mcas-patients' as const, name: 'Zebra' },
+      { mastCellBasis: 'mast-cell-disease' as const, name: 'Beta' },
+      { mastCellBasis: 'mast-cell-disease' as const, name: 'Alpha' },
     ].sort(byEvidenceThenName);
-    expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Quercetin']);
+    expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Cetirizine']);
   });
 
-  it('ranks a drug studied in MCAS above one studied only elsewhere', () => {
-    // The whole point of sorting on direct evidence: avapritinib has a
-    // placebo-controlled trial, but in systemic mastocytosis, and must not
-    // outrank something with real MCAS data behind it.
+  it('does not let trial strength outrank proximity to mast cells', () => {
+    // Avapritinib has a placebo-controlled trial behind it — in a disease MCAS
+    // patients do not have. Ranking on trial quality would put it top and
+    // quietly recommend it.
     const sorted = [
-      { directEvidence: 'none' as const, name: 'Avapritinib' },
-      { directEvidence: 'case-report' as const, name: 'Something studied in MCAS' },
+      { mastCellBasis: 'mast-cell-disease' as const, name: 'Avapritinib' },
+      { mastCellBasis: 'mcas-patients' as const, name: 'Studied in MCAS itself' },
     ].sort(byEvidenceThenName);
-    expect(sorted[0]!.name).toBe('Something studied in MCAS');
+    expect(sorted[0]!.name).toBe('Studied in MCAS itself');
+  });
+
+  it('ranks a drug acting on mast cells above one acting downstream', () => {
+    const sorted = [
+      { mastCellBasis: 'downstream' as const, name: 'Famotidine' },
+      { mastCellBasis: 'laboratory' as const, name: 'Quercetin' },
+    ].sort(byEvidenceThenName);
+    expect(sorted[0]!.name).toBe('Quercetin');
   });
 });
 

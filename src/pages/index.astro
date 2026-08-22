@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
-import { DIRECT_EVIDENCE, DIRECT_EVIDENCE_INFO } from '../lib/vocab';
+import { MAST_CELL_BASIS, MAST_CELL_BASIS_INFO, type MastCellBasis } from '../lib/vocab';
 
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
 const supplements = (await getCollection('supplements')).filter((e) => !e.data.draft);
@@ -10,8 +10,8 @@ const foods = await getCollection('foods');
 const resources = await getCollection('resources');
 
 const treatments = [...medications, ...supplements];
-const withOther = treatments.filter((e) => e.data.otherEvidence).length;
-const noDirect = treatments.filter((e) => e.data.directEvidence === 'none').length;
+const downstream = treatments.filter((e) => e.data.mastCellBasis === 'downstream').length;
+const studiedInMcas = treatments.filter((e) => e.data.mastCellBasis === 'mcas-patients').length;
 const citationCount = treatments.reduce((n, e) => n + e.data.citations.length, 0);
 
 const SECTIONS = [
@@ -88,25 +88,32 @@ const SECTIONS = [
   <section class="mt-12 max-w-3xl">
     <h2 class="font-serif text-2xl font-semibold">How to read an entry</h2>
     <p class="prose-body mt-2" style="color: var(--text-muted);">
-      Every entry states two separate things: what has been studied <em>in MCAS</em>, and
-      what has been studied <em>somewhere else</em>. Most treatments discussed for this
-      condition borrow their credibility from the second — {withOther} of
-      {treatments.length} entries here have evidence from a related condition or the
-      laboratory, and {noDirect} have nothing published in MCAS at all. Collapsing those
-      into one grade is how a randomised trial in chronic urticaria comes to sound like
-      a result in MCAS.
+      <strong style="color: var(--text);">
+        Nothing here is approved for MCAS, and almost nothing has been tested in it.
+      </strong>
+      Only {studiedInMcas} of {treatments.length} entries have been studied in MCAS
+      patients at all, and even those are uncontrolled. So every entry states two things
+      instead: how directly it has been studied in mast cells, and which conditions it is
+      actually approved or trialled for.
+    </p>
+    <p class="prose-body mt-3" style="color: var(--text-muted);">
+      The first of those carries a distinction worth knowing before you ask about
+      anything: {downstream} of these do not act on mast cells at all. They block or
+      degrade a mediator after release. That is a perfectly coherent thing to do — it is
+      simply a different kind of intervention from a drug aimed at the cell itself, and
+      nothing on this site used to tell you which was which.
     </p>
     <ul class="mt-4 space-y-2">
       {
-        DIRECT_EVIDENCE.map((level) => (
+        MAST_CELL_BASIS.map((basis: MastCellBasis) => (
           <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
             <a
-              href={href(`/methodology#direct-${level}`)}
-              class:list={['badge', `direct-${level}`]}
+              href={href(`/methodology#basis-${basis}`)}
+              class:list={['badge', `basis-${basis}`]}
             >
-              {DIRECT_EVIDENCE_INFO[level].label}
+              {MAST_CELL_BASIS_INFO[basis].label}
             </a>
-            <span style="color: var(--text-muted);">{DIRECT_EVIDENCE_INFO[level].definition}</span>
+            <span style="color: var(--text-muted);">{MAST_CELL_BASIS_INFO[basis].definition}</span>
           </li>
         ))
       }
@@ -134,11 +141,12 @@ const SECTIONS = [
         </dt>
         <dd>
           MCAS relapses and remits, so improvement after starting something is not
-          evidence that the something caused it. Any entry without randomised results in
-          MCAS must state in plain words what its evidence cannot establish, and the
-          schema rejects any that omits it. A randomised badge additionally requires
-          published, evaluable results — a registered protocol or a trial stopped after
-          two participants is a fact about a trial, not evidence from one.
+          evidence that the something caused it. Every entry must state in plain words
+          what its evidence cannot establish, and the schema rejects any that omits it.
+          Listing a condition as approved requires citing the current label; listing one
+          as trialled requires citing the published trial. A registered protocol or a
+          study stopped after two participants is a fact about a trial, not a result
+          from one.
         </dd>
       </div>
       <div>

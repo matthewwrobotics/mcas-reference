@@ -3,10 +3,20 @@ name: Omalizumab
 aliases: ["Xolair"]
 summary: Anti-IgE monoclonal antibody; reduces free IgE and downregulates the high-affinity IgE receptor on mast cells and basophils.
 mechanismClass: Anti-IgE monoclonal antibody
-directEvidence: observational
-otherEvidence:
-  design: randomized
-  context: chronic spontaneous urticaria and IgE-mediated food allergy
+mastCellBasis: mcas-patients
+establishedFor:
+  - condition: "allergic asthma"
+    basis: approved-us
+  - condition: "chronic spontaneous urticaria"
+    basis: approved-us
+  - condition: "chronic rhinosinusitis with nasal polyps"
+    basis: approved-us
+  - condition: "IgE-mediated food allergy"
+    basis: approved-us
+  - condition: "chronic spontaneous urticaria"
+    basis: randomised-trials
+  - condition: "IgE-mediated food allergy"
+    basis: randomised-trials
 evidenceLimits: >
   The MCAS literature is case series and retrospective cohorts without control arms, pooled in a 2025 systematic review. In a relapsing-remitting condition, before-and-after data cannot separate a drug effect from spontaneous remission, and the cases that improved are the ones most likely to have been written up. The randomised evidence is real but comes from other conditions, which is why it is shown as a separate fact rather than folded into the same badge.
 regulatory: approved-us-other

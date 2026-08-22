@@ -8,73 +8,99 @@
  */
 
 /**
- * Evidence is recorded as two separate facts, not one ordinal badge.
+ * How directly a treatment has been studied in mast cells.
  *
- * A single tier cannot describe omalizumab honestly: it has randomised
- * placebo-controlled trials in chronic urticaria and food allergy, and only
- * uncontrolled case series in MCAS itself. Calling it "RCT-adjacent" hides how
- * thin the MCAS evidence is; calling it "observational" hides that real trials
- * exist next door. Both facts matter, and they are different questions, so the
- * site answers them separately and lets the reader weigh them.
+ * This replaced a "direct MCAS evidence" grade that could not do its job:
+ * nothing is approved for MCAS and almost nothing has been tested in it, so ten
+ * of twelve entries scored the same value and the badge distinguished nothing.
+ *
+ * This axis does vary, and it carries a distinction the site made nowhere else:
+ * some of these act *on* the mast cell, and some only block what the mast cell
+ * releases. An antihistamine is not a weaker mast cell drug — it is not a mast
+ * cell drug at all, and a reader deciding what to ask about deserves to know
+ * which kind they are looking at.
  */
-export const DIRECT_EVIDENCE = [
-  'randomized',
-  'observational',
-  'case-report',
-  'none',
-] as const;
-export type DirectEvidence = (typeof DIRECT_EVIDENCE)[number];
-
-export const DIRECT_EVIDENCE_INFO: Record<
-  DirectEvidence,
-  { label: string; short: string; definition: string }
-> = {
-  randomized: {
-    label: 'Randomised results in MCAS',
-    short: 'Randomised',
-    definition:
-      'A randomised controlled comparison in mast cell activation syndrome with publicly available, evaluable outcome results. A registered protocol, an unreported trial, or a trial stopped before it could estimate an effect does not qualify — those are facts about a trial, not evidence of one.',
-  },
-  observational: {
-    label: 'Observational in MCAS',
-    short: 'Observational',
-    definition:
-      'Cohorts, case series, or retrospective review in MCAS. No randomisation and no control arm, so improvement after starting treatment cannot be separated from the fluctuation of a relapsing-remitting condition.',
-  },
-  'case-report': {
-    label: 'Case reports in MCAS',
-    short: 'Case reports',
-    definition:
-      'One or a small number of individually reported patients with MCAS.',
-  },
-  none: {
-    label: 'No direct MCAS evidence',
-    short: 'None direct',
-    definition:
-      'Nothing published in MCAS itself. Whatever supports this entry comes from a related condition or from the laboratory, and is recorded separately.',
-  },
-};
-
-/** Index-page sort order: strongest direct evidence first. */
-export const DIRECT_EVIDENCE_RANK: Record<DirectEvidence, number> = {
-  randomized: 0,
-  observational: 1,
-  'case-report': 2,
-  none: 3,
-};
-
-/** How strong the evidence is somewhere other than MCAS. */
-export const OTHER_EVIDENCE_DESIGNS = [
-  'randomized',
-  'observational',
+export const MAST_CELL_BASIS = [
+  'mcas-patients',
+  'mast-cell-disease',
   'laboratory',
+  'downstream',
 ] as const;
-export type OtherEvidenceDesign = (typeof OTHER_EVIDENCE_DESIGNS)[number];
+export type MastCellBasis = (typeof MAST_CELL_BASIS)[number];
 
-export const OTHER_EVIDENCE_LABELS: Record<OtherEvidenceDesign, string> = {
-  randomized: 'Randomised trials',
-  observational: 'Observational studies',
-  laboratory: 'Laboratory models only',
+export const MAST_CELL_BASIS_INFO: Record<
+  MastCellBasis,
+  { label: string; heading: string; gloss: string; definition: string }
+> = {
+  'mcas-patients': {
+    label: 'MCAS patients',
+    heading: 'Studied in MCAS patients',
+    gloss: 'uncontrolled case series',
+    definition:
+      'Studied in people diagnosed with mast cell activation syndrome. In every current case that means open-label series or retrospective review, never a randomised comparison — so it establishes that people have taken it, not that it worked.',
+  },
+  'mast-cell-disease': {
+    label: 'Mast cell disease',
+    heading: 'Studied in another mast cell disease',
+    gloss: 'trials in mastocytosis',
+    definition:
+      'Studied in patients with a different mast cell disease, usually systemic mastocytosis. This is the closest anything here comes to trial evidence, and it still is not MCAS: mastocytosis is a clonal disease defined by a mutation MCAS patients are not established to have.',
+  },
+  laboratory: {
+    label: 'Mast cells in the laboratory',
+    heading: 'Studied on mast cells in the laboratory',
+    gloss: 'cell lines and animal models',
+    definition:
+      'Studied on mast cells directly, but in cell culture or animals rather than in people. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that ingestion does not reach.',
+  },
+  downstream: {
+    label: 'Downstream of the mast cell',
+    heading: 'Acts downstream of the mast cell',
+    gloss: 'blocks the mediator, not the cell',
+    definition:
+      'Not studied in mast cells, and not acting on them. These block or degrade a mediator after release — histamine at its receptor, leukotrienes at theirs. That is a coherent thing to do and needs no mast cell data to justify it, but it is a different kind of intervention from the ones above.',
+  },
+};
+
+/** Index sort order: most directly studied in mast cells first. */
+export const MAST_CELL_BASIS_RANK: Record<MastCellBasis, number> = {
+  'mcas-patients': 0,
+  'mast-cell-disease': 1,
+  laboratory: 2,
+  downstream: 3,
+};
+
+/**
+ * Why a condition is listed against an entry.
+ *
+ * Deliberately never "effective for". An approval and a body of trials are both
+ * verifiable facts; "effective" is a conclusion, and drawing it is not this
+ * site's job.
+ */
+export const ESTABLISHED_BASIS = [
+  'approved-us',
+  'approved-non-us',
+  'randomised-trials',
+] as const;
+export type EstablishedBasis = (typeof ESTABLISHED_BASIS)[number];
+
+export const ESTABLISHED_BASIS_INFO: Record<
+  EstablishedBasis,
+  { label: string; definition: string }
+> = {
+  'approved-us': {
+    label: 'Approved in the US for',
+    definition: 'Carries this indication on its current FDA label.',
+  },
+  'approved-non-us': {
+    label: 'Approved outside the US for',
+    definition: 'Approved by at least one non-US regulator for this indication.',
+  },
+  'randomised-trials': {
+    label: 'Randomised trials in',
+    definition:
+      'Has published, evaluable randomised trial results in this condition. It says trials exist and reported, not that the drug worked.',
+  },
 };
 
 export const REGULATORY_STATUSES = [

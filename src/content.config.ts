@@ -4,8 +4,8 @@ import { z } from 'astro/zod';
 
 import {
   CITATION_SOURCE_TYPES,
-  DIRECT_EVIDENCE,
-  OTHER_EVIDENCE_DESIGNS,
+  ESTABLISHED_BASIS,
+  MAST_CELL_BASIS,
   QUALIFYING_CITATION_TYPES,
   RATING_AXES,
   RATINGS,
@@ -44,15 +44,12 @@ const trial = z.object({
 });
 
 /**
- * Evidence from somewhere other than MCAS: what design, and in what setting.
- * Kept beside direct evidence rather than merged into it, because "there are
- * randomised trials, in a different condition" is the single most misread fact
- * on a page like this.
+ * A condition this treatment is actually approved or trialled for, and which
+ * of those two it is. Never "effective for" — see ESTABLISHED_BASIS.
  */
-const otherEvidence = z.object({
-  design: z.enum(OTHER_EVIDENCE_DESIGNS),
-  /** The condition or model it comes from, e.g. "chronic spontaneous urticaria". */
-  context: z.string().min(1).max(200),
+const established = z.object({
+  condition: z.string().min(1).max(120),
+  basis: z.enum(ESTABLISHED_BASIS),
 });
 
 /**
@@ -65,16 +62,16 @@ const treatmentBase = z.object({
   /** One line, shown on index pages. Describes the class, not the benefit. */
   summary: z.string().min(1).max(200),
   mechanismClass: z.string().min(1),
-  /** What exists in MCAS itself. */
-  directEvidence: z.enum(DIRECT_EVIDENCE),
-  /** What exists elsewhere, if anything. */
-  otherEvidence: otherEvidence.optional(),
+  /** How directly this has been studied in mast cells. Also the sort key. */
+  mastCellBasis: z.enum(MAST_CELL_BASIS),
+  /** Conditions it is approved or trialled for. Empty is a real answer. */
+  establishedFor: z.array(established).default([]),
   /**
    * What this evidence cannot establish, in plain prose. Replaces an earlier
    * ordinal "confound risk: high" score, which several readers took to mean the
    * drug was dangerous rather than that the study design was weak.
    */
-  evidenceLimits: z.string().min(1).optional(),
+  evidenceLimits: z.string().min(1),
   regulatory: z.enum(REGULATORY_STATUSES),
   offLabelRationale: z.string().min(1).optional(),
   trial: trial.optional(),
@@ -109,40 +106,36 @@ function applyPolicy(
     });
   }
 
-  // 2. Anything short of randomised results in MCAS must say what it cannot
-  //    establish. MCAS relapses and remits, so improvement after starting a
-  //    treatment is not evidence the treatment caused it, and an entry that
-  //    does not say so is letting the reader assume otherwise.
-  if (entry.directEvidence !== 'randomized' && !entry.evidenceLimits) {
+  // 2. Every claimed approval must be backed by a drug label on this page.
+  //    Approval lists are exactly the sort of thing written from memory, and a
+  //    wrong one is a factual claim about what a regulator decided.
+  const approvals = entry.establishedFor.filter((e) => e.basis.startsWith('approved'));
+  if (approvals.length > 0 && !entry.citations.some((c) => c.sourceType === 'drug-label')) {
     ctx.addIssue({
       code: 'custom',
-      path: ['evidenceLimits'],
+      path: ['establishedFor'],
       message:
-        `"${entry.name}" has direct MCAS evidence of "${entry.directEvidence}", so ` +
-        `evidenceLimits is required: say plainly what this evidence cannot ` +
-        `establish. Describe the study design, not danger — this field is about ` +
-        `what is unknown, not about harm.`,
+        `"${entry.name}" lists ${approvals.length} approved indication(s) but cites no ` +
+        `drug label. Cite the current label, or drop the approval and say in prose ` +
+        `what you could not verify.`,
     });
   }
 
-  // 5. A randomised badge requires results a reader could actually evaluate.
-  //    A registered protocol, an unreported trial, or one stopped after two
-  //    participants is a fact about a trial, not evidence from one.
-  if (entry.directEvidence === 'randomized') {
-    const hasPrimary = entry.citations.some((c) => c.sourceType === 'peer-reviewed');
-    if (!hasPrimary) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['directEvidence'],
-        message:
-          `"${entry.name}" claims randomised results in MCAS but cites no ` +
-          `peer-reviewed primary report. A registry protocol or a terminated ` +
-          `trial belongs in the trial block, not in evidence strength.`,
-      });
-    }
+  // 3. A trials claim needs a published primary report, for the same reason a
+  //    randomised badge used to: a registered protocol or a trial terminated
+  //    after two participants is a fact about a trial, not a result from one.
+  const trialled = entry.establishedFor.filter((e) => e.basis === 'randomised-trials');
+  if (trialled.length > 0 && !entry.citations.some((c) => c.sourceType === 'peer-reviewed')) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['establishedFor'],
+      message:
+        `"${entry.name}" claims randomised trials in ${trialled.length} condition(s) but ` +
+        `cites no peer-reviewed primary report.`,
+    });
   }
 
-  // 3. "Approved elsewhere" is its own bucket and owes the reader a reason.
+  // 4. "Approved elsewhere" is its own bucket and owes the reader a reason.
   if (entry.regulatory === 'approved-non-us' && !entry.offLabelRationale) {
     ctx.addIssue({
       code: 'custom',
@@ -154,7 +147,7 @@ function applyPolicy(
     });
   }
 
-  // 4. A trial status is only as good as the day it was checked.
+  // 5. A trial status is only as good as the day it was checked.
   if (entry.trial) {
     const ageDays = (Date.now() - entry.trial.verified.getTime()) / DAY_MS;
     if (ageDays > TRIAL_STATUS_MAX_AGE_DAYS) {

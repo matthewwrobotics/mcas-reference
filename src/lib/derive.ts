@@ -9,9 +9,9 @@
 
 import {
   AGING_AFTER_DAYS,
-  DIRECT_EVIDENCE_RANK,
+  MAST_CELL_BASIS_RANK,
   STALE_AFTER_DAYS,
-  type DirectEvidence,
+  type MastCellBasis,
   type Rating,
   type RatingAxis,
 } from './vocab';
@@ -150,17 +150,17 @@ export function consensusRating(group: AxisGroup): Rating | undefined {
 }
 
 /**
- * Strongest *direct* MCAS evidence first, then alphabetically.
+ * Most directly studied in mast cells first, then alphabetically.
  *
- * Sorting on direct evidence rather than on the best evidence anywhere is a
- * deliberate choice: a drug with randomised trials in another condition and
- * nothing in MCAS should not outrank one actually studied in MCAS.
+ * Sorting on this rather than on trial strength is deliberate: avapritinib has
+ * a placebo-controlled trial behind it, in a disease MCAS patients do not have.
+ * Ranking by trial quality would put it top and quietly recommend it.
  */
-export function byEvidenceThenName<T extends { directEvidence: DirectEvidence; name: string }>(
+export function byEvidenceThenName<T extends { mastCellBasis: MastCellBasis; name: string }>(
   a: T,
   b: T,
 ): number {
-  const d = DIRECT_EVIDENCE_RANK[a.directEvidence] - DIRECT_EVIDENCE_RANK[b.directEvidence];
+  const d = MAST_CELL_BASIS_RANK[a.mastCellBasis] - MAST_CELL_BASIS_RANK[b.mastCellBasis];
   return d !== 0 ? d : a.name.localeCompare(b.name);
 }
 

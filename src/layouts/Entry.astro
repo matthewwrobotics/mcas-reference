@@ -1,13 +1,11 @@
 ---
 import Base from './Base.astro';
-import EvidenceBadge from '../components/EvidenceBadge.astro';
-import StatusBadge from '../components/StatusBadge.astro';
+import EvidenceRows from '../components/EvidenceRows.astro';
 import EvidenceLimits from '../components/EvidenceLimits.astro';
-import OtherEvidenceBadge from '../components/OtherEvidenceBadge.astro';
 import TrialStatus from '../components/TrialStatus.astro';
 import CitationList from '../components/CitationList.astro';
 import LastVerified from '../components/LastVerified.astro';
-import { DIRECT_EVIDENCE_INFO } from '../lib/vocab';
+import { MAST_CELL_BASIS_INFO } from '../lib/vocab';
 import { href } from '../lib/paths';
 
 interface Props {
@@ -17,7 +15,7 @@ interface Props {
 }
 const { entry, backHref, backLabel } = Astro.props;
 const d = entry.data;
-const directInfo = DIRECT_EVIDENCE_INFO[d.directEvidence as keyof typeof DIRECT_EVIDENCE_INFO];
+const basisInfo = MAST_CELL_BASIS_INFO[d.mastCellBasis as keyof typeof MAST_CELL_BASIS_INFO];
 ---
 
 <Base title={d.name} description={d.summary}>
@@ -25,37 +23,20 @@ const directInfo = DIRECT_EVIDENCE_INFO[d.directEvidence as keyof typeof DIRECT_
 
   <header class="mt-4">
     <h1 class="font-serif text-3xl font-semibold tracking-tight">{d.name}</h1>
-    {
-      d.aliases.length > 0 && (
-        <p class="mt-1 text-sm" style="color: var(--text-faint);">
-          Also known as {d.aliases.join(', ')}
-        </p>
-      )
-    }
+    <p class="mt-1 text-sm" style="color: var(--text-faint);">
+      {d.mechanismClass}{d.aliases.length > 0 && <span> · also known as {d.aliases.join(', ')}</span>}
+    </p>
     <p class="mt-3 max-w-prose text-lg" style="color: var(--text-muted);">{d.summary}</p>
 
-    <div class="mt-4 flex flex-wrap items-center gap-2">
-      <EvidenceBadge level={d.directEvidence} />
-      {d.otherEvidence && (
-        <OtherEvidenceBadge design={d.otherEvidence.design} context={d.otherEvidence.context} />
-      )}
-      <StatusBadge status={d.regulatory} />
-      <span class="badge badge-neutral">{d.mechanismClass}</span>
-      <LastVerified date={d.lastVerified} />
-    </div>
+    <EvidenceRows
+      basis={d.mastCellBasis}
+      establishedFor={d.establishedFor}
+      regulatory={d.regulatory}
+    />
 
-    <p class="mt-3 max-w-prose text-sm" style="color: var(--text-faint);">
-      <strong style="color: var(--text-muted);">What that means:</strong>
-      {directInfo.definition}
-      {
-        d.otherEvidence && (
-          <span>
-            {' '}The second badge records evidence from outside MCAS, kept separate
-            because a trial in a related condition is real evidence about that
-            condition and an inference about this one.
-          </span>
-        )
-      }
+    <p class="mt-4 max-w-prose text-sm" style="color: var(--text-faint);">
+      <strong style="color: var(--text-muted);">What “studied in” means here:</strong>
+      {basisInfo.definition}
     </p>
   </header>
 
@@ -109,6 +90,9 @@ const directInfo = DIRECT_EVIDENCE_INFO[d.directEvidence as keyof typeof DIRECT_
           <a href={href('/methodology')}>Why the site is built this way.</a>
         </p>
       </div>
+      <p class="text-xs" style="color: var(--text-faint);">
+        <LastVerified date={d.lastVerified} />
+      </p>
     </aside>
   </div>
 </Base>
