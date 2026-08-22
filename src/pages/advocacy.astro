@@ -1,0 +1,255 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CitationList from '../components/CitationList.astro';
+import { href } from '../lib/paths';
+
+const labs = await getCollection('labs');
+const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
+
+const ROLES = [
+  {
+    key: 'core',
+    title: 'The core panel',
+    blurb:
+      'These are the tests both criteria sets are built on. If only one thing gets ordered, it is the tryptase pair.',
+  },
+  {
+    key: 'differential',
+    title: 'Tests that change the answer',
+    blurb:
+      'Not markers of activation, but tests that explain a result or point somewhere else entirely. Both are ordinary send-outs.',
+  },
+  {
+    key: 'broader',
+    title: 'Ordered under the broader criteria',
+    blurb:
+      'Where the two criteria sets visibly disagree. Worth knowing which side of that disagreement a given clinician is on.',
+  },
+  {
+    key: 'not-recommended',
+    title: 'Commonly asked for, but not recommended',
+    blurb:
+      'Included because patients often arrive asking for it, and a clinician declining is following the literature rather than dismissing the question.',
+  },
+] as const;
+
+const grouped = ROLES.map((r) => ({
+  ...r,
+  items: labs.filter((l) => l.data.role === r.key),
+})).filter((g) => g.items.length > 0);
+
+// The step classes, keyed to the mechanism classes already on the site so the
+// links carry each entry's evidence with them.
+const STEPS = [
+  {
+    n: 1,
+    label: 'H1 antihistamines',
+    match: (c: string) => /H1 antihistamine/i.test(c),
+    note: 'Blocks histamine at the H1 receptor. The conventional first step.',
+  },
+  {
+    n: 2,
+    label: 'H2 antihistamines',
+    match: (c: string) => /H2 antihistamine/i.test(c),
+    note: 'Covers histamine effects that H1 blockade leaves untouched.',
+  },
+  {
+    n: 3,
+    label: 'Mast cell stabilisers',
+    match: (c: string) => /stabiliser/i.test(c),
+    note: 'Acts on the cell rather than the mediator. Includes the one oral drug carrying a US mast cell disease label.',
+  },
+  {
+    n: 4,
+    label: 'Leukotriene blockers',
+    match: (c: string) => /leukotriene/i.test(c),
+    note: 'Leukotrienes are mast cell mediators that antihistamines do not touch at all.',
+  },
+];
+
+const steps = STEPS.map((s) => ({
+  ...s,
+  entries: medications.filter((m) => s.match(m.data.mechanismClass)),
+})).filter((s) => s.entries.length > 0);
+
+// Every distinct source used on this page, listed once at the foot.
+const allCitations = [...labs.flatMap((l) => l.data.citations)];
+const sources = allCitations.filter(
+  (c, i) => allCitations.findIndex((o) => o.url === c.url) === i,
+);
+---
+
+<Base
+  title="What to ask your doctor for"
+  description="A page to take to an appointment: which tests the MCAS criteria are built on, when they have to be drawn, and the drug classes the diagnostic criteria refer to."
+>
+  <div class="print-controls">
+    <h1 class="font-serif text-3xl font-semibold tracking-tight">
+      What to ask your doctor for
+    </h1>
+    <div class="prose-body mt-3" style="color: var(--text-muted);">
+      <p>
+        Written to be printed and handed over. It sets out which tests the published
+        MCAS criteria are built on, <strong>when they have to be drawn</strong>, and
+        which drug classes those criteria refer to.
+      </p>
+      <p>
+        Two things it is not. It is not a request list — a clinician has reasons for
+        ordering or declining any of these, and several of the disagreements below are
+        live in the literature rather than settled. And it is not a treatment plan:
+        the drug classes appear here because responding to them is
+        <em>part of the diagnostic criteria</em>, not because this site is
+        recommending them. There is no dosing anywhere on it.
+      </p>
+      <p>
+        For the other half of an appointment — the specific entries you want to raise,
+        with their evidence and citations — build a
+        <a href={href('/appointment')}>printable appointment sheet</a>. This page covers
+        what to test for; that one covers what you want to discuss.
+      </p>
+    </div>
+  </div>
+
+  <div class="print-only sheet-print-header">
+    <h2>Mast cell activation syndrome — diagnostic tests and criteria</h2>
+    <p>
+      Prepared from published diagnostic criteria by a patient. Sources listed at the
+      end. No dosing, and no treatment recommendation.
+    </p>
+  </div>
+
+  <section class="mt-10 print-entry">
+    <h2 class="font-serif text-2xl font-semibold">The three criteria, and the two versions of them</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>A diagnosis requires all three of:</p>
+      <ol class="ml-5 list-decimal space-y-1">
+        <li>
+          <strong>Clinical</strong> — recurrent symptoms of mast cell activation
+          involving two or more organ systems at once.
+        </li>
+        <li>
+          <strong>Laboratory</strong> — a substantial, transient rise in a validated
+          mast cell mediator <em>during</em> the episode, measured against the
+          patient's own baseline.
+        </li>
+        <li>
+          <strong>Response</strong> — symptoms come under control with drugs that
+          target mast cells or their mediators.
+        </li>
+      </ol>
+      <p>
+        Two criteria sets are in use and they are not interchangeable.
+        <strong>Consensus-1</strong>, the stricter one, is what most allergy and
+        immunology practice in the US works to; it requires the tryptase rise below.
+        <strong>Consensus-2</strong> is broader and accepts a wider range of markers,
+        so more patients qualify.
+      </p>
+      <p>
+        The disagreement is about which error is worse. The consensus-2 authors argue
+        that underdiagnosis under the strict criteria is the larger problem; the
+        stricter camp argues that loose criteria sweep in patients whose symptoms have
+        other causes. The consensus-2 paper itself concludes that, pending better
+        research, diagnosis by either proposal is reasonable — which is a fairer summary
+        than either side's advocates usually give.
+      </p>
+    </div>
+  </section>
+
+  {
+    grouped.map((group) => (
+      <section class="mt-10">
+        <h2 class="font-serif text-2xl font-semibold">{group.title}</h2>
+        <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">{group.blurb}</p>
+        <ul class="mt-4 space-y-3">
+          {group.items.map((lab) => (
+            <li class="card print-entry p-4">
+              <h3 class="font-semibold">
+                {lab.data.name}
+                <span class="ml-2 text-xs font-normal" style="color: var(--text-faint);">
+                  {lab.data.specimen}
+                </span>
+              </h3>
+              {lab.data.aliases.length > 0 && (
+                <p class="text-xs" style="color: var(--text-faint);">
+                  Also called {lab.data.aliases.join(', ')}
+                </p>
+              )}
+              <dl class="evidence-rows">
+                <div>
+                  <dt>Shows</dt>
+                  <dd>{lab.data.measures}</dd>
+                </div>
+                <div>
+                  <dt>When</dt>
+                  <dd>{lab.data.timing}</dd>
+                </div>
+                <div>
+                  <dt>Worth knowing</dt>
+                  <dd class="evidence-gloss">{lab.data.caveat}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section class="mt-10">
+    <h2 class="font-serif text-2xl font-semibold">The drug classes the criteria refer to</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        The third criterion is a response to drugs that stabilise mast cells or block
+        their mediators, and the literature describes a stepwise approach through those
+        classes. They are listed here because the criteria refer to them —
+        <strong>not as a recommendation</strong>. Each links to its entry on this site,
+        where the evidence behind it is graded and the limits of that evidence are
+        stated plainly.
+      </p>
+      <p>
+        Worth noticing while reading: the first, second and fourth of these do not act
+        on mast cells at all. They block a mediator after release.
+      </p>
+    </div>
+
+    <ol class="mt-5 space-y-3">
+      {
+        steps.map((step) => (
+          <li class="card print-entry p-4">
+            <h3 class="font-semibold">
+              <span style="color: var(--text-faint);">Step {step.n} · </span>
+              {step.label}
+            </h3>
+            <p class="mt-1 text-sm" style="color: var(--text-muted);">{step.note}</p>
+            <p class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+              {step.entries.map((e) => (
+                <a class="citation-link" href={href(`/medications/${e.id}`)}>
+                  {e.data.name}
+                </a>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="prose-body mt-4 text-sm" style="color: var(--text-faint);">
+      The criteria also name aspirin and other non-steroidal anti-inflammatory drugs
+      among the mediator-targeting agents. This site does not yet have an entry for
+      them, so they are noted here rather than linked.
+    </p>
+  </section>
+
+  <section class="mt-10 print-entry">
+    <h2 class="font-serif text-2xl font-semibold">Sources</h2>
+    <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+      Everything above is drawn from these. Where they disagree, the page says so
+      rather than picking a side.
+    </p>
+    <CitationList citations={sources} />
+    <p class="mt-4 text-sm" style="color: var(--text-faint);">
+      <a href={href('/methodology')}>How this site decides what to publish →</a>
+    </p>
+  </section>
+</Base>

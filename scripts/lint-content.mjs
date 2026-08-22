@@ -23,6 +23,19 @@ import { fileURLToPath } from 'node:url';
 // on any checkout whose path contains a space.
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PROSE_DIRS = ['src/content/medications', 'src/content/supplements'];
+
+/**
+ * Reader-facing prose that does not live in a Markdown entry.
+ *
+ * The advocacy page is the highest-risk text on the site — it is addressed to
+ * prescribers and lists drug classes — and it sat outside this check until it
+ * was added here. `labs.json` carries diagnostic thresholds and timing, which
+ * is the other place a stray dose could appear.
+ */
+const JSON_PROSE = [
+  { file: 'src/content/labs.json', fields: ['measures', 'timing', 'caveat', 'name'] },
+];
+const PAGE_PROSE = ['src/pages/advocacy.astro'];
 const MAX_BODY_WORDS = 400;
 const MIN_BODY_WORDS = 25;
 
@@ -64,6 +77,34 @@ function lineOf(text, index) {
 }
 
 const problems = [];
+
+/**
+ * Roughly the words a reader sees on an .astro page.
+ *
+ * Returns the template text *and* the long string literals from the component
+ * script, because prose routinely lives in both. An earlier version scanned
+ * only the template and silently passed a probe that put dosing into a data
+ * array in the frontmatter — which is exactly where this page keeps its drug
+ * class descriptions.
+ */
+function astroProse(raw) {
+  const script = raw.match(/^---([\s\S]*?)\n---\n/)?.[1] ?? '';
+  const template = raw
+    .replace(/^---[\s\S]*?\n---\n/, '')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/\{[^{}]*\}/g, ' ')
+    .replace(/<[^>]+>/g, ' ');
+
+  // Newlines are excluded deliberately. Without that the character class runs
+  // from one string's closing quote to the next string's opening quote and
+  // captures the code in between, which is how an earlier version "found" 18
+  // literals that were mostly import statements and matched no real prose.
+  const literals = [...script.matchAll(/'([^'\\\n]{25,})'|"([^"\\\n]{25,})"|`([^`\\\n]{25,})`/g)]
+    .map((m) => m[1] ?? m[2] ?? m[3])
+    .join(' \n ');
+
+  return `${template} \n ${literals}`.replace(/\s+/g, ' ');
+}
 
 for (const dir of PROSE_DIRS) {
   const abs = join(ROOT, dir);
@@ -127,6 +168,57 @@ for (const dir of PROSE_DIRS) {
   }
 }
 
+// --- prose outside the Markdown collections -------------------------------
+
+for (const { file, fields } of JSON_PROSE) {
+  let entries;
+  try {
+    entries = JSON.parse(readFileSync(join(ROOT, file), 'utf8'));
+  } catch (err) {
+    problems.push({ file, line: 0, message: `Could not read or parse: ${err.message}` });
+    continue;
+  }
+  for (const entry of entries) {
+    for (const field of fields) {
+      const text = entry[field];
+      if (typeof text !== 'string') continue;
+      for (const rule of FORBIDDEN) {
+        rule.pattern.lastIndex = 0;
+        let match;
+        while ((match = rule.pattern.exec(text)) !== null) {
+          problems.push({
+            file,
+            line: 0,
+            message: `${rule.name} in ${entry.id ?? '?'}.${field}: “${match[0]}” — ${rule.why}`,
+          });
+        }
+      }
+    }
+  }
+}
+
+for (const file of PAGE_PROSE) {
+  let raw;
+  try {
+    raw = readFileSync(join(ROOT, file), 'utf8');
+  } catch (err) {
+    problems.push({ file, line: 0, message: `Could not read: ${err.message}` });
+    continue;
+  }
+  const text = astroProse(raw);
+  for (const rule of FORBIDDEN) {
+    rule.pattern.lastIndex = 0;
+    let match;
+    while ((match = rule.pattern.exec(text)) !== null) {
+      problems.push({
+        file,
+        line: 0,
+        message: `${rule.name} in page prose: “${match[0]}” — ${rule.why}`,
+      });
+    }
+  }
+}
+
 if (problems.length > 0) {
   console.error(`\n✗ Editorial policy check failed — ${problems.length} problem(s):\n`);
   for (const p of problems) {
@@ -138,4 +230,8 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-console.log('✓ Editorial policy check passed — no dosing, no efficacy claims, no insecure citations.');
+console.log(
+  `✓ Editorial policy check passed across ${PROSE_DIRS.length} collection(s), ` +
+    `${JSON_PROSE.length} data file(s) and ${PAGE_PROSE.length} page(s) — ` +
+    `no dosing, no efficacy claims, no insecure citations.`,
+);

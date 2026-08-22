@@ -22,6 +22,7 @@ const PATHS = [
   'medications/masitinib',
   'supplements',
   'foods',
+  'advocacy',
   'appointment',
   'methodology',
   'resources',

@@ -294,6 +294,28 @@ const sources = defineCollection({
     }),
 });
 
+/**
+ * Diagnostic tests, for the page a patient hands to a clinician.
+ *
+ * `timing` is required and is the point of the collection. A tryptase drawn at
+ * the wrong moment reads normal however severe the episode was, and a page that
+ * said "ask for a tryptase" without saying when would leave the reader worse
+ * off than before it was written.
+ */
+const labs = defineCollection({
+  loader: file('./src/content/labs.json'),
+  schema: z.object({
+    name: z.string().min(1),
+    aliases: z.array(z.string()).default([]),
+    specimen: z.string().min(1),
+    role: z.enum(['core', 'broader', 'differential', 'not-recommended']),
+    measures: z.string().min(1),
+    timing: z.string().min(1),
+    caveat: z.string().min(1),
+    citations: z.array(citation).min(1),
+  }),
+});
+
 const resources = defineCollection({
   loader: file('./src/content/resources.json'),
   schema: z.object({
@@ -315,4 +337,4 @@ const resources = defineCollection({
   }),
 });
 
-export const collections = { medications, supplements, foods, sources, resources };
+export const collections = { medications, supplements, foods, sources, resources, labs };

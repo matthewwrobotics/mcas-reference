@@ -1,0 +1,251 @@
+[
+  {
+    "id": "tryptase-baseline",
+    "name": "Serum tryptase — baseline",
+    "aliases": [
+      "sBT",
+      "Resting tryptase"
+    ],
+    "specimen": "Blood",
+    "role": "core",
+    "measures": "The resting tryptase level this patient runs at, which the episode sample is measured against. A level below 8 ng/mL is generally considered normal.",
+    "timing": "Drawn at least 24 hours after complete recovery from a suspected episode. A sample taken too soon is not a baseline.",
+    "caveat": "A normal baseline does not rule MCAS out, and a raised baseline on its own is not a criterion for it. Raised baseline tryptase also occurs in hereditary alpha-tryptasemia, systemic mastocytosis, some blood disorders, end-stage kidney disease, and parasitic infection.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "tryptase-event",
+    "name": "Serum tryptase — during an episode",
+    "aliases": [
+      "Acute tryptase",
+      "Event-related tryptase"
+    ],
+    "specimen": "Blood",
+    "role": "core",
+    "measures": "Whether tryptase actually rose during the episode. Both criteria sets look for a rise above the patient's own baseline multiplied by 1.2, plus 2 ng/mL.",
+    "timing": "This is the part most often got wrong. Tryptase peaks in serum about an hour after symptoms start, then falls with a half-life of roughly two hours — so it may still be raised at three hours, sometimes at five, and not much beyond. A sample drawn the next day, or at a routine appointment weeks later, cannot meet this criterion no matter how severe the episode was.",
+    "caveat": "Because the window is short, the practical problem is access: someone has to be able to order it while the episode is happening or shortly after. This is worth planning before an episode rather than during one.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "urine-n-methylhistamine",
+    "name": "Urinary N-methylhistamine",
+    "aliases": [
+      "N-methyl histamine"
+    ],
+    "specimen": "Urine",
+    "role": "core",
+    "measures": "A histamine breakdown product. Reported to track both mast cell burden and mast cell activation.",
+    "timing": "A 24-hour collection is the usual advice, though shorter collections and spot samples are also discussed. Most informative when the collection covers the episode and the hours after it.",
+    "caveat": "Less specific to mast cells than tryptase.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "urine-methylimidazole-acetic-acid",
+    "name": "Urinary 1-methyl-4-imidazole acetic acid",
+    "aliases": [
+      "MIAA"
+    ],
+    "specimen": "Urine",
+    "role": "core",
+    "measures": "The other commonly measured histamine metabolite, used alongside or instead of N-methylhistamine.",
+    "timing": "As for N-methylhistamine — collected across the episode and the hours following.",
+    "caveat": "Less specific to mast cells than tryptase.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "urine-pgd2-metabolite",
+    "name": "Urinary prostaglandin D2 metabolite",
+    "aliases": [
+      "9α,11β-PGF2",
+      "PGD2 metabolite"
+    ],
+    "specimen": "Urine",
+    "role": "core",
+    "measures": "A breakdown product of prostaglandin D2, which mast cells make on activation. Found raised during anaphylaxis and in systemic mastocytosis compared with healthy controls.",
+    "timing": "Collected during the onset of an episode and for several hours after.",
+    "caveat": "The assay is technically difficult and offered by only a few laboratories, so it may need to be sent out. Rises over an individual's own baseline have not been reported in most studies, which limits how it can be interpreted.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "urine-leukotriene-e4",
+    "name": "Urinary leukotriene E4",
+    "aliases": [
+      "LTE4"
+    ],
+    "specimen": "Urine",
+    "role": "core",
+    "measures": "A cysteinyl leukotriene metabolite. Leukotrienes are made by mast cells on activation rather than stored ready-made, so they report a different part of the response than tryptase does.",
+    "timing": "Collected during the onset of an episode and for several hours after.",
+    "caveat": "Like the prostaglandin metabolite, the assay is available in relatively few laboratories.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "tpsab1",
+    "name": "TPSAB1 copy number",
+    "aliases": [
+      "Hereditary alpha-tryptasemia genotyping",
+      "HαT testing"
+    ],
+    "specimen": "Blood",
+    "role": "differential",
+    "measures": "Extra germline copies of the alpha-tryptase gene. This causes hereditary alpha-tryptasemia, in which baseline tryptase is raised for genetic reasons and rises further with each additional gene copy.",
+    "timing": "Any time; it is a genetic test, not an episode-dependent one.",
+    "caveat": "Worth knowing about because it is a common benign explanation for a raised baseline tryptase. Without it, a high resting tryptase can be read as evidence of mast cell disease when it is inherited and unrelated.",
+    "citations": [
+      {
+        "title": "Diagnosis, Classification and Management of Mast Cell Activation Syndromes (MCAS) in the Era of Personalized Medicine",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33261124/",
+        "sourceType": "review",
+        "year": 2020,
+        "pmid": "33261124",
+        "accessed": "2026-08-22"
+      },
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "kit-d816v",
+    "name": "KIT D816V testing",
+    "aliases": [
+      "KIT mutation analysis",
+      "Clonality testing"
+    ],
+    "specimen": "Blood or bone marrow",
+    "role": "differential",
+    "measures": "The mutation that drives clonal mast cell disease. Its presence points towards mastocytosis or monoclonal mast cell activation syndrome rather than non-clonal MCAS.",
+    "timing": "Any time. Blood assays are screening tests; bone marrow examination is the definitive one and is a specialist referral.",
+    "caveat": "This distinguishes between conditions with different treatments, so it changes what follows rather than merely confirming a label. Sensitive blood assays exist but a negative result does not exclude clonal disease.",
+    "citations": [
+      {
+        "title": "Diagnosis, Classification and Management of Mast Cell Activation Syndromes (MCAS) in the Era of Personalized Medicine",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33261124/",
+        "sourceType": "review",
+        "year": 2020,
+        "pmid": "33261124",
+        "accessed": "2026-08-22"
+      },
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "plasma-histamine",
+    "name": "Plasma histamine",
+    "aliases": [
+      "Blood histamine"
+    ],
+    "specimen": "Blood",
+    "role": "not-recommended",
+    "measures": "Circulating histamine.",
+    "timing": "—",
+    "caveat": "Not generally recommended as a marker of mast cell activation. At baseline much of it comes from basophils rather than mast cells, and the result is affected by how the sample is drawn and stored, by diet, and by bacterial flora of the urinary tract. Frequently requested and hard to interpret.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "broader-panel",
+    "name": "Heparin, chromogranin A, platelet-activating factor and serotonin",
+    "aliases": [
+      "Extended mediator panel"
+    ],
+    "specimen": "Blood or urine",
+    "role": "broader",
+    "measures": "Additional mediators sometimes ordered when working to the broader criteria, on the reasoning that tryptase misses patients whose activation shows up in other mediators.",
+    "timing": "Varies by marker and laboratory.",
+    "caveat": "This is where the two criteria sets visibly diverge. Clinicians working to the stricter criteria regard the clinical utility of these markers as unproven on current data. That is a real disagreement in the literature rather than an oversight, and a clinician declining to order them is not necessarily dismissing the question.",
+    "citations": [
+      {
+        "title": "Using the Right Criteria for MCAS",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243020/",
+        "sourceType": "review",
+        "year": 2024,
+        "pmid": "38243020",
+        "accessed": "2026-08-22"
+      },
+      {
+        "title": "Diagnosis of mast cell activation syndrome: a global \"consensus-2\"",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32324159/",
+        "sourceType": "review",
+        "year": 2021,
+        "pmid": "32324159",
+        "accessed": "2026-08-22"
+      }
+    ]
+  }
+]
