@@ -1,8 +1,9 @@
 ---
 import EvidenceRows from './EvidenceRows.astro';
 import LastVerified from './LastVerified.astro';
-import { byEvidenceThenName } from '../lib/derive';
-import { MAST_CELL_BASIS_INFO, type MastCellBasis } from '../lib/vocab';
+import GradeBadge from './GradeBadge.astro';
+import { byGradeThenName, relevanceGrade } from '../lib/derive';
+import { TREATMENT_STEP_INFO, TREATMENT_STEPS, type TreatmentStep } from '../lib/vocab';
 import { href } from '../lib/paths';
 
 interface Props {
@@ -10,28 +11,43 @@ interface Props {
   basePath: string;
 }
 const { entries, basePath } = Astro.props;
-const sorted = [...entries].sort((a, b) => byEvidenceThenName(a.data, b.data));
+const sorted = [...entries].sort((a, b) => byGradeThenName(a.data, b.data));
 
-// Group under the same headings the sort uses, so the ordering is legible
-// instead of being an unexplained sequence.
-const groups = (
-  Object.keys(MAST_CELL_BASIS_INFO) as MastCellBasis[]
-)
-  .map((basis) => ({
-    basis,
-    info: MAST_CELL_BASIS_INFO[basis],
-    items: sorted.filter((e) => e.data.mastCellBasis === basis),
+// Grouped by the sequence a published management review describes, because
+// that is the order a reader is likely to meet these in. Within each step,
+// strongest mast-cell evidence first. Anything outside that sequence — the KIT
+// inhibitors, every supplement — falls into a final group rather than being
+// silently ranked against it.
+const steps = (TREATMENT_STEPS as readonly TreatmentStep[])
+  .map((step) => ({
+    key: `step-${step}`,
+    title: `${step}. ${TREATMENT_STEP_INFO[step].label}`,
+    detail: TREATMENT_STEP_INFO[step].described,
+    items: sorted.filter((e) => e.data.treatmentStep === step),
   }))
   .filter((g) => g.items.length > 0);
+
+const unsequenced = sorted.filter((e) => !e.data.treatmentStep);
+const groups = [
+  ...steps,
+  ...(unsequenced.length
+    ? [{
+        key: 'unsequenced',
+        title: 'Outside that sequence',
+        detail: 'not part of the stepwise approach the review describes',
+        items: unsequenced,
+      }]
+    : []),
+];
 ---
 
 {
   groups.map((group) => (
     <section class="mt-8">
-      <h2 class="text-sm font-semibold" id={`group-${group.basis}`}>
-        {group.info.heading}
+      <h2 class="text-sm font-semibold" id={`group-${group.key}`}>
+        {group.title}
         <span class="ml-2 font-normal" style="color: var(--text-faint);">
-          — {group.info.gloss}
+          — {group.detail}
         </span>
       </h2>
 
@@ -51,6 +67,14 @@ const groups = (
               </span>
             </h3>
 
+            <p class="mt-2">
+              <GradeBadge
+                grade={relevanceGrade(entry.data)}
+                approved={entry.data.establishedFor.some((e: any) => e.basis.startsWith('approved'))}
+                short
+              />
+            </p>
+
             <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
               {entry.data.summary}
             </p>
@@ -58,7 +82,9 @@ const groups = (
             {/* Kept in one component so the two facts cannot drift apart. */}
             <EvidenceRows
               basis={entry.data.mastCellBasis}
+              studyDesigns={entry.data.studyDesigns}
               establishedFor={entry.data.establishedFor}
+              specialistUse={entry.data.specialistUse}
               regulatory={entry.data.regulatory}
               compact
             />

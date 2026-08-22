@@ -4,6 +4,9 @@ aliases: ["Zyrtec"]
 summary: Second-generation H1 antihistamine; blocks the H1 receptor without the sedation profile of first-generation agents.
 mechanismClass: H1 antihistamine
 mastCellBasis: downstream
+studyDesigns:
+  - randomised-controlled
+treatmentStep: 1
 establishedFor:
   - condition: "hay fever and upper respiratory allergy symptoms"
     basis: approved-us

@@ -4,6 +4,8 @@ aliases: ["Epigallocatechin-3-gallate", "EGCG"]
 summary: Green-tea catechin reported to reduce high-affinity IgE-receptor expression in a human mast-cell line; no clinical MCAS outcomes.
 mechanismClass: Catechin polyphenol
 mastCellBasis: laboratory
+studyDesigns:
+  - in-vitro
 establishedFor: []
 evidenceLimits: >
   One older HMC-1 cell-line study supports the mast-cell-specific claim. It measured receptor and receptor-subunit expression, not patient outcomes, and did not establish what oral exposure does. EGCG, modified catechin derivatives, green-tea extract, and brewed tea are different evidence objects and should not be treated as interchangeable. No human outcome data in MCAS support this entry.

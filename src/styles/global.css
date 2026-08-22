@@ -171,6 +171,27 @@ a.badge:hover { border-color: currentColor; }
   border-color: var(--border);
 }
 
+.grade-randomised { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
+.grade-human-observational { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
+.grade-in-vitro { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
+.grade-animal { background: var(--tier-case-report-bg); color: var(--tier-case-report-fg); }
+.grade-none { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
+
+/* Approval is a separate fact from the grade and looks different on purpose. */
+.badge-approved {
+  background: transparent;
+  color: var(--accent-text);
+  border-color: var(--accent-text);
+}
+
+/* A practice-source flag, not another evidence grade or an endorsement. */
+.badge-specialist {
+  background: var(--bg-sunken);
+  color: var(--text);
+  border-color: var(--border-strong);
+  border-style: dashed;
+}
+
 .basis-mcas-patients { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
 .basis-mast-cell-disease { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
 .basis-laboratory { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }

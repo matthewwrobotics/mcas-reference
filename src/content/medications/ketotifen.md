@@ -4,6 +4,9 @@ aliases: ["Zaditen", "Zaditor"]
 summary: H1 antihistamine with additional mast cell stabilising activity; oral formulations are approved outside the US but not by the FDA.
 mechanismClass: H1 antihistamine / mast cell stabiliser
 mastCellBasis: mast-cell-disease
+studyDesigns:
+  - randomised-controlled
+treatmentStep: 5
 establishedFor:
   - condition: "itchy eyes from allergen exposure"
     basis: approved-us

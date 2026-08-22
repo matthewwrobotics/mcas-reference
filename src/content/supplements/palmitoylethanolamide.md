@@ -4,6 +4,18 @@ aliases: ["PEA", "N-palmitoylethanolamine"]
 summary: Endogenous fatty acid amide studied for effects on mast cell and glial activation in neuroinflammation models.
 mechanismClass: Fatty acid amide
 mastCellBasis: laboratory
+trials:
+  - nctId: NCT05652907
+    phase: "2"
+    status: terminated
+    statusSource: clinicaltrials-gov
+    condition: "mast cell activation syndrome"
+    enrolment:
+      count: 2
+      basis: actual
+    verified: 2026-08-22
+studyDesigns:
+  - animal
 establishedFor: []
 evidenceLimits: >
   No usable human evidence in MCAS. A randomised study in idiopathic MCAS was registered but terminated after two participants, which cannot estimate an effect of any size — a stopped trial is a fact about a trial, not evidence from one. What remains is animal and cell work in neuroinflammation and neuropathic pain models, in which mast cells are one of several named targets.

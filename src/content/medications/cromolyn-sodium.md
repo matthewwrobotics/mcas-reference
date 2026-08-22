@@ -4,6 +4,9 @@ aliases: ["Cromoglicic acid", "Sodium cromoglycate", "Gastrocrom"]
 summary: Mast cell stabiliser; the original member of the class and the only oral formulation carrying a US mast cell disease label.
 mechanismClass: Mast cell stabiliser
 mastCellBasis: mast-cell-disease
+studyDesigns:
+  - randomised-controlled
+treatmentStep: 4
 establishedFor:
   - condition: "systemic mastocytosis"
     basis: randomised-trials

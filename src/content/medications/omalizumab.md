@@ -4,6 +4,20 @@ aliases: ["Xolair"]
 summary: Anti-IgE monoclonal antibody; reduces free IgE and downregulates the high-affinity IgE receptor on mast cells and basophils.
 mechanismClass: Anti-IgE monoclonal antibody
 mastCellBasis: mcas-patients
+trials:
+  - nctId: NCT01333293
+    phase: "2/3"
+    status: completed
+    statusSource: clinicaltrials-gov
+    condition: "mastocytosis"
+    enrolment:
+      count: 17
+      basis: actual
+    verified: 2026-08-22
+studyDesigns:
+  - case-series
+  - cohort
+treatmentStep: 8
 establishedFor:
   - condition: "allergic asthma"
     basis: approved-us

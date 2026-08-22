@@ -1,0 +1,32 @@
+---
+import { RELEVANCE_GRADE_INFO, type RelevanceGrade } from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  grade: RelevanceGrade;
+  approved: boolean;
+  short?: boolean;
+}
+const { grade, approved, short = false } = Astro.props;
+const info = RELEVANCE_GRADE_INFO[grade];
+---
+
+<span class="inline-flex flex-wrap items-center gap-1.5">
+  <a
+    class:list={['badge', `grade-${grade}`]}
+    href={href(`/methodology#grade-${grade}`)}
+    title={info.definition}
+  >
+    <span class="sr-only">Evidence in mast cells:</span>{short ? info.short : info.label}
+  </a>
+  {
+    /* Kept separate from the grade on purpose: an approval is for a named
+       condition, which establishedFor already lists, and folding it into the
+       grade is what made the previous one meaningless. */
+    approved && (
+      <span class="badge badge-approved" title="Approved by a regulator for at least one indication — see the conditions listed below">
+        Approved
+      </span>
+    )
+  }
+</span>

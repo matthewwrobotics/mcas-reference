@@ -4,6 +4,9 @@ aliases: ["Singulair"]
 summary: Cysteinyl leukotriene receptor antagonist; blocks a mast cell mediator class that antihistamines do not address.
 mechanismClass: Leukotriene receptor antagonist
 mastCellBasis: downstream
+studyDesigns:
+  - randomised-controlled
+treatmentStep: 3
 establishedFor:
   - condition: "asthma"
     basis: approved-us

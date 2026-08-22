@@ -2,6 +2,10 @@
 import {
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS_INFO,
+  SPECIALIST_USE_BASIS_INFO,
+  STUDY_DESIGN_INFO,
+  type StudyDesign,
+  type SpecialistUseBasis,
   REGULATORY_INFO,
   type EstablishedBasis,
   type MastCellBasis,
@@ -13,13 +17,27 @@ interface Established {
   condition: string;
   basis: EstablishedBasis;
 }
+interface SpecialistUse {
+  basis: SpecialistUseBasis;
+  clinicians: string[];
+  sourceUrl: string;
+}
 interface Props {
   basis: MastCellBasis;
+  studyDesigns: StudyDesign[];
   establishedFor: Established[];
+  specialistUse: SpecialistUse[];
   regulatory: RegulatoryStatus;
   compact?: boolean;
 }
-const { basis, establishedFor, regulatory, compact = false } = Astro.props;
+const {
+  basis,
+  studyDesigns,
+  establishedFor,
+  specialistUse,
+  regulatory,
+  compact = false,
+} = Astro.props;
 const info = MAST_CELL_BASIS_INFO[basis];
 
 // Group by basis so the label is written once per group rather than repeated
@@ -55,7 +73,38 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
         <dt>Studied in</dt>
         <dd>
           <a href={href(`/methodology#basis-${basis}`)} class="evidence-key">{info.label}</a>
-          <span class="evidence-gloss">— {info.gloss}</span>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    studyDesigns.length > 0 && (
+      <div>
+        <dt>Study design</dt>
+        <dd class="evidence-gloss">
+          {studyDesigns.map((d) => STUDY_DESIGN_INFO[d].label).join(', ')}
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    specialistUse.length > 0 && (
+      <div>
+        <dt>Clinical practice</dt>
+        <dd>
+          <a href={href('/methodology#specialist-use')} class="badge badge-specialist">
+            Documented specialist use
+          </a>
+          {
+            !compact && specialistUse.map((signal) => (
+              <span class="mt-1 block text-xs evidence-gloss">
+                {signal.clinicians.join(', ')} ·{' '}
+                <a href={signal.sourceUrl}>{SPECIALIST_USE_BASIS_INFO[signal.basis].label}</a>
+              </span>
+            ))
+          }
         </dd>
       </div>
     )
@@ -75,7 +124,7 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
       <div>
         <dt>Approved for</dt>
         <dd>
-          <span class="evidence-gloss">nothing — {fallback.toLowerCase()}</span>
+          <span class="evidence-gloss">nothing — {fallback}</span>
         </dd>
       </div>
     )

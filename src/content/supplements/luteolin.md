@@ -4,6 +4,8 @@ aliases: ["3',4',5,7-tetrahydroxyflavone"]
 summary: Dietary flavonoid studied alongside quercetin for effects on mast cell mediator release in laboratory models.
 mechanismClass: Flavonoid
 mastCellBasis: laboratory
+studyDesigns:
+  - in-vitro
 establishedFor: []
 evidenceLimits: >
   Laboratory work only, and much of the most specific data is not even in mast cells — the interleukin and VEGF findings come from cultured keratinocytes. Its described effect on mast cells is characterised in general terms in the polyphenol literature rather than pinned to a defined pathway, which is a weaker claim than the one made for quercetin. No human outcome data in MCAS.

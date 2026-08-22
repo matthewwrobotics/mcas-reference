@@ -4,6 +4,36 @@ aliases: ["Ayvakit", "BLU-285"]
 summary: Selective KIT D816V inhibitor; the first agent in mast cell disease supported by a placebo-controlled randomised trial.
 mechanismClass: Selective tyrosine kinase inhibitor (KIT D816V)
 mastCellBasis: mast-cell-disease
+trials:
+  - nctId: NCT03731260
+    phase: "2"
+    status: active-not-recruiting
+    statusSource: clinicaltrials-gov
+    condition: "indolent systemic mastocytosis"
+    enrolment:
+      count: 251
+      basis: actual
+    verified: 2026-08-22
+  - nctId: NCT03580655
+    phase: "2"
+    status: completed
+    statusSource: clinicaltrials-gov
+    condition: "advanced systemic mastocytosis"
+    enrolment:
+      count: 107
+      basis: actual
+    verified: 2026-08-22
+  - nctId: NCT02561988
+    phase: "1"
+    status: completed
+    statusSource: clinicaltrials-gov
+    condition: "advanced systemic mastocytosis"
+    enrolment:
+      count: 86
+      basis: actual
+    verified: 2026-08-22
+studyDesigns:
+  - randomised-controlled
 establishedFor:
   - condition: "indolent systemic mastocytosis"
     basis: approved-us
@@ -16,11 +46,6 @@ establishedFor:
 evidenceLimits: >
   Nothing has been published in MCAS. The randomised evidence is in indolent systemic mastocytosis — a clonal disease defined by the KIT D816V mutation this drug was designed to inhibit. MCAS is by definition not that disease, so the trial does not transfer: the mechanism the trial demonstrates is one MCAS patients are not established to have.
 regulatory: approved-us-other
-trial:
-  nctId: NCT03731260
-  status: active-not-recruiting
-  statusSource: clinicaltrials-gov
-  verified: 2026-08-20
 citations:
   - title: "AYVAKIT (avapritinib) US prescribing information"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=645c887c-8cd4-4623-8da9-ac223d71a8b9"

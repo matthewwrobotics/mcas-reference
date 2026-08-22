@@ -4,6 +4,8 @@ aliases: ["DAO enzyme supplement", "Histaminase"]
 summary: Oral enzyme supplement intended to degrade histamine in the intestinal lumen before absorption.
 mechanismClass: Enzyme supplement
 mastCellBasis: downstream
+studyDesigns:
+  - randomised-controlled
 establishedFor:
   - condition: "chronic spontaneous urticaria"
     basis: randomised-trials

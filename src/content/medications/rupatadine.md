@@ -4,6 +4,9 @@ aliases: ["Rupall"]
 summary: H1 and platelet-activating-factor receptor antagonist with a small randomised crossover study in adults with mastocytosis.
 mechanismClass: H1 antihistamine / platelet-activating-factor receptor antagonist
 mastCellBasis: mast-cell-disease
+studyDesigns:
+  - randomised-controlled
+  - in-vitro
 establishedFor:
   - condition: "seasonal and perennial allergic rhinitis"
     basis: approved-non-us

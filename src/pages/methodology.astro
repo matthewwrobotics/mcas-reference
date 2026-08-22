@@ -1,15 +1,28 @@
 ---
 import { getCollection } from 'astro:content';
+import { href } from '../lib/paths';
 import Base from '../layouts/Base.astro';
 import {
   AGING_AFTER_DAYS,
+  RELEVANCE_GRADES,
+  RELEVANCE_GRADE_INFO,
+  STUDY_DESIGNS,
+  STUDY_DESIGN_INFO,
+  TREATMENT_STEPS,
+  TREATMENT_STEP_INFO,
+  type RelevanceGrade,
+  type StudyDesign,
+  type TreatmentStep,
   ESTABLISHED_BASIS,
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS,
   MAST_CELL_BASIS_INFO,
   QUALIFYING_CITATION_TYPES,
+  SPECIALIST_USE_BASES,
+  SPECIALIST_USE_BASIS_INFO,
   type EstablishedBasis,
   type MastCellBasis,
+  type SpecialistUseBasis,
   REGULATORY_INFO,
   REGULATORY_STATUSES,
   STALE_AFTER_DAYS,
@@ -53,8 +66,10 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
           clinician draw the conclusions.
         </li>
         <li>
-          <strong>No personal experience.</strong> Anecdote, forum consensus, and
-          practitioner opinion do not create entries here, however widely repeated.
+          <strong>No untraceable personal experience.</strong> Anecdote, forum
+          consensus, second-hand claims about a clinician, and practitioner opinion
+          without a durable first-party source do not create entries here. Documented
+          specialist use is shown separately and never counted as trial evidence.
         </li>
       </ul>
       <p>
@@ -78,6 +93,12 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         clear the bar on their own. Neither does anything else: if the only support for a
         substance is that people report it helping, it is not listed, and no amount of
         popularity changes that.
+      </p>
+      <p>
+        A specialist-use source can support the practice tag without clearing this bar
+        by itself. The entry still needs a qualifying source for its mechanism, so an
+        interview or clinic-authored page cannot turn an otherwise unsourced treatment
+        into a mechanism claim.
       </p>
     </div>
   </section>
@@ -109,6 +130,11 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         is a study that reported; drawing the conclusion is the reader's job and their
         clinician's, not this site's.
       </p>
+      <p>
+        A third, optional fact—<strong>documented specialist use</strong>—appears only
+        when a durable source records a named MCAS clinician-researcher's own practice.
+        It does not alter the study design or evidence grade.
+      </p>
     </div>
 
     <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
@@ -127,9 +153,6 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
               <span class:list={['badge', `basis-${basis}`]}>
                 {MAST_CELL_BASIS_INFO[basis].label}
               </span>
-              <span class="ml-2 text-xs" style="color: var(--text-faint);">
-                {MAST_CELL_BASIS_INFO[basis].gloss}
-              </span>
             </dt>
             <dd class="mt-2 text-sm" style="color: var(--text-muted);">
               {MAST_CELL_BASIS_INFO[basis].definition}
@@ -138,6 +161,95 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         ))
       }
     </dl>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      The grade, and why there is one again
+    </h3>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        An earlier version of this site carried an evidence grade and removed it,
+        because it had no variance: ten of twelve entries scored the same value and it
+        distinguished nothing. The grade below is computed from the study designs each
+        entry records, and it grades only what was done <em>in mast cells</em>. Evidence
+        from anywhere would put an antacid at the top for heartburn.
+      </p>
+      <p>
+        It is derived rather than written, so it cannot drift from the entries. A test
+        asserts it keeps spreading across the rungs — if it ever collapses onto one, it
+        has stopped working and should be rethought rather than quietly kept.
+      </p>
+    </div>
+    <dl class="mt-4 space-y-3">
+      {
+        RELEVANCE_GRADES.map((grade: RelevanceGrade) => (
+          <div id={`grade-${grade}`} class="card scroll-mt-6 p-4">
+            <dt>
+              <span class:list={['badge', `grade-${grade}`]}>
+                {RELEVANCE_GRADE_INFO[grade].label}
+              </span>
+            </dt>
+            <dd class="mt-2 text-sm" style="color: var(--text-muted);">
+              {RELEVANCE_GRADE_INFO[grade].definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="prose-body mt-3 text-sm" style="color: var(--text-muted);">
+      An <strong>Approved</strong> marker sits beside the grade where a regulator has
+      licensed the treatment for any indication. It is deliberately kept separate:
+      approval is always <em>for a named condition</em>, and those conditions are listed
+      on the entry. Folding approval into the grade is what made the previous one
+      meaningless.
+    </p>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      Study design
+    </h3>
+    <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+      Recorded per entry, and the source of the grade above. This used to be inferred
+      from the population instead, which meant every laboratory entry claimed both cell
+      lines and animal models regardless of what was actually done — wrong in opposite
+      directions for a cell-line-only entry and an animal-only one.
+    </p>
+    <dl class="mt-3 space-y-2">
+      {
+        STUDY_DESIGNS.map((d: StudyDesign) => (
+          <div class="text-sm">
+            <dt class="font-semibold">{STUDY_DESIGN_INFO[d].label}</dt>
+            <dd style="color: var(--text-muted);">{STUDY_DESIGN_INFO[d].definition}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      The order treatments appear in
+    </h3>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        Medications are grouped by the sequence a 2025 open-access practical-management
+        review describes, because that is the order a reader is most likely to meet them
+        in. <strong>This site is reporting that sequence, not recommending it</strong> —
+        the same footing on which the drug classes appear on the
+        <a href={href('/advocacy')}>appointment page</a>. Parts of it are specific to
+        Canadian practice, and entries say so where it matters.
+      </p>
+      <p>
+        Anything outside that sequence — the KIT inhibitors, which treat clonal disease,
+        and every supplement — is grouped separately rather than being ranked against it.
+      </p>
+    </div>
+    <ol class="mt-3 space-y-1 text-sm">
+      {
+        TREATMENT_STEPS.map((step: TreatmentStep) => (
+          <li>
+            <strong>{step}. {TREATMENT_STEP_INFO[step].label}</strong>
+            <span style="color: var(--text-muted);"> — {TREATMENT_STEP_INFO[step].described}</span>
+          </li>
+        ))
+      }
+    </ol>
 
     <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
       Approved for, and trials in
@@ -158,6 +270,36 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
       report — because an approval list is exactly the kind of thing that gets written
       from memory, and a wrong one is a false claim about what a regulator decided.
     </p>
+  </section>
+
+  <section class="mt-10 scroll-mt-6" id="specialist-use">
+    <h2 class="font-serif text-2xl font-semibold">Documented specialist use</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        <span class="badge badge-specialist">Documented specialist use</span>{' '}
+        means a durable source documents that a named clinician-researcher used or
+        discussed the treatment in their own MCAS practice. This can surface emerging
+        options before controlled trials exist, but it is not proof of efficacy, a
+        regulatory approval, a guideline recommendation, or professional consensus.
+      </p>
+      <p>
+        The build requires each tag to name the clinician, identify the kind of
+        first-party source, and point to an exact URL already present in that entry's
+        citations. Drug labels and trial registries cannot support the tag.
+      </p>
+    </div>
+    <dl class="mt-4 space-y-3">
+      {
+        SPECIALIST_USE_BASES.map((basis: SpecialistUseBasis) => (
+          <div class="text-sm">
+            <dt class="font-semibold">{SPECIALIST_USE_BASIS_INFO[basis].label}</dt>
+            <dd style="color: var(--text-muted);">
+              {SPECIALIST_USE_BASIS_INFO[basis].definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
   </section>
 
   <section class="mt-10" id="limits">

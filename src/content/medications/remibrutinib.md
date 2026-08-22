@@ -4,6 +4,8 @@ aliases: ["Rhapsido", "LOU064"]
 summary: Bruton tyrosine kinase inhibitor studied in cultured human mast cells and approved by the FDA for chronic spontaneous urticaria.
 mechanismClass: Bruton tyrosine kinase inhibitor
 mastCellBasis: laboratory
+studyDesigns:
+  - in-vitro
 establishedFor:
   - condition: "chronic spontaneous urticaria"
     basis: approved-us
@@ -13,8 +15,8 @@ evidenceLimits: >
   No clinical outcomes in MCAS support this entry. The mast-cell study exposed cultured human cells to IgE cross-linking or serum from people with chronic urticaria; it was not a trial in people taking remibrutinib. The randomised trials and FDA indication concern chronic spontaneous urticaria, not MCAS. BTK is also expressed in other immune cells and thrombocytes, so the mechanism is not mast-cell-specific; the current label carries a bleeding warning.
 regulatory: approved-us-other
 citations:
-  - title: "Rhapsido (remibrutinib) US prescribing information"
-    url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/218436s000lbl.pdf"
+  - title: "Rhapsido (remibrutinib) current US prescribing information"
+    url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e5e89bff-6ced-4165-acc5-fb13136b3a3d"
     sourceType: drug-label
     year: 2025
     accessed: 2026-08-21

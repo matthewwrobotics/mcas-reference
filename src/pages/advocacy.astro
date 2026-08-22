@@ -2,6 +2,11 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CitationList from '../components/CitationList.astro';
+import {
+  TREATMENT_STEPS,
+  TREATMENT_STEP_INFO,
+  type TreatmentStep,
+} from '../lib/vocab';
 import { href } from '../lib/paths';
 
 const labs = await getCollection('labs');
@@ -39,39 +44,17 @@ const grouped = ROLES.map((r) => ({
   items: labs.filter((l) => l.data.role === r.key),
 })).filter((g) => g.items.length > 0);
 
-// The step classes, keyed to the mechanism classes already on the site so the
-// links carry each entry's evidence with them.
-const STEPS = [
-  {
-    n: 1,
-    label: 'H1 antihistamines',
-    match: (c: string) => /H1 antihistamine/i.test(c),
-    note: 'Blocks histamine at the H1 receptor. The conventional first step.',
-  },
-  {
-    n: 2,
-    label: 'H2 antihistamines',
-    match: (c: string) => /H2 antihistamine/i.test(c),
-    note: 'Covers histamine effects that H1 blockade leaves untouched.',
-  },
-  {
-    n: 3,
-    label: 'Mast cell stabilisers',
-    match: (c: string) => /stabiliser/i.test(c),
-    note: 'Acts on the cell rather than the mediator. Includes the one oral drug carrying a US mast cell disease label.',
-  },
-  {
-    n: 4,
-    label: 'Leukotriene blockers',
-    match: (c: string) => /leukotriene/i.test(c),
-    note: 'Leukotrienes are mast cell mediators that antihistamines do not touch at all.',
-  },
-];
-
-const steps = STEPS.map((s) => ({
-  ...s,
-  entries: medications.filter((m) => s.match(m.data.mechanismClass)),
-})).filter((s) => s.entries.length > 0);
+// Steps come from the entries themselves rather than being matched by regex on
+// mechanism class, so this page and /medications cannot disagree about where a
+// treatment sits in the sequence.
+const steps = (TREATMENT_STEPS as readonly TreatmentStep[])
+  .map((step) => ({
+    n: step,
+    label: TREATMENT_STEP_INFO[step].label,
+    note: TREATMENT_STEP_INFO[step].described,
+    entries: medications.filter((m) => m.data.treatmentStep === step),
+  }))
+  .filter((s) => s.entries.length > 0);
 
 // Every distinct source used on this page, listed once at the foot.
 const allCitations = [...labs.flatMap((l) => l.data.citations)];

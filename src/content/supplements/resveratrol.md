@@ -4,6 +4,8 @@ aliases: ["trans-resveratrol"]
 summary: Stilbene polyphenol studied in primary human intestinal and skin mast cells; laboratory effects differed by tissue, mediator, and exposure.
 mechanismClass: Stilbene polyphenol
 mastCellBasis: laboratory
+studyDesigns:
+  - in-vitro
 establishedFor: []
 evidenceLimits: >
   No human outcome study in MCAS supports this entry. Both cited papers exposed isolated mast cells outside the body. In the skin study, lower experimental exposures reduced prostaglandin D2 production without reducing degranulation and increased TNF production; broader suppression appeared only at the highest exposure. That mixed, concentration-dependent pattern and the gap between cell-culture exposure and oral supplementation prevent a clinical conclusion.

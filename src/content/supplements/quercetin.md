@@ -4,6 +4,8 @@ aliases: ["3,3',4',5,7-pentahydroxyflavone"]
 summary: Dietary flavonoid reported to inhibit mast cell mediator release in laboratory models; human outcome data in MCAS are absent.
 mechanismClass: Flavonoid
 mastCellBasis: laboratory
+studyDesigns:
+  - in-vitro
 establishedFor: []
 evidenceLimits: >
   No human outcome data in MCAS, or in any condition, supports this entry. The evidence is cell and animal work: quercetin reduces calcium influx and mediator release in cultured mast cells. The exposure gap matters — in the LAD2 human mast cell line the effect comparable to dexamethasone required concentrations above 100 micromolar, and quercetin's oral absorption is poor and not reliably dose-related, which is why the recent literature is preoccupied with reformulation rather than with the plain compound.

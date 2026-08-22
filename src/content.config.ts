@@ -6,6 +6,9 @@ import {
   CITATION_SOURCE_TYPES,
   ESTABLISHED_BASIS,
   MAST_CELL_BASIS,
+  SPECIALIST_USE_BASES,
+  STUDY_DESIGNS,
+  TRIAL_PHASES,
   QUALIFYING_CITATION_TYPES,
   FOOD_FORMS,
   RATING_AXES,
@@ -38,9 +41,21 @@ const citation = z.object({
 
 const trial = z.object({
   nctId: z.string().regex(/^NCT\d{8}$/),
+  phase: z.enum(TRIAL_PHASES),
   status: z.enum(TRIAL_STATUSES),
   /** Registry or sponsor only — see TRIAL_STATUS_SOURCES. */
   statusSource: z.enum(TRIAL_STATUS_SOURCES),
+  /** What the trial studied, which is often not MCAS. */
+  condition: z.string().min(1).max(120),
+  /**
+   * Participants, and whether that is the number reached or merely planned.
+   * The distinction is the point: a trial carrying an estimate and a status of
+   * "unknown" never reported what actually happened.
+   */
+  enrolment: z.object({
+    count: z.number().int().min(0),
+    basis: z.enum(['actual', 'estimated']),
+  }),
   verified: z.coerce.date(),
 });
 
@@ -53,6 +68,13 @@ const established = z.object({
   basis: z.enum(ESTABLISHED_BASIS),
 });
 
+const specialistUse = z.object({
+  basis: z.enum(SPECIALIST_USE_BASES),
+  clinicians: z.array(z.string().min(3).max(100)).min(1),
+  /** Must match a citation URL on this entry so the tag is source-auditable. */
+  sourceUrl: z.url(),
+});
+
 /**
  * Fields shared by medications and supplements. The two collections are
  * separate so they can be browsed separately, but they answer to the same bar.
@@ -63,10 +85,18 @@ const treatmentBase = z.object({
   /** One line, shown on index pages. Describes the class, not the benefit. */
   summary: z.string().min(1).max(200),
   mechanismClass: z.string().min(1),
-  /** How directly this has been studied in mast cells. Also the sort key. */
+  /** How directly this has been studied in mast cells. */
   mastCellBasis: z.enum(MAST_CELL_BASIS),
+  /** What kinds of study were actually done. Drives the derived grade. */
+  studyDesigns: z.array(z.enum(STUDY_DESIGNS)).min(1),
+  /** Position in the sequence described by PMC12639879, where it appears. */
+  treatmentStep: z
+    .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7), z.literal(8)])
+    .optional(),
   /** Conditions it is approved or trialled for. Empty is a real answer. */
   establishedFor: z.array(established).default([]),
+  /** Documented clinical-practice use, kept separate from study evidence. */
+  specialistUse: z.array(specialistUse).default([]),
   /**
    * What this evidence cannot establish, in plain prose. Replaces an earlier
    * ordinal "confound risk: high" score, which several readers took to mean the
@@ -75,7 +105,7 @@ const treatmentBase = z.object({
   evidenceLimits: z.string().min(1),
   regulatory: z.enum(REGULATORY_STATUSES),
   offLabelRationale: z.string().min(1).optional(),
-  trial: trial.optional(),
+  trials: z.array(trial).default([]),
   citations: z.array(citation).min(1),
   lastVerified: z.coerce.date(),
   draft: z.boolean().default(false),
@@ -106,6 +136,32 @@ function applyPolicy(
         `Organization pages and preprints do not clear it on their own.`,
     });
   }
+
+  // A specialist-use tag is a sourced practice signal, not a credential claim
+  // written from memory. The cited URL must appear in the entry's source list,
+  // and a regulator label or registry record cannot document a clinician's use.
+  entry.specialistUse.forEach((signal, i) => {
+    const source = entry.citations.find((c) => c.url === signal.sourceUrl);
+    if (!source) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['specialistUse', i, 'sourceUrl'],
+        message:
+          `"${entry.name}" claims documented specialist use but the source URL is not ` +
+          `present in citations. Add and verify the source, or remove the tag.`,
+      });
+      return;
+    }
+    if (source.sourceType === 'drug-label' || source.sourceType === 'trial-registry') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['specialistUse', i, 'sourceUrl'],
+        message:
+          `"${entry.name}" uses a ${source.sourceType} to support specialist use. ` +
+          `Use an authored report, guidance source, or first-party recording.`,
+      });
+    }
+  });
 
   // 2. Every claimed approval must be backed by a drug label on this page.
   //    Approval lists are exactly the sort of thing written from memory, and a
@@ -149,25 +205,50 @@ function applyPolicy(
   }
 
   // 5. A trial status is only as good as the day it was checked.
-  if (entry.trial) {
-    const ageDays = (Date.now() - entry.trial.verified.getTime()) / DAY_MS;
+  entry.trials.forEach((t, i) => {
+    const ageDays = (Date.now() - t.verified.getTime()) / DAY_MS;
     if (ageDays > TRIAL_STATUS_MAX_AGE_DAYS) {
       ctx.addIssue({
         code: 'custom',
-        path: ['trial', 'verified'],
+        path: ['trials', i, 'verified'],
         message:
-          `"${entry.name}" carries a trial status last verified ${Math.round(ageDays)} ` +
-          `days ago (limit ${TRIAL_STATUS_MAX_AGE_DAYS}). Re-check ${entry.trial.nctId} ` +
-          `on ClinicalTrials.gov and update \`verified\`, or remove the trial block.`,
+          `"${entry.name}" carries a status for ${t.nctId} last verified ` +
+          `${Math.round(ageDays)} days ago (limit ${TRIAL_STATUS_MAX_AGE_DAYS}). Re-check ` +
+          `it on ClinicalTrials.gov, or remove the record.`,
       });
     }
     if (ageDays < 0) {
       ctx.addIssue({
         code: 'custom',
-        path: ['trial', 'verified'],
-        message: `"${entry.name}" has a trial verified date in the future.`,
+        path: ['trials', i, 'verified'],
+        message: `"${entry.name}" has a verified date in the future for ${t.nctId}.`,
       });
     }
+  });
+
+  // 6. Study design and population must agree. An entry studied in patients
+  //    cannot be supported only by cell culture, and one whose evidence is a
+  //    dish cannot claim patients.
+  const humanDesigns = ['randomised-controlled', 'cohort', 'case-series', 'case-report'];
+  const inPatients = entry.mastCellBasis === 'mcas-patients' || entry.mastCellBasis === 'mast-cell-disease';
+  const hasHuman = entry.studyDesigns.some((d) => humanDesigns.includes(d));
+  if (inPatients && !hasHuman) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['studyDesigns'],
+      message:
+        `"${entry.name}" is recorded as studied in patients, but every listed study ` +
+        `design is preclinical. One of them is wrong.`,
+    });
+  }
+  if (entry.mastCellBasis === 'laboratory' && hasHuman) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['studyDesigns'],
+      message:
+        `"${entry.name}" is recorded as laboratory-only but lists a human study ` +
+        `design. If people were studied, mastCellBasis should say so.`,
+    });
   }
 }
 

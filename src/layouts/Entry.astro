@@ -2,10 +2,12 @@
 import Base from './Base.astro';
 import EvidenceRows from '../components/EvidenceRows.astro';
 import EvidenceLimits from '../components/EvidenceLimits.astro';
-import TrialStatus from '../components/TrialStatus.astro';
+import TrialList from '../components/TrialList.astro';
+import GradeBadge from '../components/GradeBadge.astro';
 import CitationList from '../components/CitationList.astro';
 import LastVerified from '../components/LastVerified.astro';
-import { MAST_CELL_BASIS_INFO } from '../lib/vocab';
+import { MAST_CELL_BASIS_INFO, TREATMENT_STEP_INFO } from '../lib/vocab';
+import { relevanceGrade } from '../lib/derive';
 import { href } from '../lib/paths';
 
 interface Props {
@@ -28,15 +30,34 @@ const basisInfo = MAST_CELL_BASIS_INFO[d.mastCellBasis as keyof typeof MAST_CELL
     </p>
     <p class="mt-3 max-w-prose text-lg" style="color: var(--text-muted);">{d.summary}</p>
 
+    <p class="mt-4">
+      <GradeBadge
+        grade={relevanceGrade(d)}
+        approved={d.establishedFor.some((e: any) => e.basis.startsWith('approved'))}
+      />
+    </p>
+
     <EvidenceRows
       basis={d.mastCellBasis}
+      studyDesigns={d.studyDesigns}
       establishedFor={d.establishedFor}
+      specialistUse={d.specialistUse}
       regulatory={d.regulatory}
     />
 
     <p class="mt-4 max-w-prose text-sm" style="color: var(--text-faint);">
       <strong style="color: var(--text-muted);">What “studied in” means here:</strong>
       {basisInfo.definition}
+      {
+        d.treatmentStep && (
+          <span>
+            {' '}A 2025 practical-management review places this at step
+            {' '}{d.treatmentStep} of the sequence it describes —
+            {' '}{TREATMENT_STEP_INFO[d.treatmentStep as 1].described}. That is what the
+            review reports, not a recommendation from this site.
+          </span>
+        )
+      }
     </p>
   </header>
 
@@ -70,16 +91,7 @@ const basisInfo = MAST_CELL_BASIS_INFO[d.mastCellBasis as keyof typeof MAST_CELL
 
     <aside class="space-y-4">
       {d.evidenceLimits && <EvidenceLimits text={d.evidenceLimits} />}
-      {
-        d.trial && (
-          <TrialStatus
-            nctId={d.trial.nctId}
-            status={d.trial.status}
-            statusSource={d.trial.statusSource}
-            verified={d.trial.verified}
-          />
-        )
-      }
+      {d.trials.length > 0 && <TrialList trials={d.trials} />}
       <div class="card p-4 text-sm" style="color: var(--text-muted);">
         <h2 class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
           What this page does not say

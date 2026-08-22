@@ -10,8 +10,11 @@
 import {
   AGING_AFTER_DAYS,
   MAST_CELL_BASIS_RANK,
-  STALE_AFTER_DAYS,
+  RELEVANCE_GRADE_RANK,
   type MastCellBasis,
+  type RelevanceGrade,
+  type StudyDesign,
+  STALE_AFTER_DAYS,
   type Rating,
   type RatingAxis,
 } from './vocab';
@@ -172,4 +175,40 @@ export function formatDate(date: Date): string {
     year: 'numeric',
     timeZone: 'UTC',
   }).format(date);
+}
+
+/**
+ * The at-a-glance grade, computed from the entry rather than authored on it.
+ *
+ * Grades the strongest design done *in mast cells*. An approval elsewhere is a
+ * separate fact and deliberately does not feed in here — otherwise famotidine
+ * would grade top for heartburn and aspirin for minor aches, which is how the
+ * previous grade lost its meaning.
+ */
+export function relevanceGrade(entry: {
+  mastCellBasis: MastCellBasis;
+  studyDesigns: readonly StudyDesign[];
+}): RelevanceGrade {
+  // Acting downstream of the cell means nothing was studied in mast cells,
+  // whatever designs the entry lists for its other evidence.
+  if (entry.mastCellBasis === 'downstream') return 'none';
+
+  const d = entry.studyDesigns;
+  if (d.includes('randomised-controlled')) return 'randomised';
+  if (d.includes('cohort') || d.includes('case-series') || d.includes('case-report')) {
+    return 'human-observational';
+  }
+  if (d.includes('in-vitro')) return 'in-vitro';
+  if (d.includes('animal')) return 'animal';
+  return 'none';
+}
+
+/** Strongest grade first, then alphabetically. */
+export function byGradeThenName<T extends {
+  mastCellBasis: MastCellBasis;
+  studyDesigns: readonly StudyDesign[];
+  name: string;
+}>(a: T, b: T): number {
+  const d = RELEVANCE_GRADE_RANK[relevanceGrade(a)] - RELEVANCE_GRADE_RANK[relevanceGrade(b)];
+  return d !== 0 ? d : a.name.localeCompare(b.name);
 }

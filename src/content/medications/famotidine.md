@@ -4,6 +4,9 @@ aliases: ["Pepcid"]
 summary: H2 antihistamine; blocks the histamine H2 receptor, the principal mediator of gastric acid secretion.
 mechanismClass: H2 antihistamine
 mastCellBasis: downstream
+studyDesigns:
+  - randomised-controlled
+treatmentStep: 2
 establishedFor:
   - condition: "heartburn from acid indigestion"
     basis: approved-us

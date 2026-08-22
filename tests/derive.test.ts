@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   axisGroups,
+  relevanceGrade,
+  byGradeThenName,
   byEvidenceThenName,
   consensusRating,
   daysSince,
@@ -171,6 +173,37 @@ describe('byEvidenceThenName', () => {
       { mastCellBasis: 'downstream' as const, name: 'Famotidine' },
       { mastCellBasis: 'laboratory' as const, name: 'Quercetin' },
     ].sort(byEvidenceThenName);
+    expect(sorted[0]!.name).toBe('Quercetin');
+  });
+});
+
+describe('relevanceGrade', () => {
+  it('grades on the strongest design done in mast cells', () => {
+    expect(relevanceGrade({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['randomised-controlled'] })).toBe('randomised');
+    expect(relevanceGrade({ mastCellBasis: 'mcas-patients', studyDesigns: ['case-series'] })).toBe('human-observational');
+    expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['in-vitro'] })).toBe('in-vitro');
+    expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['animal'] })).toBe('animal');
+  });
+
+  it('returns none for anything acting downstream, whatever designs it lists', () => {
+    // Famotidine has a randomised trial — in acute urticaria, not in mast
+    // cells. Letting that count is how the previous grade became meaningless.
+    expect(
+      relevanceGrade({ mastCellBasis: 'downstream', studyDesigns: ['randomised-controlled'] }),
+    ).toBe('none');
+  });
+
+  it('takes the strongest design when several are present', () => {
+    expect(
+      relevanceGrade({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['in-vitro', 'randomised-controlled'] }),
+    ).toBe('randomised');
+  });
+
+  it('ranks human in vitro above an animal model', () => {
+    const sorted = [
+      { mastCellBasis: 'laboratory' as const, studyDesigns: ['animal' as const], name: 'PEA' },
+      { mastCellBasis: 'laboratory' as const, studyDesigns: ['in-vitro' as const], name: 'Quercetin' },
+    ].sort(byGradeThenName);
     expect(sorted[0]!.name).toBe('Quercetin');
   });
 });
