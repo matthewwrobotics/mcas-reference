@@ -3,16 +3,13 @@ name: Montelukast
 aliases: ["Singulair"]
 summary: Cysteinyl leukotriene receptor antagonist; blocks a mast cell mediator class that antihistamines do not address.
 mechanismClass: Leukotriene receptor antagonist
-evidenceTier: observational
+directEvidence: none
+otherEvidence:
+  design: randomized
+  context: asthma and allergic rhinitis
+evidenceLimits: >
+  No controlled evidence in MCAS. Its use here is a mechanistic argument — leukotrienes are mast cell mediators that antihistamines leave unopposed — supported by consensus management reviews rather than by trials in this population. Note separately that montelukast carries a US boxed warning for neuropsychiatric events; that is a labelled safety fact, not a comment on the strength of the evidence.
 regulatory: approved-us-other
-confoundRisk:
-  level: moderate
-  note: >
-    Use in mast cell disease rests on mechanistic rationale and consensus
-    management reviews rather than controlled trials in this population, and it
-    is typically layered onto an existing antihistamine regimen. Note also that
-    montelukast carries a US boxed warning for neuropsychiatric events, which is
-    a labelled safety consideration rather than an efficacy question.
 citations:
   - title: "Leukotriene Receptor Antagonists"
     url: "https://pubmed.ncbi.nlm.nih.gov/31644022/"

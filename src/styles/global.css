@@ -171,11 +171,18 @@ a.badge:hover { border-color: currentColor; }
   border-color: var(--border);
 }
 
-.tier-rct-mcas { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
-.tier-rct-adjacent { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
-.tier-observational { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
-.tier-case-report { background: var(--tier-case-report-bg); color: var(--tier-case-report-fg); }
-.tier-mechanistic { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
+.direct-randomized { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
+.direct-observational { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
+.direct-case-report { background: var(--tier-case-report-bg); color: var(--tier-case-report-fg); }
+.direct-none { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
+
+/* Evidence from outside MCAS. Outlined rather than filled, so it reads as a
+   qualifier on the badge beside it rather than as a competing grade. */
+.badge-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
 
 .stale-fresh { background: var(--bg-sunken); color: var(--text-muted); }
 .stale-aging { background: var(--aging-bg); color: var(--aging-fg); }
@@ -422,7 +429,7 @@ a.badge:hover { border-color: currentColor; }
 .sheet-block h3 { font-size: 1.05rem; font-weight: 650; }
 .sheet-block-class { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-faint); }
 .sheet-grades { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
-.sheet-confound { margin-top: 0.6rem; font-size: 0.87rem; color: var(--text-muted); }
+.sheet-limits { margin-top: 0.6rem; font-size: 0.87rem; color: var(--text-muted); }
 .sheet-notes-out { margin-top: 0.4rem; white-space: pre-wrap; }
 .sheet-cites { margin-top: 0.6rem; font-size: 0.83rem; }
 .sheet-cites li + li { margin-top: 0.3rem; }

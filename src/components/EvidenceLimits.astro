@@ -1,0 +1,19 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<!--
+  Deliberately plain. This replaced a badge reading "Confound risk: high",
+  which readers took to mean the drug was dangerous rather than that the study
+  design could not support a causal claim. The content is the same warning; the
+  presentation no longer borrows the visual language of a safety alert.
+-->
+<section class="card print-entry p-4 text-sm">
+  <h2 class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+    What this evidence cannot establish
+  </h2>
+  <p class="mt-2 leading-relaxed" style="color: var(--text-muted);">{text}</p>
+</section>

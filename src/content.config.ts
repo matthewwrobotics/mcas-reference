@@ -4,9 +4,8 @@ import { z } from 'astro/zod';
 
 import {
   CITATION_SOURCE_TYPES,
-  CONFOUND_LEVELS,
-  CONFOUND_REQUIRED_TIERS,
-  EVIDENCE_TIERS,
+  DIRECT_EVIDENCE,
+  OTHER_EVIDENCE_DESIGNS,
   QUALIFYING_CITATION_TYPES,
   RATING_AXES,
   RATINGS,
@@ -44,9 +43,16 @@ const trial = z.object({
   verified: z.coerce.date(),
 });
 
-const confoundRisk = z.object({
-  level: z.enum(CONFOUND_LEVELS),
-  note: z.string().min(1),
+/**
+ * Evidence from somewhere other than MCAS: what design, and in what setting.
+ * Kept beside direct evidence rather than merged into it, because "there are
+ * randomised trials, in a different condition" is the single most misread fact
+ * on a page like this.
+ */
+const otherEvidence = z.object({
+  design: z.enum(OTHER_EVIDENCE_DESIGNS),
+  /** The condition or model it comes from, e.g. "chronic spontaneous urticaria". */
+  context: z.string().min(1).max(200),
 });
 
 /**
@@ -59,11 +65,19 @@ const treatmentBase = z.object({
   /** One line, shown on index pages. Describes the class, not the benefit. */
   summary: z.string().min(1).max(200),
   mechanismClass: z.string().min(1),
-  evidenceTier: z.enum(EVIDENCE_TIERS),
+  /** What exists in MCAS itself. */
+  directEvidence: z.enum(DIRECT_EVIDENCE),
+  /** What exists elsewhere, if anything. */
+  otherEvidence: otherEvidence.optional(),
+  /**
+   * What this evidence cannot establish, in plain prose. Replaces an earlier
+   * ordinal "confound risk: high" score, which several readers took to mean the
+   * drug was dangerous rather than that the study design was weak.
+   */
+  evidenceLimits: z.string().min(1).optional(),
   regulatory: z.enum(REGULATORY_STATUSES),
   offLabelRationale: z.string().min(1).optional(),
   trial: trial.optional(),
-  confoundRisk: confoundRisk.optional(),
   citations: z.array(citation).min(1),
   lastVerified: z.coerce.date(),
   draft: z.boolean().default(false),
@@ -95,20 +109,37 @@ function applyPolicy(
     });
   }
 
-  // 2. Uncontrolled evidence in a relapsing-remitting condition never ships
-  //    unflagged — spontaneous remission reads as response.
-  if (
-    (CONFOUND_REQUIRED_TIERS as readonly string[]).includes(entry.evidenceTier) &&
-    !entry.confoundRisk
-  ) {
+  // 2. Anything short of randomised results in MCAS must say what it cannot
+  //    establish. MCAS relapses and remits, so improvement after starting a
+  //    treatment is not evidence the treatment caused it, and an entry that
+  //    does not say so is letting the reader assume otherwise.
+  if (entry.directEvidence !== 'randomized' && !entry.evidenceLimits) {
     ctx.addIssue({
       code: 'custom',
-      path: ['confoundRisk'],
+      path: ['evidenceLimits'],
       message:
-        `"${entry.name}" is tier "${entry.evidenceTier}", so confoundRisk is required. ` +
-        `Uncontrolled evidence in a relapsing-remitting condition cannot be ` +
-        `separated from spontaneous fluctuation, and the entry must say so.`,
+        `"${entry.name}" has direct MCAS evidence of "${entry.directEvidence}", so ` +
+        `evidenceLimits is required: say plainly what this evidence cannot ` +
+        `establish. Describe the study design, not danger — this field is about ` +
+        `what is unknown, not about harm.`,
     });
+  }
+
+  // 5. A randomised badge requires results a reader could actually evaluate.
+  //    A registered protocol, an unreported trial, or one stopped after two
+  //    participants is a fact about a trial, not evidence from one.
+  if (entry.directEvidence === 'randomized') {
+    const hasPrimary = entry.citations.some((c) => c.sourceType === 'peer-reviewed');
+    if (!hasPrimary) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['directEvidence'],
+        message:
+          `"${entry.name}" claims randomised results in MCAS but cites no ` +
+          `peer-reviewed primary report. A registry protocol or a terminated ` +
+          `trial belongs in the trial block, not in evidence strength.`,
+      });
+    }
   }
 
   // 3. "Approved elsewhere" is its own bucket and owes the reader a reason.

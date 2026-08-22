@@ -3,8 +3,10 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import {
   AGING_AFTER_DAYS,
-  EVIDENCE_TIERS,
-  EVIDENCE_TIER_INFO,
+  DIRECT_EVIDENCE,
+  DIRECT_EVIDENCE_INFO,
+  OTHER_EVIDENCE_DESIGNS,
+  OTHER_EVIDENCE_LABELS,
   QUALIFYING_CITATION_TYPES,
   REGULATORY_INFO,
   REGULATORY_STATUSES,
@@ -78,23 +80,63 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
     </div>
   </section>
 
-  <section class="mt-10" id="tiers">
-    <h2 class="font-serif text-2xl font-semibold">Evidence tiers</h2>
-    <p class="prose-body mt-2" style="color: var(--text-muted);">
-      Every entry carries one of these, shown as a badge before the prose rather than
-      buried at the bottom. The ordering is deliberate: the distinction that matters most
-      here is between evidence gathered <em>in this condition</em> and evidence borrowed
-      from a related one.
-    </p>
-    <dl class="mt-5 space-y-4">
+  <section class="mt-10" id="evidence-model">
+    <h2 class="font-serif text-2xl font-semibold">Evidence: two facts, not one grade</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        This site used to give each entry a single evidence tier. That was wrong, and
+        omalizumab is the entry that showed why. It has randomised, placebo-controlled
+        trials behind it — in chronic spontaneous urticaria and in IgE-mediated food
+        allergy. In MCAS itself, the published record is uncontrolled case series. One
+        badge cannot say both. Grading it by its best evidence hid how thin the MCAS
+        record is; grading it by its MCAS evidence hid that real trials exist next door.
+      </p>
+      <p>
+        So every entry now states two things separately, and a third fact —
+        <a href="#regulatory">regulatory status</a> — independently of both:
+      </p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li><strong>Direct MCAS evidence:</strong> what has been studied in this condition.</li>
+        <li><strong>Evidence elsewhere:</strong> what design, and in what condition or model.</li>
+      </ul>
+      <p>
+        Most treatments discussed for MCAS borrow their credibility from the second.
+        Saying so plainly is the single most useful thing this index does.
+      </p>
+    </div>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      Direct MCAS evidence
+    </h3>
+    <dl class="mt-3 space-y-4">
       {
-        EVIDENCE_TIERS.map((tier) => (
-          <div id={`tier-${tier}`} class="card scroll-mt-6 p-4">
+        DIRECT_EVIDENCE.map((level) => (
+          <div id={`direct-${level}`} class="card scroll-mt-6 p-4">
             <dt>
-              <span class:list={['badge', `tier-${tier}`]}>{EVIDENCE_TIER_INFO[tier].label}</span>
+              <span class:list={['badge', `direct-${level}`]}>
+                {DIRECT_EVIDENCE_INFO[level].label}
+              </span>
             </dt>
             <dd class="mt-2 text-sm" style="color: var(--text-muted);">
-              {EVIDENCE_TIER_INFO[tier].definition}
+              {DIRECT_EVIDENCE_INFO[level].definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      Evidence elsewhere
+    </h3>
+    <dl class="mt-3 space-y-2">
+      {
+        OTHER_EVIDENCE_DESIGNS.map((design) => (
+          <div class="text-sm">
+            <dt class="font-semibold">{OTHER_EVIDENCE_LABELS[design]}</dt>
+            <dd style="color: var(--text-muted);">
+              Always shown with the condition or model it comes from, because “randomised
+              trials” means something entirely different in chronic urticaria than it
+              would in MCAS.
             </dd>
           </div>
         ))
@@ -102,8 +144,8 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
     </dl>
   </section>
 
-  <section class="mt-10" id="confound">
-    <h2 class="font-serif text-2xl font-semibold">Confound risk</h2>
+  <section class="mt-10" id="limits">
+    <h2 class="font-serif text-2xl font-semibold">What the evidence cannot establish</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>
         Mast cell activation disease relapses and remits. That single fact makes
@@ -113,10 +155,18 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         to the intervention. Publication then favours the series that improved.
       </p>
       <p>
-        So any entry at the <strong>observational</strong> or <strong>case report</strong>
-        tier is <em>required</em> to carry a confound-risk flag explaining what
-        specifically cannot be ruled out. This is a schema rule: an entry at those tiers
-        without the flag fails the build. It is not possible to quietly ship one.
+        So any entry without randomised results in MCAS must state, in plain prose, what
+        its evidence cannot establish. This is a schema rule: an entry that omits it
+        fails the build. It is not possible to quietly ship one.
+      </p>
+      <p>
+        This replaced an earlier badge that read <em>“Confound risk: high”</em>. That
+        label was a mistake worth describing, because it failed in a direction that
+        matters: readers took it to mean the drug was dangerous, when it meant the study
+        design could not support a causal claim. A patient-facing site that accidentally
+        implies a safety warning has done real harm to the reader's decision-making, so
+        the ordinal score is gone and the same information is now prose under a heading
+        that says what it means.
       </p>
     </div>
   </section>
@@ -165,6 +215,15 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         Every trial status also carries the date it was read. A status older than
         {TRIAL_STATUS_MAX_AGE_DAYS} days fails the build, which forces a re-check rather
         than letting a stale status sit there looking current.
+      </p>
+      <p>
+        A registered trial is also not, by itself, evidence. One masitinib study in MCAS
+        was registered and then stopped updating; a palmitoylethanolamide study
+        terminated after two participants, which cannot estimate an effect of any size.
+        Both are facts about trials, not results from them. The schema enforces the
+        distinction: claiming randomised results in MCAS requires citing a peer-reviewed
+        primary report, so a protocol or an abandoned record cannot earn the strongest
+        badge.
       </p>
     </div>
   </section>

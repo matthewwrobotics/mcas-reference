@@ -3,8 +3,13 @@ name: Palmitoylethanolamide (PEA)
 aliases: ["PEA", "N-palmitoylethanolamine"]
 summary: Endogenous fatty acid amide studied for effects on mast cell and glial activation in neuroinflammation models.
 mechanismClass: Fatty acid amide
-evidenceTier: mechanistic
-regulatory: otc
+directEvidence: none
+otherEvidence:
+  design: laboratory
+  context: neuroinflammation and neuropathic pain models
+evidenceLimits: >
+  No usable human evidence in MCAS. A randomised study in idiopathic MCAS was registered but terminated after two participants, which cannot estimate an effect of any size — a stopped trial is a fact about a trial, not evidence from one. What remains is animal and cell work in neuroinflammation and neuropathic pain models, in which mast cells are one of several named targets.
+regulatory: dietary-supplement
 citations:
   - title: "Glia and mast cells as targets for palmitoylethanolamide, an anti-inflammatory and neuroprotective lipid mediator"
     url: "https://pubmed.ncbi.nlm.nih.gov/23813098/"

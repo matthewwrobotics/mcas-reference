@@ -3,8 +3,13 @@ name: Luteolin
 aliases: ["3',4',5,7-tetrahydroxyflavone"]
 summary: Dietary flavonoid studied alongside quercetin for effects on mast cell mediator release in laboratory models.
 mechanismClass: Flavonoid
-evidenceTier: mechanistic
-regulatory: otc
+directEvidence: none
+otherEvidence:
+  design: laboratory
+  context: cultured human cells and animal models
+evidenceLimits: >
+  Laboratory work only, and much of the most specific data is not even in mast cells — the interleukin and VEGF findings come from cultured keratinocytes. Its described effect on mast cells is characterised in general terms in the polyphenol literature rather than pinned to a defined pathway, which is a weaker claim than the one made for quercetin. No human outcome data in MCAS.
+regulatory: dietary-supplement
 citations:
   - title: "Impact of polyphenols on mast cells with special emphasis on the effect of quercetin and luteolin"
     url: "https://pubmed.ncbi.nlm.nih.gov/30799996/"

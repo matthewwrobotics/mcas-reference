@@ -3,7 +3,12 @@ name: Cromolyn sodium
 aliases: ["Cromoglicic acid", "Sodium cromoglycate", "Gastrocrom"]
 summary: Mast cell stabiliser; the original member of the class and the only oral formulation carrying a US mast cell disease label.
 mechanismClass: Mast cell stabiliser
-evidenceTier: rct-adjacent
+directEvidence: none
+otherEvidence:
+  design: randomized
+  context: systemic mastocytosis
+evidenceLimits: >
+  Nothing randomised in MCAS. The controlled evidence is in systemic mastocytosis and reaches this entry through review articles rather than through the primary trial reports, which have not yet been cited here directly — a gap worth closing. Oral cromolyn is also minimally absorbed, so evidence for gastrointestinal effect does not imply a systemic one.
 regulatory: approved-us-other
 citations:
   - title: "Mast cell stabilisers"

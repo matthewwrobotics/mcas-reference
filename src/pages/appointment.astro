@@ -2,7 +2,12 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import AppointmentBuilder, { type SheetItem } from '../components/AppointmentBuilder';
-import { EVIDENCE_TIER_INFO, REGULATORY_INFO, TRIAL_STATUS_LABELS } from '../lib/vocab';
+import {
+  DIRECT_EVIDENCE_INFO,
+  OTHER_EVIDENCE_LABELS,
+  REGULATORY_INFO,
+  TRIAL_STATUS_LABELS,
+} from '../lib/vocab';
 import { byEvidenceThenName } from '../lib/derive';
 
 const toItems = (entries: any[], section: string): SheetItem[] =>
@@ -13,10 +18,14 @@ const toItems = (entries: any[], section: string): SheetItem[] =>
       section,
       name: e.data.name,
       mechanismClass: e.data.mechanismClass,
-      tier: e.data.evidenceTier,
-      tierLabel: EVIDENCE_TIER_INFO[e.data.evidenceTier as keyof typeof EVIDENCE_TIER_INFO].label,
+      tier: e.data.directEvidence,
+      tierLabel:
+        DIRECT_EVIDENCE_INFO[e.data.directEvidence as keyof typeof DIRECT_EVIDENCE_INFO].label,
+      otherEvidence: e.data.otherEvidence
+        ? `${OTHER_EVIDENCE_LABELS[e.data.otherEvidence.design as keyof typeof OTHER_EVIDENCE_LABELS]} — ${e.data.otherEvidence.context}`
+        : undefined,
       regulatoryLabel: REGULATORY_INFO[e.data.regulatory as keyof typeof REGULATORY_INFO].label,
-      confound: e.data.confoundRisk?.note,
+      evidenceLimits: e.data.evidenceLimits,
       trial: e.data.trial
         ? {
             nctId: e.data.trial.nctId,
@@ -51,9 +60,10 @@ const items: SheetItem[] = [
         check, already sourced, so the conversation starts further along.
       </p>
       <p>
-        Everything printed carries its evidence tier, including the weak ones. A sheet
-        that presented mechanistic laboratory findings as though they were trial results
-        would be worse than no sheet at all.
+        Everything printed carries two separate facts: what has been studied in MCAS
+        itself, and what has been studied elsewhere. Keeping them apart is the point. A
+        sheet that let randomised trials in another condition stand in for evidence in
+        this one would be worse than no sheet at all.
       </p>
     </div>
   </div>

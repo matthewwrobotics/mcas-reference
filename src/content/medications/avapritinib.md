@@ -3,7 +3,12 @@ name: Avapritinib
 aliases: ["Ayvakit", "BLU-285"]
 summary: Selective KIT D816V inhibitor; the first agent in mast cell disease supported by a placebo-controlled randomised trial.
 mechanismClass: Selective tyrosine kinase inhibitor (KIT D816V)
-evidenceTier: rct-adjacent
+directEvidence: none
+otherEvidence:
+  design: randomized
+  context: indolent systemic mastocytosis
+evidenceLimits: >
+  Nothing has been published in MCAS. The randomised evidence is in indolent systemic mastocytosis — a clonal disease defined by the KIT D816V mutation this drug was designed to inhibit. MCAS is by definition not that disease, so the trial does not transfer: the mechanism the trial demonstrates is one MCAS patients are not established to have.
 regulatory: approved-us-other
 trial:
   nctId: NCT03731260

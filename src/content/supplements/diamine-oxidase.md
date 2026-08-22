@@ -3,18 +3,13 @@ name: Diamine oxidase (DAO)
 aliases: ["DAO enzyme supplement", "Histaminase"]
 summary: Oral enzyme supplement intended to degrade histamine in the intestinal lumen before absorption.
 mechanismClass: Enzyme supplement
-evidenceTier: observational
-regulatory: otc
-confoundRisk:
-  level: high
-  note: >
-    Histamine intolerance is itself difficult to diagnose, with no accepted
-    confirmatory test — the reviews describe a good response to a low-histamine
-    diet as the de facto criterion, which makes the diagnosis and the treatment
-    response the same observation. Supplementation is also usually begun
-    alongside dietary change, so the two cannot be separated. Applied to MCAS
-    rather than to histamine intolerance, the inferential distance is larger
-    still.
+directEvidence: none
+otherEvidence:
+  design: observational
+  context: histamine intolerance
+evidenceLimits: >
+  Nothing in MCAS. The supporting studies are in histamine intolerance, a separate condition, and are open-label rather than placebo-controlled. Diagnosing histamine intolerance is itself unsettled — the reviews treat a good response to a low-histamine diet as the working criterion, which makes the diagnosis and the treatment response the same observation. Supplementation also usually begins alongside dietary change. Note too that serum DAO is not established to reflect DAO activity in the gut, and reduced DAO may be a marker of mucosal damage rather than a primary cause.
+regulatory: dietary-supplement
 citations:
   - title: "Histamine Intolerance-The More We Know the Less We Know. A Review"
     url: "https://pubmed.ncbi.nlm.nih.gov/34209583/"

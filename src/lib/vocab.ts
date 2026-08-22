@@ -7,58 +7,74 @@
  * tier's meaning changes, it changes in one place and the site stays honest.
  */
 
-export const EVIDENCE_TIERS = [
-  'rct-mcas',
-  'rct-adjacent',
+/**
+ * Evidence is recorded as two separate facts, not one ordinal badge.
+ *
+ * A single tier cannot describe omalizumab honestly: it has randomised
+ * placebo-controlled trials in chronic urticaria and food allergy, and only
+ * uncontrolled case series in MCAS itself. Calling it "RCT-adjacent" hides how
+ * thin the MCAS evidence is; calling it "observational" hides that real trials
+ * exist next door. Both facts matter, and they are different questions, so the
+ * site answers them separately and lets the reader weigh them.
+ */
+export const DIRECT_EVIDENCE = [
+  'randomized',
   'observational',
   'case-report',
-  'mechanistic',
+  'none',
 ] as const;
-export type EvidenceTier = (typeof EVIDENCE_TIERS)[number];
+export type DirectEvidence = (typeof DIRECT_EVIDENCE)[number];
 
-export const EVIDENCE_TIER_INFO: Record<
-  EvidenceTier,
+export const DIRECT_EVIDENCE_INFO: Record<
+  DirectEvidence,
   { label: string; short: string; definition: string }
 > = {
-  'rct-mcas': {
-    label: 'RCT in MCAS',
-    short: 'RCT',
+  randomized: {
+    label: 'Randomised results in MCAS',
+    short: 'Randomised',
     definition:
-      'One or more randomized controlled trials enrolling patients with mast cell activation disease.',
-  },
-  'rct-adjacent': {
-    label: 'RCT, adjacent condition',
-    short: 'RCT (adj.)',
-    definition:
-      'One or more randomized controlled trials in a related mast-cell-mediated or allergic condition — systemic mastocytosis, chronic spontaneous urticaria, allergic asthma — but not in MCAS itself.',
+      'A randomised controlled comparison in mast cell activation syndrome with publicly available, evaluable outcome results. A registered protocol, an unreported trial, or a trial stopped before it could estimate an effect does not qualify — those are facts about a trial, not evidence of one.',
   },
   observational: {
-    label: 'Observational',
-    short: 'Obs.',
+    label: 'Observational in MCAS',
+    short: 'Observational',
     definition:
-      'Cohort studies, case series, or retrospective chart review. No randomization and no control arm.',
+      'Cohorts, case series, or retrospective review in MCAS. No randomisation and no control arm, so improvement after starting treatment cannot be separated from the fluctuation of a relapsing-remitting condition.',
   },
   'case-report': {
-    label: 'Case report',
-    short: 'Case',
+    label: 'Case reports in MCAS',
+    short: 'Case reports',
     definition:
-      'One or a small number of individually reported patients.',
+      'One or a small number of individually reported patients with MCAS.',
   },
-  mechanistic: {
-    label: 'Mechanistic only',
-    short: 'Mech.',
+  none: {
+    label: 'No direct MCAS evidence',
+    short: 'None direct',
     definition:
-      'In vitro, animal, or pharmacologic rationale establishing a plausible mechanism. No human outcome data in this population.',
+      'Nothing published in MCAS itself. Whatever supports this entry comes from a related condition or from the laboratory, and is recorded separately.',
   },
 };
 
-/** Index-page sort order: strongest evidence first. */
-export const TIER_RANK: Record<EvidenceTier, number> = {
-  'rct-mcas': 0,
-  'rct-adjacent': 1,
-  observational: 2,
-  'case-report': 3,
-  mechanistic: 4,
+/** Index-page sort order: strongest direct evidence first. */
+export const DIRECT_EVIDENCE_RANK: Record<DirectEvidence, number> = {
+  randomized: 0,
+  observational: 1,
+  'case-report': 2,
+  none: 3,
+};
+
+/** How strong the evidence is somewhere other than MCAS. */
+export const OTHER_EVIDENCE_DESIGNS = [
+  'randomized',
+  'observational',
+  'laboratory',
+] as const;
+export type OtherEvidenceDesign = (typeof OTHER_EVIDENCE_DESIGNS)[number];
+
+export const OTHER_EVIDENCE_LABELS: Record<OtherEvidenceDesign, string> = {
+  randomized: 'Randomised trials',
+  observational: 'Observational studies',
+  laboratory: 'Laboratory models only',
 };
 
 export const REGULATORY_STATUSES = [
@@ -67,6 +83,7 @@ export const REGULATORY_STATUSES = [
   'approved-non-us',
   'investigational',
   'otc',
+  'dietary-supplement',
   'compounded',
   'none',
 ] as const;
@@ -95,8 +112,14 @@ export const REGULATORY_INFO: Record<
     definition: 'In clinical trials; not approved by any regulator.',
   },
   otc: {
-    label: 'Over the counter',
-    definition: 'Available without a prescription in the US.',
+    label: 'Over-the-counter drug',
+    definition:
+      'A non-prescription drug, regulated under an FDA over-the-counter monograph or an approved application. Reserved for drugs; a dietary supplement is a different thing and has its own status below.',
+  },
+  'dietary-supplement': {
+    label: 'US dietary supplement — not FDA-approved as a drug',
+    definition:
+      'Sold as a dietary supplement, which in the US means it does not undergo premarket FDA review for safety or effectiveness. Availability and approval are separate axes, and being easy to buy says nothing about either.',
   },
   compounded: {
     label: 'Compounded',
@@ -190,15 +213,6 @@ export const QUALIFYING_CITATION_TYPES = [
   'drug-label',
   'reference',
 ] as const satisfies readonly CitationSourceType[];
-
-export const CONFOUND_LEVELS = ['low', 'moderate', 'high'] as const;
-export type ConfoundLevel = (typeof CONFOUND_LEVELS)[number];
-
-/** Tiers whose evidence base cannot rule out confounding on its own. */
-export const CONFOUND_REQUIRED_TIERS = [
-  'observational',
-  'case-report',
-] as const satisfies readonly EvidenceTier[];
 
 export const RATING_AXES = [
   'fodmap',

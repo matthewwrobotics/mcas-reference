@@ -7,8 +7,9 @@ export interface SheetItem {
   mechanismClass: string;
   tier: string;
   tierLabel: string;
+  otherEvidence?: string;
   regulatoryLabel: string;
-  confound?: string;
+  evidenceLimits?: string;
   trial?: { nctId: string; statusLabel: string };
   citations: { title: string; url: string; pmid?: string }[];
 }
@@ -161,17 +162,20 @@ export default function AppointmentBuilder({ items }: Props) {
                   <span className="sheet-block-class">{item.mechanismClass}</span>
                 </h3>
                 <p className="sheet-grades">
-                  <span className={`badge tier-${item.tier}`}>{item.tierLabel}</span>{' '}
+                  <span className={`badge direct-${item.tier}`}>{item.tierLabel}</span>{' '}
                   <span className="badge badge-neutral">{item.regulatoryLabel}</span>{' '}
+                  {item.otherEvidence && (
+                    <span className="badge badge-outline">{item.otherEvidence}</span>
+                  )}{' '}
                   {item.trial && (
                     <span className="badge badge-neutral">
                       {item.trial.nctId}: {item.trial.statusLabel}
                     </span>
                   )}
                 </p>
-                {item.confound && (
-                  <p className="sheet-confound">
-                    <strong>Confound risk:</strong> {item.confound}
+                {item.evidenceLimits && (
+                  <p className="sheet-limits">
+                    <strong>What this evidence cannot establish:</strong> {item.evidenceLimits}
                   </p>
                 )}
                 <ul className="sheet-cites">

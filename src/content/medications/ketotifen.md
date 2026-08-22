@@ -3,7 +3,12 @@ name: Ketotifen
 aliases: ["Zaditen", "Zaditor"]
 summary: H1 antihistamine with additional mast cell stabilising activity; oral formulations are approved outside the US but not by the FDA.
 mechanismClass: H1 antihistamine / mast cell stabiliser
-evidenceTier: observational
+directEvidence: observational
+otherEvidence:
+  design: randomized
+  context: allergic conjunctivitis and asthma
+evidenceLimits: >
+  The human data in MCAS are open-label and uncontrolled. MCAS relapses and remits, so improvement recorded after starting a drug cannot be separated from fluctuation that would have happened anyway. Ketotifen is also usually added to an existing regimen rather than used alone, which confounds attribution further. The randomised evidence concerns other allergic conditions and the ophthalmic or respiratory routes, not systemic use in MCAS.
 regulatory: approved-non-us
 offLabelRationale: >
   Oral ketotifen is approved as an antihistamine in Canada, the UK, and parts of
@@ -12,14 +17,6 @@ offLabelRationale: >
   conjunctivitis; systemic use requires a compounding pharmacy. Entries here
   describe the oral formulation, so a US reader should not assume the
   over-the-counter eye drops are the same intervention.
-confoundRisk:
-  level: high
-  note: >
-    The human data are open-label and uncontrolled. MCAS follows a
-    relapsing-remitting course, so symptom improvement recorded after starting a
-    drug cannot be separated from the spontaneous fluctuation that would have
-    happened anyway. Ketotifen is also frequently added to an existing regimen
-    rather than used alone, which confounds attribution further.
 citations:
   - title: "Mast cell stabilisers"
     url: "https://pubmed.ncbi.nlm.nih.gov/26130122/"

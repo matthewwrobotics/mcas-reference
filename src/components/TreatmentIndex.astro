@@ -24,7 +24,7 @@ const sorted = [...entries].sort((a, b) => byEvidenceThenName(a.data, b.data));
             </a>
           </h2>
           <div class="flex flex-wrap items-center gap-2">
-            <EvidenceBadge tier={entry.data.evidenceTier} short />
+            <EvidenceBadge level={entry.data.directEvidence} short />
             <StatusBadge status={entry.data.regulatory} />
           </div>
         </div>
@@ -33,9 +33,13 @@ const sorted = [...entries].sort((a, b) => byEvidenceThenName(a.data, b.data));
         </p>
         <div class="mt-2.5 flex flex-wrap items-center gap-2">
           <LastVerified date={entry.data.lastVerified} compact />
-          {entry.data.confoundRisk && (
-            <span class="badge" style="background: var(--flag-bg); color: var(--flag-fg);">
-              Confound risk: {entry.data.confoundRisk.level}
+          {entry.data.otherEvidence && (
+            <span class="badge badge-outline">
+              {entry.data.otherEvidence.design === 'randomized'
+                ? 'Randomised trials'
+                : entry.data.otherEvidence.design === 'observational'
+                  ? 'Observational studies'
+                  : 'Laboratory models'} — {entry.data.otherEvidence.context}
             </span>
           )}
           {entry.data.trial?.status === 'unknown' && (

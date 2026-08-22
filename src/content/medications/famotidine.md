@@ -3,15 +3,10 @@ name: Famotidine
 aliases: ["Pepcid"]
 summary: H2 antihistamine; blocks the histamine H2 receptor, the principal mediator of gastric acid secretion.
 mechanismClass: H2 antihistamine
-evidenceTier: observational
+directEvidence: none
+evidenceLimits: >
+  There is no controlled evidence in MCAS, and none in a closely related condition either. This entry rests on a published receptor mechanism and on expert-consensus management reviews. It is also almost always added on top of H1 blockade, so even the uncontrolled reports cannot attribute anything to the H2 agent specifically.
 regulatory: otc
-confoundRisk:
-  level: moderate
-  note: >
-    H2 blockade in mast cell disease is supported by mechanistic rationale and
-    expert-consensus management reviews rather than by controlled trials in this
-    population. It is also almost always added on top of H1 blockade, so any
-    reported benefit cannot be cleanly attributed to the H2 agent.
 citations:
   - title: "Mast Cell Activation Syndrome and Mastocytosis: Initial Treatment Options and Long-Term Management"
     url: "https://pubmed.ncbi.nlm.nih.gov/30961835/"

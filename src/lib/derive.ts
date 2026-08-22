@@ -9,9 +9,9 @@
 
 import {
   AGING_AFTER_DAYS,
+  DIRECT_EVIDENCE_RANK,
   STALE_AFTER_DAYS,
-  TIER_RANK,
-  type EvidenceTier,
+  type DirectEvidence,
   type Rating,
   type RatingAxis,
 } from './vocab';
@@ -149,12 +149,18 @@ export function consensusRating(group: AxisGroup): Rating | undefined {
   return group.distinct.length === 1 ? group.distinct[0] : undefined;
 }
 
-/** Strongest evidence first, then alphabetically. */
-export function byEvidenceThenName<T extends { evidenceTier: EvidenceTier; name: string }>(
+/**
+ * Strongest *direct* MCAS evidence first, then alphabetically.
+ *
+ * Sorting on direct evidence rather than on the best evidence anywhere is a
+ * deliberate choice: a drug with randomised trials in another condition and
+ * nothing in MCAS should not outrank one actually studied in MCAS.
+ */
+export function byEvidenceThenName<T extends { directEvidence: DirectEvidence; name: string }>(
   a: T,
   b: T,
 ): number {
-  const d = TIER_RANK[a.evidenceTier] - TIER_RANK[b.evidenceTier];
+  const d = DIRECT_EVIDENCE_RANK[a.directEvidence] - DIRECT_EVIDENCE_RANK[b.directEvidence];
   return d !== 0 ? d : a.name.localeCompare(b.name);
 }
 

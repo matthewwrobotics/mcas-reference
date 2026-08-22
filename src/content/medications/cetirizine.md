@@ -3,7 +3,12 @@ name: Cetirizine
 aliases: ["Zyrtec"]
 summary: Second-generation H1 antihistamine; blocks the H1 receptor without the sedation profile of first-generation agents.
 mechanismClass: H1 antihistamine
-evidenceTier: rct-adjacent
+directEvidence: none
+otherEvidence:
+  design: randomized
+  context: chronic spontaneous urticaria and allergic rhinitis
+evidenceLimits: >
+  No randomised evidence in MCAS. H1 blockade is the conventional first step in mast cell disease management, but that position rests on mechanism and consensus rather than on trials in this population. What the randomised trials establish is that blocking H1 helps in conditions where histamine drives the symptoms — which is an argument for trying it, not a result in MCAS.
 regulatory: otc
 citations:
   - title: "Mast Cell Activation Syndrome and Mastocytosis: Initial Treatment Options and Long-Term Management"

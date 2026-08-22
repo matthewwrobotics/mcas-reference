@@ -1,113 +1,80 @@
-# Claude handoff: evidence labels and omalizumab
+# Claude handoff: evidence labels and omalizumab — IMPLEMENTED
 
-## What the user wants
+Status: done. Recorded here so the next session does not redo it.
+The living evidence record remains `RESEARCH_HANDOFF.md`.
 
-Simplify the patient-facing evidence labels because **“Confound risk: high”** can
-be mistaken for a medication-safety warning. The user’s preferred direction is
-to remove the confound-risk label entirely, not merely rename it.
+## What was asked, and what shipped
 
-The user also identified that omalizumab (Xolair) appears to be classified
-incorrectly as `observational`. Under this site’s published definition, it
-should be `rct-adjacent`.
+**Remove the `confoundRisk` badge.** Done, and the reasoning was right: readers
+took "Confound risk: high" to mean the drug was dangerous rather than that the
+study design could not support a causal claim. On a patient-facing medical site
+that fails in the worse direction.
 
-No implementation changes have been made yet; this file only records the
-discussion and supporting research.
+The *label* is gone; the *discipline* is not. `confoundRisk {level, note}` was
+replaced by `evidenceLimits`, an unscored prose field rendered under the heading
+"What this evidence cannot establish", in a neutral card with no alert styling
+and no ordinal score. The schema still requires it — now on any entry without
+randomised results in MCAS, which is a wider net than the old rule cast.
 
-The broader ongoing medication/supplement audit and missing-candidate screen is
-in `RESEARCH_HANDOFF.md`. Treat that as the living evidence record; this file is
-the concise UX decision handoff.
+Deleting the requirement outright was the other option on the table and was not
+taken. Uncontrolled evidence shipping unmarked is the specific failure this site
+exists to prevent; the problem was the presentation, not the obligation.
 
-## Recommended editorial changes
+**Reclassify omalizumab.** Done, but not by relabelling it. See below.
 
-1. Remove the public confound-risk badge and its `low` / `moderate` / `high`
-   scale. The evidence tier already communicates study design, while the word
-   “risk” can be misread as danger or adverse-effect risk.
-2. Decide whether to remove `confoundRisk` from the content model entirely or
-   retain unscored, entry-specific evidence limitations in another field. The
-   user favors getting rid of the confusing label entirely.
-3. Reclassify omalizumab from `observational` to `rct-adjacent`.
-4. Keep its regulatory status as `approved-us-other`: Xolair is FDA-approved
-   for other indications, not for MCAS.
-5. Retain the MCAS-specific systematic review as a citation. It accurately
-   documents that the direct MCAS literature is observational, even though the
-   strongest overall tier is adjacent RCT evidence.
-6. Add at least one verified adjacent RCT citation and preferably the current
-   FDA label or approval source to the omalizumab entry.
+## The structural change: evidence is two facts, not one grade
 
-## Why omalizumab qualifies as RCT-adjacent
+`RESEARCH_HANDOFF.md` identified the real problem — a one-dimensional tier
+cannot describe omalizumab honestly. That is now implemented:
 
-The site defines `rct-adjacent` in `src/lib/vocab.ts` as:
+- `directEvidence` — `randomized` / `observational` / `case-report` / `none`,
+  meaning evidence in MCAS itself.
+- `otherEvidence` — optional `{design, context}`, e.g. randomised trials in
+  chronic spontaneous urticaria and IgE-mediated food allergy.
+- `regulatory` — unchanged, still an independent third fact.
 
-> One or more randomized controlled trials in a related mast-cell-mediated or
-> allergic condition — systemic mastocytosis, chronic spontaneous urticaria,
-> allergic asthma — but not in MCAS itself.
+Omalizumab now reads: observational in MCAS; randomised trials in CSU and food
+allergy; FDA-approved for other indications. Index pages sort on *direct*
+evidence, so a drug with trials only in another condition cannot outrank one
+actually studied in MCAS.
 
-Omalizumab has randomized, placebo-controlled evidence in chronic spontaneous
-urticaria and IgE-mediated food allergy. Its FDA approvals and the evidence
-tier are conceptually separate, but the RCTs supporting these related
-indications satisfy the site’s own adjacent-tier definition.
+## Also implemented from RESEARCH_HANDOFF.md
 
-Verified sources:
+- **RCT badges now require evaluable results.** Claiming `directEvidence:
+  randomized` requires citing a peer-reviewed primary report. A registered
+  protocol or a trial terminated after two participants can no longer earn the
+  strongest badge. Verified by probe.
+- **Supplements are no longer `otc`.** New `dietary-supplement` status: "US
+  dietary supplement — not FDA-approved as a drug". `otc` now means a
+  non-prescription *drug*. All four supplements moved.
+- **Masitinib now tracks `NCT05449444`**, the Phase 2 trial in MCAS itself,
+  verified `UNKNOWN` with last update 2023-02-06. The mastocytosis record
+  `NCT04333108` is cited alongside it. Two quiet registry records for one drug
+  is the situation aggregators describe worst.
+- **Omalizumab citations added** after independent verification of every PMID
+  through E-utilities and every FDA URL: 23432142, 25046337, 38407394, plus the
+  current Xolair prescribing information.
+- **Supplement entries rewritten from full text** — the four supplement papers
+  were all open access. Quercetin's entry now names the calcium-influx mechanism
+  and the exposure gap (LAD2 line, above 100 micromolar) rather than gesturing at
+  signalling pathways. DAO's notes that serum DAO is not established to reflect
+  gut DAO activity.
 
-- OUtMATCH food-allergy RCT, PMID 38407394:
-  https://pubmed.ncbi.nlm.nih.gov/38407394/
-- Phase 3 chronic spontaneous urticaria RCT, PMID 23432142:
-  https://pubmed.ncbi.nlm.nih.gov/23432142/
-- ASTERIA I chronic spontaneous urticaria RCT, PMID 25046337:
-  https://pubmed.ncbi.nlm.nih.gov/25046337/
-- FDA’s February 2024 food-allergy approval announcement:
-  https://www.fda.gov/news-events/press-announcements/fda-approves-first-medication-help-reduce-allergic-reactions-multiple-foods-after-accidental
-- Current 2026 FDA Xolair prescribing information:
-  https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/103976s5253lbl.pdf
-- MCAS-specific systematic review already used by the entry, PMID 39741373:
-  https://pubmed.ncbi.nlm.nih.gov/39741373/
+## Still open from RESEARCH_HANDOFF.md
 
-Every PMID, URL, source type, year, and access date must be rechecked before
-editing content. Do not bump `lastVerified` unless the sources have actually
-been opened and reviewed as required by the project methodology.
+Not started, in rough priority order:
 
-## Likely files affected
+1. **Missing pivotal sources** for cromolyn, cetirizine and masitinib — their
+   `otherEvidence` currently rests on review documentation rather than the
+   primary trial reports. Each entry's `evidenceLimits` says so.
+2. **Missing candidates**: aspirin, rupatadine, remibrutinib, barzolvolimab.
+3. **Class-representation rule** before adding near-duplicate H1/H2 drugs.
+4. **Epinephrine** needs a separate emergency-intervention structure, not the
+   chronic-treatment schema.
+5. Supplement candidates: resveratrol, EGCG.
 
-- `src/content/medications/omalizumab.md`
-  - Change `evidenceTier: observational` to `evidenceTier: rct-adjacent`.
-  - Remove `confoundRisk` if that field is being retired, or note that it is no
-    longer required once the tier changes.
-  - Add verified RCT and regulatory citations.
-  - Preserve the distinction between adjacent RCT evidence and observational
-    MCAS-specific evidence.
-- `src/components/ConfoundFlag.astro`
-- `src/components/TreatmentIndex.astro`
-- `src/components/AppointmentBuilder.tsx`
-- `src/pages/appointment.astro`
-- `src/pages/index.astro`
-- `src/pages/methodology.astro`
-- `src/content.config.ts`
-- `src/lib/vocab.ts`
-- `scripts/lint-content.mjs`
-- `src/styles/global.css`
+## Constraints that held
 
-Use `rg -n -i "confound risk|confoundRisk|confound" src scripts` to find the
-complete dependency surface before editing.
-
-## Important project constraints
-
-Read `AGENTS.md` before implementation. In particular:
-
-- Every published methodology rule must match its schema/lint enforcement.
-  Removing the confound rule requires updating both the checks and the
-  `/methodology` page so they do not drift.
-- Do not add dosing information.
-- Do not make efficacy claims. Describe mechanisms, study designs, regulatory
-  facts, and evidence provenance.
-- Never invent a citation.
-- `lastVerified` represents a real source review.
-- Run `npm run validate` after all content or methodology changes.
-
-## Desired patient-facing result for Xolair
-
-- Evidence tier: **RCT, adjacent condition**
-- Regulatory status: **FDA-approved, other indication**
-- No badge that could be interpreted as “Xolair is high risk”
-- Detail text may still explain, without an ordinal risk score, that direct
-  MCAS evidence is observational while related allergic-condition evidence
-  includes randomized controlled trials.
+No dosing. No efficacy claims. Every PMID verified through E-utilities before
+use. `lastVerified` bumped only on entries whose sources were actually reopened
+(omalizumab, masitinib, and the four supplements).

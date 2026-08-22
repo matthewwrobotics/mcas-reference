@@ -145,14 +145,25 @@ describe('consensusRating', () => {
 });
 
 describe('byEvidenceThenName', () => {
-  it('sorts strongest evidence first, then alphabetically within a tier', () => {
+  it('sorts strongest direct evidence first, then alphabetically within a level', () => {
     const sorted = [
-      { evidenceTier: 'mechanistic' as const, name: 'Quercetin' },
-      { evidenceTier: 'rct-mcas' as const, name: 'Zebra' },
-      { evidenceTier: 'rct-adjacent' as const, name: 'Beta' },
-      { evidenceTier: 'rct-adjacent' as const, name: 'Alpha' },
+      { directEvidence: 'none' as const, name: 'Quercetin' },
+      { directEvidence: 'randomized' as const, name: 'Zebra' },
+      { directEvidence: 'observational' as const, name: 'Beta' },
+      { directEvidence: 'observational' as const, name: 'Alpha' },
     ].sort(byEvidenceThenName);
     expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Quercetin']);
+  });
+
+  it('ranks a drug studied in MCAS above one studied only elsewhere', () => {
+    // The whole point of sorting on direct evidence: avapritinib has a
+    // placebo-controlled trial, but in systemic mastocytosis, and must not
+    // outrank something with real MCAS data behind it.
+    const sorted = [
+      { directEvidence: 'none' as const, name: 'Avapritinib' },
+      { directEvidence: 'case-report' as const, name: 'Something studied in MCAS' },
+    ].sort(byEvidenceThenName);
+    expect(sorted[0]!.name).toBe('Something studied in MCAS');
   });
 });
 

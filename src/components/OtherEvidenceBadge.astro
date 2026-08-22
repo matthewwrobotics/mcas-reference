@@ -1,0 +1,19 @@
+---
+import { OTHER_EVIDENCE_LABELS, type OtherEvidenceDesign } from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  design: OtherEvidenceDesign;
+  context: string;
+}
+const { design, context } = Astro.props;
+---
+
+<a
+  class="badge badge-outline"
+  href={href('#evidence-model')}
+  title={`Evidence from outside MCAS: ${OTHER_EVIDENCE_LABELS[design].toLowerCase()} in ${context}`}
+>
+  <span class="sr-only">Evidence outside MCAS:</span>
+  {OTHER_EVIDENCE_LABELS[design]} — {context}
+</a>

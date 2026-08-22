@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
-import { EVIDENCE_TIERS, EVIDENCE_TIER_INFO } from '../lib/vocab';
+import { DIRECT_EVIDENCE, DIRECT_EVIDENCE_INFO } from '../lib/vocab';
 
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
 const supplements = (await getCollection('supplements')).filter((e) => !e.data.draft);
@@ -10,7 +10,8 @@ const foods = await getCollection('foods');
 const resources = await getCollection('resources');
 
 const treatments = [...medications, ...supplements];
-const flagged = treatments.filter((e) => e.data.confoundRisk).length;
+const withOther = treatments.filter((e) => e.data.otherEvidence).length;
+const noDirect = treatments.filter((e) => e.data.directEvidence === 'none').length;
 const citationCount = treatments.reduce((n, e) => n + e.data.citations.length, 0);
 
 const SECTIONS = [
@@ -87,22 +88,25 @@ const SECTIONS = [
   <section class="mt-12 max-w-3xl">
     <h2 class="font-serif text-2xl font-semibold">How to read an entry</h2>
     <p class="prose-body mt-2" style="color: var(--text-muted);">
-      The evidence tier is the first thing on every page, because it changes what the
-      rest of the page means. The distinction that matters most is between evidence
-      gathered in this condition and evidence borrowed from a related one — a randomised
-      trial in systemic mastocytosis is real evidence, but it is not evidence about MCAS.
+      Every entry states two separate things: what has been studied <em>in MCAS</em>, and
+      what has been studied <em>somewhere else</em>. Most treatments discussed for this
+      condition borrow their credibility from the second — {withOther} of
+      {treatments.length} entries here have evidence from a related condition or the
+      laboratory, and {noDirect} have nothing published in MCAS at all. Collapsing those
+      into one grade is how a randomised trial in chronic urticaria comes to sound like
+      a result in MCAS.
     </p>
     <ul class="mt-4 space-y-2">
       {
-        EVIDENCE_TIERS.map((tier) => (
+        DIRECT_EVIDENCE.map((level) => (
           <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
             <a
-              href={href(`/methodology#tier-${tier}`)}
-              class:list={['badge', `tier-${tier}`]}
+              href={href(`/methodology#direct-${level}`)}
+              class:list={['badge', `direct-${level}`]}
             >
-              {EVIDENCE_TIER_INFO[tier].label}
+              {DIRECT_EVIDENCE_INFO[level].label}
             </a>
-            <span style="color: var(--text-muted);">{EVIDENCE_TIER_INFO[tier].definition}</span>
+            <span style="color: var(--text-muted);">{DIRECT_EVIDENCE_INFO[level].definition}</span>
           </li>
         ))
       }
@@ -126,14 +130,15 @@ const SECTIONS = [
       </div>
       <div>
         <dt class="font-semibold" style="color: var(--text);">
-          Let uncontrolled evidence pass unmarked
+          Let borrowed evidence pass as its own
         </dt>
         <dd>
           MCAS relapses and remits, so improvement after starting something is not
-          evidence that the something caused it. Entries resting on uncontrolled data
-          must carry a confound-risk flag explaining what cannot be ruled out —
-          {flagged} of {treatments.length} currently do. The schema rejects any that
-          omit it.
+          evidence that the something caused it. Any entry without randomised results in
+          MCAS must state in plain words what its evidence cannot establish, and the
+          schema rejects any that omits it. A randomised badge additionally requires
+          published, evaluable results — a registered protocol or a trial stopped after
+          two participants is a fact about a trial, not evidence from one.
         </dd>
       </div>
       <div>
