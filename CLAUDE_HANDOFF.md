@@ -1,80 +1,111 @@
-# Claude handoff: evidence labels and omalizumab — IMPLEMENTED
+# Handoff to Codex — 2026-08-22
 
-Status: done. Recorded here so the next session does not redo it.
-The living evidence record remains `RESEARCH_HANDOFF.md`.
+Everything below is committed, deployed, and green: CI, Pages, 85 tests, axe
+clean across nine pages, 724 links checked with zero errors.
 
-## What was asked, and what shipped
+`RESEARCH_HANDOFF.md` and `TREATMENT_CANDIDATE_CATALOG.md` were left untouched
+and uncommitted — they are yours.
 
-**Remove the `confoundRisk` badge.** Done, and the reasoning was right: readers
-took "Confound risk: high" to mean the drug was dangerous rather than that the
-study design could not support a causal claim. On a patient-facing medical site
-that fails in the worse direction.
+## Read this first: the treatment schema changed and will reject your entries
 
-The *label* is gone; the *discipline* is not. `confoundRisk {level, note}` was
-replaced by `evidenceLimits`, an unscored prose field rendered under the heading
-"What this evidence cannot establish", in a neutral card with no alert styling
-and no ordinal score. The schema still requires it — now on any entry without
-randomised results in MCAS, which is a wider net than the old rule cast.
+`studyDesigns` is now **required** on every medication and supplement, `trial`
+became `trials`, and `treatmentStep` was added. Any entry written against the
+old shape fails `astro build`. Current shape:
 
-Deleting the requirement outright was the other option on the table and was not
-taken. Uncontrolled evidence shipping unmarked is the specific failure this site
-exists to prevent; the problem was the presentation, not the obligation.
+```yaml
+name: Cetirizine
+mechanismClass: H1 antihistamine
+mastCellBasis: downstream          # mcas-patients | mast-cell-disease | laboratory | downstream
+studyDesigns:                      # REQUIRED, at least one
+  - randomised-controlled          # | cohort | case-series | case-report | in-vitro | animal
+treatmentStep: 1                   # optional, 1–8, only if in the PMC12639879 sequence
+establishedFor:
+  - condition: "chronic spontaneous urticaria"
+    basis: randomised-trials       # | approved-us | approved-non-us
+evidenceLimits: >                  # REQUIRED
+  ...
+trials:                            # optional list, replaces the old singular `trial`
+  - nctId: NCT05652907
+    phase: "2"                     # 1 | 1/2 | 2 | 2/3 | 3 | 4 | not-applicable
+    status: terminated
+    statusSource: clinicaltrials-gov
+    condition: "mast cell activation syndrome"
+    enrolment:
+      count: 2
+      basis: actual                # | estimated
+    verified: 2026-08-22
+```
 
-**Reclassify omalizumab.** Done, but not by relabelling it. See below.
+Two new refinements will reject contradictions in either direction: a
+`laboratory` entry listing a human design, and a patient-level entry whose
+designs are all preclinical. Both are deliberate — pick the field that is wrong
+rather than working around them.
 
-## The structural change: evidence is two facts, not one grade
+`aspirin.md` and your `remibrutinib.md` label change are now committed. Their
+citations were verified independently first.
 
-`RESEARCH_HANDOFF.md` identified the real problem — a one-dimensional tier
-cannot describe omalizumab honestly. That is now implemented:
+## The grade came back, and why it should stay checked
 
-- `directEvidence` — `randomized` / `observational` / `case-report` / `none`,
-  meaning evidence in MCAS itself.
-- `otherEvidence` — optional `{design, context}`, e.g. randomised trials in
-  chronic spontaneous urticaria and IgE-mediated food allergy.
-- `regulatory` — unchanged, still an independent third fact.
+Evidence grading returned at the site owner's request, over *study design in
+mast cells only*. Grading on evidence anywhere was tested and rejected: it puts
+famotidine top for heartburn and aspirin for minor aches, and bunches 59% on one
+rung. Current spread across 17 entries — randomised 5, in vitro 5, none 4,
+observational 2, animal 1.
 
-Omalizumab now reads: observational in MCAS; randomised trials in CSU and food
-allergy; FDA-approved for other indications. Index pages sort on *direct*
-evidence, so a drug with trials only in another condition cannot outrank one
-actually studied in MCAS.
+`tests/grade-distribution.test.ts` fails if any rung exceeds 60% or if fewer
+than four rungs are used. That guard exists because the *previous* grade was
+removed for having no variance. If your additions collapse it, the grade needs
+rethinking rather than the test loosening.
 
-## Also implemented from RESEARCH_HANDOFF.md
+## What shipped from your handoffs
 
-- **RCT badges now require evaluable results.** Claiming `directEvidence:
-  randomized` requires citing a peer-reviewed primary report. A registered
-  protocol or a trial terminated after two participants can no longer earn the
-  strongest badge. Verified by probe.
-- **Supplements are no longer `otc`.** New `dietary-supplement` status: "US
-  dietary supplement — not FDA-approved as a drug". `otc` now means a
-  non-prescription *drug*. All four supplements moved.
-- **Masitinib now tracks `NCT05449444`**, the Phase 2 trial in MCAS itself,
-  verified `UNKNOWN` with last update 2023-02-06. The mastocytosis record
-  `NCT04333108` is cited alongside it. Two quiet registry records for one drug
-  is the situation aggregators describe worst.
-- **Omalizumab citations added** after independent verification of every PMID
-  through E-utilities and every FDA URL: 23432142, 25046337, 38407394, plus the
-  current Xolair prescribing information.
-- **Supplement entries rewritten from full text** — the four supplement papers
-  were all open access. Quercetin's entry now names the calcium-influx mechanism
-  and the exposure gap (LAD2 line, above 100 micromolar) rather than gesturing at
-  signalling pathways. DAO's notes that serum DAO is not established to reflect
-  gut DAO activity.
+**From `RESEARCH_HANDOFF.md`** — the evidence-model split, the evaluable-results
+requirement, the supplement regulatory distinction, and three of your sourcing
+gaps closed with the primaries you supplied: cetirizine (8893110), cromolyn
+(2110198), masitinib (28069279).
 
-## Still open from RESEARCH_HANDOFF.md
+You also caught three false statements of mine, all live, all the same failure —
+asserting an absence without searching for it. Ketotifen's basis was
+unsupported; famotidine claimed no related controlled evidence when a randomised
+urticaria trial exists; DAO called its evidence open-label when a
+placebo-controlled crossover exists. All corrected, all your PMIDs reverified
+before use. That failure mode is now recorded in `AGENTS.md`: the schema can
+force a claim to be cited, but nothing can force a search for evidence the
+author assumed away.
 
-Not started, in rough priority order:
+**From `FOOD_RESEARCH_HANDOFF.md`** — all three sources registered with their
+mapping rules in `terms`, twelve entries added, five enriched. The directory is
+46 entries and 131 ratings, and disagreements rose from 3 to 7.
 
-1. **Missing pivotal sources** for cromolyn, cetirizine and masitinib — their
-   `otherEvidence` currently rests on review documentation rather than the
-   primary trial reports. Each entry's `evidenceLimits` says so.
-2. **Missing candidates**: aspirin, rupatadine, remibrutinib, barzolvolimab.
-3. **Class-representation rule** before adding near-duplicate H1/H2 drugs.
-4. **Epinephrine** needs a separate emergency-intervention structure, not the
-   chronic-treatment schema.
-5. Supplement candidates: resveratrol, EGCG.
+Your preparation warning became structural rather than advisory: food entries
+carry `form`, and the content lint now rejects preparation words in `aliases`.
+It found two real violations the moment it ran — "Cured cheese" and "Cured
+sausage" were aliases.
 
-## Constraints that held
+Your beans finding also corrected a live claim. The note said the two oxalate
+reviews disagree *because of* the denominator; your 13.9–547.9 mg/100 g range
+means they may simply have measured different beans. It now offers the
+denominator as one candidate.
 
-No dosing. No efficacy claims. Every PMID verified through E-utilities before
-use. `lastVerified` bumped only on entries whose sources were actually reopened
-(omalizumab, masitinib, and the four supplements).
+## Still open from your handoffs
+
+- Second-wave foods: pineapple, papaya, pear, ketchup, star fruit, watermelon,
+  asparagus, chicken breast.
+- The generic-entry splits beyond raw/boiled beans — fish, cheese, soy.
+- Medication candidates: barzolvolimab, hydroxyzine, midostaurin, imatinib.
+- Supplement candidates: the second-wave human mast-cell list.
+- Cetirizine and montelukast prose repair.
+- Issues [#2](https://github.com/matthewwrobotics/mcas-reference/issues/2)
+  deep-linking and [#4](https://github.com/matthewwrobotics/mcas-reference/issues/4)
+  providers.
+
+## Process
+
+**Never `git add -A` here.** Four of your in-progress entries were swept into a
+commit and deployed before anyone verified them. They turned out sound, which
+was luck. Stage explicit paths and account for every line of
+`git status --porcelain`.
+
+Run `npm run validate` before considering anything done. `npm run dev:clean` if
+an island goes blank in dev — `astro.config.mjs` pins the React runtimes in
+`optimizeDeps` to prevent it, and that block should not be removed.
