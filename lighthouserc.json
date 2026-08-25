@@ -7,12 +7,12 @@
       "numberOfRuns": 1,
       "settings": { "preset": "desktop" },
       "url": [
-        "http://localhost:4321/mcas-reference/",
-        "http://localhost:4321/mcas-reference/medications",
-        "http://localhost:4321/mcas-reference/medications/masitinib",
-        "http://localhost:4321/mcas-reference/foods",
-        "http://localhost:4321/mcas-reference/appointment",
-        "http://localhost:4321/mcas-reference/methodology"
+        "http://localhost:4321/",
+        "http://localhost:4321/medications",
+        "http://localhost:4321/medications/masitinib",
+        "http://localhost:4321/foods",
+        "http://localhost:4321/appointment",
+        "http://localhost:4321/methodology"
       ]
     },
     "assert": {
