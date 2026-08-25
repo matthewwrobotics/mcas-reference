@@ -1,0 +1,29 @@
+---
+import {
+  STUDY_DESIGN_GLOSSARY_IDS,
+  STUDY_DESIGN_INFO,
+  type StudyDesign,
+} from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  designs: StudyDesign[];
+}
+
+const { designs } = Astro.props;
+---
+
+<span class="study-design-links">
+  {designs.map((design, index) => (
+    <span>
+      {index > 0 && ', '}
+      {STUDY_DESIGN_GLOSSARY_IDS[design] ? (
+        <a href={href(`/glossary#${STUDY_DESIGN_GLOSSARY_IDS[design]}`)}>
+          {STUDY_DESIGN_INFO[design].label}
+        </a>
+      ) : (
+        STUDY_DESIGN_INFO[design].label
+      )}
+    </span>
+  ))}
+</span>

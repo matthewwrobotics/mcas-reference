@@ -1,12 +1,14 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   AGING_AFTER_DAYS,
   STALE_AFTER_DAYS,
   FOOD_TRIGGER_SIGNALS,
+  MAST_CELL_BASIS_INFO,
   RATING_AXES,
   REDISTRIBUTION,
+  STUDY_DESIGN_INFO,
 } from '../src/lib/vocab';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -174,5 +176,66 @@ describe('treatment sequence metadata', () => {
   it('keeps the schema guard for stepOrder without a treatmentStep', () => {
     expect(config).toContain('entry.stepOrder !== undefined && !entry.treatmentStep');
     expect(config).toContain('sets stepOrder but has no treatmentStep');
+  });
+});
+
+describe('patient-facing treatment facts', () => {
+  const treatmentFiles = ['medications', 'supplements'].flatMap((collection) =>
+    readdirSync(`${ROOT}src/content/${collection}`)
+      .filter((file) => file.endsWith('.md'))
+      .map((file) => `src/content/${collection}/${file}`),
+  );
+
+  it('keeps the six relationship labels concise and non-ordinal', () => {
+    expect(Object.fromEntries(
+      Object.entries(MAST_CELL_BASIS_INFO).map(([key, value]) => [key, value.label]),
+    )).toEqual({
+      'mcas-patients': 'MCAS patients',
+      'mast-cell-disease': 'Mast cell disease',
+      'mast-cell-mediated-condition': 'Mast-cell-mediated condition',
+      laboratory: 'Mast cells in the laboratory',
+      'related-condition': 'Related inflammatory condition',
+      downstream: 'Downstream of the mast cell',
+    });
+  });
+
+  it('keeps the acceptance examples on their intended relationship and study type', () => {
+    const expected = [
+      ['medications/epinephrine.md', 'downstream', 'cohort'],
+      ['medications/cetirizine.md', 'downstream', 'randomised-controlled'],
+      ['medications/famotidine.md', 'downstream', 'randomised-controlled'],
+      ['medications/omalizumab.md', 'mcas-patients', 'case-series'],
+      ['supplements/quercetin.md', 'laboratory', 'in-vitro'],
+    ];
+
+    for (const [file, basis, design] of expected) {
+      const raw = read(`src/content/${file}`);
+      expect(raw, file).toMatch(new RegExp(`^mastCellBasis: ${basis}$`, 'm'));
+      expect(raw, file).toMatch(new RegExp(`^  - ${design}$`, 'm'));
+      expect(STUDY_DESIGN_INFO[design as keyof typeof STUDY_DESIGN_INFO].label).toBeTruthy();
+    }
+  });
+
+  it('uses the same two fact headings on cards, entries, and appointment printouts', () => {
+    const card = read('src/components/TreatmentFacts.astro');
+    const entry = read('src/components/EvidenceRows.astro');
+    const appointment = read('src/components/AppointmentBuilder.tsx');
+
+    expect(card).toContain('How it relates:');
+    expect(card).toContain('Study types:');
+    expect(entry).toContain('How it relates to mast cells');
+    expect(entry).toContain('Types of studies cited');
+    expect(appointment).toContain('How it relates to mast cells:');
+    expect(appointment).toContain('Types of studies cited:');
+    expect(card + entry + appointment).not.toContain('GradeBadge');
+    expect(card + entry + appointment).not.toContain('Approved for other conditions');
+  });
+
+  it('does not restore retired grade or tier prose in treatment content', () => {
+    for (const file of treatmentFiles) {
+      expect(read(file), file).not.toMatch(
+        /(?:mast[- ]cell|evidence)\s+(?:grade|tier)|no mast cell evidence/i,
+      );
+    }
   });
 });

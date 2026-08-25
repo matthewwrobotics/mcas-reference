@@ -1,7 +1,7 @@
 ---
 name: Rosmarinic-acid-enriched Perilla extract
 aliases: ["Perilla frutescens leaf extract", "shiso leaf extract", "rosmarinic-acid-standardized Perilla"]
-summary: Defined Perilla leaf extract with rosmarinic-acid enrichment; human evidence is in seasonal allergy, while direct mast-cell evidence is laboratory work.
+summary: Defined Perilla leaf extract with rosmarinic-acid enrichment; human evidence is in seasonal allergy, while direct work on mast cells is laboratory-only.
 mechanismClass: Rosmarinic-acid-enriched botanical extract
 mastCellBasis: laboratory
 studyDesigns:
@@ -43,6 +43,6 @@ Perilla is both a food plant and the source of many non-equivalent preparations.
 
 A small randomized, double-blind, placebo-controlled study enrolled people with mild seasonal allergic rhinoconjunctivitis. The investigators tested a Perilla extract enriched for rosmarinic acid and recorded symptom diaries, nasal-lavage cells and inflammatory mediators, and serum IgE. This supports the adjacent-condition trial label; it is not an MCAS study and did not measure a mast-cell change in people.
 
-The direct mast-cell evidence comes from a separate experiment using a defined ethanol extract powder and isolated rosmarinic acid as distinct test materials. Investigators examined NF-kB/RelA and caspase-1 activation in activated human mast cells and also used an ovalbumin-sensitized mouse model. Those experiments establish a laboratory signal, not equivalence among products or a clinical MCAS outcome.
+The direct laboratory work on mast cells comes from a separate experiment using a defined ethanol extract powder and isolated rosmarinic acid as distinct test materials. Investigators examined NF-kB/RelA and caspase-1 activation in activated human mast cells and also used an ovalbumin-sensitized mouse model. Those experiments establish a laboratory signal, not equivalence among products or a clinical MCAS outcome.
 
 A crossover pharmacokinetic study in healthy volunteers detected rosmarinic acid and related metabolites after Perilla-extract intake. That confirms human exposure to constituents of the studied preparation, but it did not assess mast cells or clinical outcomes. A currently marketed US supplement lists a rosmarinic-acid-standardized Perilla leaf extract alongside other active ingredients; that documents dietary-supplement availability, not that the commercial combination reproduces any cited study.

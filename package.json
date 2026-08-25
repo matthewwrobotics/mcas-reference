@@ -38,6 +38,6 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   },
-  "description": "A sourced reference index for mast cell activation disease: mechanisms, evidence tiers, and trigger data with per-source attribution.",
+  "description": "A sourced reference index for mast cell activation disease: mechanisms, study context, and trigger data with per-source attribution.",
   "private": true
 }

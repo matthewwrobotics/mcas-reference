@@ -5,10 +5,9 @@ import { describe, expect, it } from 'vitest';
 /**
  * Colour contrast is asserted here, against the real token values in
  * global.css, because it is the accessibility property most easily broken by an
- * innocent-looking design tweak. Evidence tiers are colour-coded, so a badge
- * that drops below AA makes the site's central signal unreadable for some
- * readers — and every badge already carries text precisely because colour must
- * never be the only channel.
+ * innocent-looking design tweak. Status badges and food ratings still use
+ * colour, so a token pair that drops below AA makes real information unreadable
+ * for some readers — and text remains the primary channel throughout.
  */
 
 const CSS = readFileSync(
@@ -66,11 +65,6 @@ const PAIRS: [string, string][] = [
   ['--text-faint', '--bg-sunken'],
   ['--accent-text', '--bg'],
   ['--accent-text', '--bg-raised'],
-  ['--tier-rct-mcas-fg', '--tier-rct-mcas-bg'],
-  ['--tier-rct-adjacent-fg', '--tier-rct-adjacent-bg'],
-  ['--tier-observational-fg', '--tier-observational-bg'],
-  ['--tier-case-report-fg', '--tier-case-report-bg'],
-  ['--tier-mechanistic-fg', '--tier-mechanistic-bg'],
   ['--flag-fg', '--flag-bg'],
   ['--stale-fg', '--stale-bg'],
   ['--aging-fg', '--aging-bg'],

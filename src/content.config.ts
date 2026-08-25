@@ -103,7 +103,7 @@ const treatmentBase = z.object({
   mechanismClass: z.string().min(1),
   /** How directly this has been studied in mast cells. */
   mastCellBasis: z.enum(MAST_CELL_BASIS),
-  /** What kinds of study were actually done. Drives the derived grade. */
+  /** What kinds of study were actually done. Displayed as a separate fact. */
   studyDesigns: z.array(z.enum(STUDY_DESIGNS)).min(1),
   /** Position in the sequence described by PMC12639879, where it appears. */
   treatmentStep: z
@@ -112,7 +112,7 @@ const treatmentBase = z.object({
   /**
    * Order within a treatment step, lowest first.
    *
-   * Sorting a step purely by evidence strength put sedating first-generation
+   * Sorting a step purely by the internal direct-study rank put sedating first-generation
    * antihistamines above second-generation ones, in a step whose own source
    * describes the opposite preference — so the list implied a clinical ranking
    * that reversed the literature it came from.
@@ -120,8 +120,8 @@ const treatmentBase = z.object({
    * This carries the same provenance as the step itself: it records the order
    * described by the review behind `treatmentStep`, not an editorial judgement
    * about what is better. Where the review states no order within a step, leave
-   * it unset and the evidence sort still decides. Each card keeps its evidence
-   * grade, so re-ordering hides nothing.
+   * it unset and the direct-study rank still decides. Each card keeps the
+   * relationship and study designs visible, so re-ordering hides nothing.
    */
   stepOrder: z.number().int().min(1).max(99).optional(),
   /** Separate placement for low-certainty use outside that sequence. */

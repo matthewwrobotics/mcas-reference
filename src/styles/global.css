@@ -34,18 +34,6 @@
   --emergency-border: #d99a72;
   --emergency-text: #8a3c12;
 
-  /* Evidence tiers, strongest to weakest. */
-  --tier-rct-mcas-bg: #d9ece4;
-  --tier-rct-mcas-fg: #14503c;
-  --tier-rct-adjacent-bg: #e2ecdc;
-  --tier-rct-adjacent-fg: #33532a;
-  --tier-observational-bg: #f6e9d0;
-  --tier-observational-fg: #6b4d15;
-  --tier-case-report-bg: #f7e3d6;
-  --tier-case-report-fg: #74401f;
-  --tier-mechanistic-bg: #e6e5e2;
-  --tier-mechanistic-fg: #4a463f;
-
   --flag-bg: #fbe8e4;
   --flag-fg: #7d2f22;
   --flag-border: #e8c4bb;
@@ -73,17 +61,6 @@
     --emergency-bg: #2a1a12;
     --emergency-border: #7a4526;
     --emergency-text: #f0b48a;
-
-    --tier-rct-mcas-bg: #17352c;
-    --tier-rct-mcas-fg: #9fd9c3;
-    --tier-rct-adjacent-bg: #22331c;
-    --tier-rct-adjacent-fg: #b6d3a5;
-    --tier-observational-bg: #3a2f16;
-    --tier-observational-fg: #e2c485;
-    --tier-case-report-bg: #3b2418;
-    --tier-case-report-fg: #e6b191;
-    --tier-mechanistic-bg: #2a2823;
-    --tier-mechanistic-fg: #bab5aa;
 
     --flag-bg: #3a1f19;
     --flag-fg: #f0b4a5;
@@ -186,20 +163,7 @@ a.badge:hover { border-color: currentColor; }
   border-color: var(--border);
 }
 
-.grade-randomised { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
-.grade-human-observational { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
-.grade-in-vitro { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
-.grade-animal { background: var(--tier-case-report-bg); color: var(--tier-case-report-fg); }
-.grade-none { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
-
-/* Approval is a separate fact from the grade and looks different on purpose. */
-.badge-approved {
-  background: transparent;
-  color: var(--accent-text);
-  border-color: var(--accent-text);
-}
-
-/* A practice-source flag, not another evidence grade or an endorsement. */
+/* A practice-source flag, not a study result or an endorsement. */
 .badge-specialist {
   background: var(--bg-sunken);
   color: var(--text);
@@ -207,15 +171,8 @@ a.badge:hover { border-color: currentColor; }
   border-style: dashed;
 }
 
-.basis-mcas-patients { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
-.basis-mast-cell-disease { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
-.basis-mast-cell-mediated-condition { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
-.basis-laboratory { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
-.basis-related-condition { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
-.basis-downstream { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
-
 /* Evidence from outside MCAS. Outlined rather than filled, so it reads as a
-   qualifier on the badge beside it rather than as a competing grade. */
+   qualifier beside the literal relationship and study facts. */
 .badge-outline {
   background: transparent;
   color: var(--text-muted);
@@ -431,8 +388,9 @@ a.badge:hover { border-color: currentColor; }
 .sheet-picker-head button:disabled { color: var(--text-faint); cursor: default; text-decoration: none; }
 .sheet-hint { margin-top: 0.35rem; font-size: 0.78rem; color: var(--text-faint); }
 
-.sheet-picker fieldset { margin-top: 1.1rem; }
+.sheet-picker fieldset { min-width: 0; margin-top: 1.1rem; }
 .sheet-picker legend {
+  max-width: 100%;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -441,6 +399,7 @@ a.badge:hover { border-color: currentColor; }
 }
 .sheet-option { display: flex; gap: 0.55rem; align-items: flex-start; margin-top: 0.5rem; font-size: 0.9rem; cursor: pointer; }
 .sheet-option input { margin-top: 0.28rem; width: 1rem; height: 1rem; accent-color: var(--accent); }
+.sheet-option > span { min-width: 0; overflow-wrap: anywhere; }
 .sheet-option-meta { display: block; font-size: 0.74rem; color: var(--text-faint); }
 
 .sheet-notes { margin-top: 1.4rem; }
@@ -480,7 +439,11 @@ a.badge:hover { border-color: currentColor; }
 .sheet-block { padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
 .sheet-block h3 { font-size: 1.05rem; font-weight: 650; }
 .sheet-block-class { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-faint); }
-.sheet-grades { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+.sheet-facts { margin-top: 0.5rem; font-size: 0.87rem; color: var(--text-muted); }
+.sheet-facts p + p { margin-top: 0.15rem; }
+.sheet-context { margin-top: 0.5rem; font-size: 0.87rem; color: var(--text-muted); }
+.sheet-context p + p { margin-top: 0.3rem; }
+.sheet-context-markers { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .sheet-limits { margin-top: 0.6rem; font-size: 0.87rem; color: var(--text-muted); }
 .sheet-notes-out { margin-top: 0.4rem; white-space: pre-wrap; }
 .sheet-cites { margin-top: 0.6rem; font-size: 0.83rem; }
@@ -491,6 +454,10 @@ a.badge:hover { border-color: currentColor; }
   .sheet-layout { display: block; }
   .sheet-picker { display: none !important; }
   .print-hide { display: none !important; }
+}
+
+@media (max-width: 899px) {
+  .sheet-picker { position: static; }
 }
 
 /* Fallback rendering used when the food table fails to hydrate. */
@@ -525,6 +492,20 @@ a.badge:hover { border-color: currentColor; }
 .evidence-key { font-weight: 600; }
 .evidence-gloss { color: var(--text-muted); }
 
+.treatment-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.45rem;
+  color: var(--text-muted);
+}
+.treatment-fact-label {
+  color: var(--text-faint);
+  font-weight: 600;
+}
+.treatment-fact-separator { color: var(--text-faint); }
+.study-design-links { display: inline-flex; flex-wrap: wrap; }
+
 .evidence-rows-compact {
   margin-top: 0.75rem;
   font-size: 0.86rem;
@@ -534,4 +515,6 @@ a.badge:hover { border-color: currentColor; }
 @media (max-width: 560px) {
   .evidence-rows { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
   .evidence-rows > div + div { margin-top: 0.5rem; }
+  .treatment-fact-separator { display: none; }
+  .treatment-facts > span:not(.treatment-fact-separator) { flex-basis: 100%; }
 }

@@ -3,7 +3,6 @@ import {
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS_INFO,
   SPECIALIST_USE_BASIS_INFO,
-  STUDY_DESIGN_INFO,
   TREATMENT_CONTEXT_INFO,
   type StudyDesign,
   type SpecialistUseBasis,
@@ -13,6 +12,7 @@ import {
   type MastCellBasis,
   type RegulatoryStatus,
 } from '../lib/vocab';
+import StudyDesignLinks from './StudyDesignLinks.astro';
 import { href } from '../lib/paths';
 
 interface Established {
@@ -46,16 +46,6 @@ const {
 } = Astro.props;
 const info = MAST_CELL_BASIS_INFO[basis];
 
-const studyDesignGlossary: Partial<Record<StudyDesign, string>> = {
-  'randomised-controlled': 'randomised-controlled-trial',
-  cohort: 'observational',
-  'cross-sectional': 'observational',
-  'case-series': 'case-report',
-  'case-report': 'case-report',
-  'in-vitro': 'in-vitro',
-  'non-human-in-vitro': 'in-vitro',
-};
-
 // Group by basis so the label is written once per group rather than repeated
 // against every condition.
 const groups = (['approved-us', 'approved-non-us', 'randomised-trials'] as const)
@@ -74,7 +64,9 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
 ---
 
 <!--
-  Both facts live in this one component precisely so they cannot be separated.
+  Full entries keep relationship, study design and condition facts together.
+  Compact cards receive the first two from TreatmentFacts immediately above,
+  while this component keeps named conditions directly below the card summary.
   An earlier version put the mast cell row in a card's header and the conditions
   in its footer, with the summary paragraph between; entries then read as
   "Ketotifen … randomised trials — allergic conjunctivitis and asthma", which is
@@ -82,16 +74,46 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
 -->
 <dl class:list={['evidence-rows', compact && 'evidence-rows-compact']}>
   {
-    /* On index cards the group heading already states this, so repeating it in
-       every card is noise. On a detail page there is no heading, so it stays. */
+    /* Compact cards state this in TreatmentFacts immediately above. Detail
+       pages use the full two-row version here. */
     !compact && (
       <div>
-        <dt>Studied in</dt>
+        <dt>How it relates to mast cells</dt>
         <dd>
           <a href={href(`/methodology#basis-${basis}`)} class="evidence-key">{info.label}</a>
         </dd>
       </div>
     )
+  }
+
+  {
+    !compact && studyDesigns.length > 0 && (
+      <div>
+        <dt>Types of studies cited</dt>
+        <dd class="evidence-gloss">
+          <StudyDesignLinks designs={studyDesigns} />
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    groups.map((g) => (
+      <div>
+        <dt>
+          <a
+            href={href(
+              g.basis === 'randomised-trials'
+                ? '/glossary#randomised-controlled-trial'
+                : '/glossary#approved',
+            )}
+          >
+            {g.label}
+          </a>
+        </dt>
+        <dd>{g.conditions.join(', ')}</dd>
+      </div>
+    ))
   }
 
   {
@@ -120,28 +142,6 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
   }
 
   {
-    studyDesigns.length > 0 && (
-      <div>
-        <dt>Study design</dt>
-        <dd class="evidence-gloss">
-          {studyDesigns.map((d, index) => (
-            <>
-              {index > 0 && ', '}
-              {studyDesignGlossary[d] ? (
-                <a href={href(`/glossary#${studyDesignGlossary[d]}`)}>
-                  {STUDY_DESIGN_INFO[d].label}
-                </a>
-              ) : (
-                STUDY_DESIGN_INFO[d].label
-              )}
-            </>
-          ))}
-        </dd>
-      </div>
-    )
-  }
-
-  {
     specialistUse.length > 0 && (
       <div>
         <dt>Clinical practice</dt>
@@ -160,25 +160,6 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
         </dd>
       </div>
     )
-  }
-
-  {
-    groups.map((g) => (
-      <div>
-        <dt>
-          <a
-            href={href(
-              g.basis === 'randomised-trials'
-                ? '/glossary#randomised-controlled-trial'
-                : '/glossary#approved',
-            )}
-          >
-            {g.label}
-          </a>
-        </dt>
-        <dd>{g.conditions.join(', ')}</dd>
-      </div>
-    ))
   }
 
   {

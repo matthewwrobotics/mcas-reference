@@ -1,8 +1,8 @@
 ---
 import EvidenceRows from './EvidenceRows.astro';
 import LastVerified from './LastVerified.astro';
-import GradeBadge from './GradeBadge.astro';
-import { byClinicalSequence, relevanceGrade } from '../lib/derive';
+import TreatmentFacts from './TreatmentFacts.astro';
+import { byClinicalSequence } from '../lib/derive';
 import {
   TREATMENT_CONTEXT_INFO,
   TREATMENT_CONTEXTS,
@@ -20,12 +20,13 @@ interface Props {
 const { entries, basePath } = Astro.props;
 // Shared with the appointment picker so the two orderings cannot drift apart.
 // Groups below re-filter this list, so the sequence rank is a no-op here; what
-// matters is stepOrder ahead of evidence strength within a step.
+// matters is stepOrder ahead of the internal direct-study rank within a step.
 const sorted = [...entries].sort((a, b) => byClinicalSequence(a.data, b.data));
 
 // Grouped by the sequence a published management review describes, because
 // that is the order a reader is likely to meet these in. Within each step, the
-// source's explicit stepOrder leads where present, then mast-cell evidence.
+// source's explicit stepOrder leads where present, then the internal direct-
+// mast-cell study rank described on /methodology.
 // Anything outside that sequence — the KIT
 // inhibitors, emerging refractory reports, every supplement — is explicitly
 // placed rather than being silently ranked against the routine sequence.
@@ -92,13 +93,10 @@ const groups = [
               </span>
             </h3>
 
-            <p class="mt-2">
-              <GradeBadge
-                grade={relevanceGrade(entry.data)}
-                approved={entry.data.establishedFor.some((e: any) => e.basis.startsWith('approved'))}
-                short
-              />
-            </p>
+            <TreatmentFacts
+              basis={entry.data.mastCellBasis}
+              studyDesigns={entry.data.studyDesigns}
+            />
 
             <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
               {entry.data.summary}
@@ -118,7 +116,7 @@ const groups = [
 
             <p class="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
               <LastVerified date={entry.data.lastVerified} compact />
-              {entry.data.trial?.status === 'unknown' && (
+              {entry.data.trials.some((trial: any) => trial.status === 'unknown') && (
                 <span class="badge stale-stale">Trial status unknown</span>
               )}
             </p>

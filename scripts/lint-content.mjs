@@ -53,10 +53,10 @@ const MAX_BODY_WORDS = 400;
 const MIN_BODY_WORDS = 25;
 
 /**
- * The badge on every card reads "Approved for other conditions". That wording is
- * only true while nothing here is approved for MCAS itself — true today across
- * every entry, and the sort of fact that changes quietly. Being trialled in MCAS
- * is fine and common; only an approved basis makes the badge lie.
+ * The site's patient-facing positioning says nothing is approved for MCAS itself.
+ * That is true today across every entry, and the sort of fact that changes quietly.
+ * Being trialled in MCAS is fine and common; an approved basis would require the
+ * site-wide positioning to change first.
  */
 const MCAS_CONDITION =
   /\bmast cell activation (syndrome|disease)\b|\bMCAS\b/i;
@@ -192,9 +192,9 @@ for (const dir of PROSE_DIRS) {
           file: rel,
           line: frontmatterLines,
           message:
-            `establishedFor lists “${condition}” under an approved basis. GradeBadge renders ` +
-            'approvals as “Approved for other conditions”, which this would make false. If a ' +
-            'regulator has genuinely approved something for MCAS, change the badge wording first.',
+            `establishedFor lists “${condition}” under an approved basis, but the site says ` +
+            'nothing is approved for MCAS. If a regulator has genuinely approved something for ' +
+            'MCAS, update the site-wide positioning before using this condition.',
         });
       }
     }
@@ -205,8 +205,8 @@ for (const dir of PROSE_DIRS) {
         file: rel,
         line: frontmatterLines,
         message:
-          'regulatory is “approved-us-mcas”, but GradeBadge still renders approvals as ' +
-          '“Approved for other conditions”. Change the badge wording before using this status.',
+          'regulatory is “approved-us-mcas”, but the site still says nothing is approved for ' +
+          'MCAS. Update the site-wide positioning before using this status.',
       });
     }
 

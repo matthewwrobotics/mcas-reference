@@ -42,7 +42,7 @@ lastVerified: 2026-08-21
 
 Doxepin is a tricyclic antidepressant that also occupies histamine H1 and H2 receptors. That antihistamine action occurs downstream of mast-cell degranulation: it prevents released histamine from signalling at its receptors rather than removing the trigger for release.
 
-A separate laboratory paper exposed isolated rat peritoneal mast cells to several tricyclic antidepressants, including doxepin, and measured serotonin secretion, uptake, and reuptake. That is why this entry records non-human mast-cell evidence. It does not show that the oral capsule directly stabilizes human mast cells at clinical exposure.
+A separate laboratory paper exposed isolated rat peritoneal mast cells to several tricyclic antidepressants, including doxepin, and measured serotonin secretion, uptake, and reuptake. That is why this entry records non-human laboratory work on mast cells. It does not show that the oral capsule directly stabilizes human mast cells at clinical exposure.
 
 The randomized human evidence is a double-blind placebo-controlled crossover study in 16 adults with chronic idiopathic urticaria. The investigators measured lesion and itch scores, additional antihistamine use, and histamine- and codeine-induced skin wheals. Chronic urticaria is not MCAS, and suppression of a wheal does not identify whether receptor antagonism or a mast-cell effect produced the measurement.
 

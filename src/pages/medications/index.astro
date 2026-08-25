@@ -9,28 +9,30 @@ const entries = (await getCollection('medications')).filter((e) => !e.data.draft
 
 <Base
   title="Medications"
-  description="Mast cell stabilisers and off-label medications used in mast cell activation disease, each with a sourced mechanism of action and an explicit evidence tier."
+  description="Mast cell stabilisers and off-label medications used in mast cell activation disease, with sourced mechanisms, study types and named evidence conditions."
 >
   <h1 class="font-serif text-3xl font-semibold tracking-tight">Medications</h1>
   <p class="prose-body mt-3" style="color: var(--text-muted);">
     Browse medicines in the published stepwise sequence, with emergency,
     trigger-specific, emerging or refractory, and local-route options kept in
-    separate groups. Every card keeps
-    <a href={href('/glossary#mast-cell')}>mast-cell</a> evidence and
-    <a href={href('/glossary#approved')}>regulatory approval</a> separate.
+    separate groups. Every card keeps how the treatment relates to
+    <a href={href('/glossary#mast-cell')}>mast cells</a>, the types of studies cited,
+    the conditions studied and <a href={href('/glossary#approved')}>regulatory approval</a>
+    separate.
   </p>
   <p class="prose-body mt-3" style="color: var(--text-muted);">
     <strong style="color: var(--text);">
       Nothing here is approved for MCAS, and almost nothing has been tested in it.
     </strong>
-    Every entry borrows its evidence from somewhere else. What differs is where from —
-    and how good it is when it gets there. The numbered groups report a published
-    stepwise sequence. Emergency treatment appears before it; trigger-specific,
-    emerging or refractory, and local-route treatments each sit in their own group.
-    Everything else remains outside the sequence. Within a group, entries follow the
-    order the review itself describes where it describes one, and the most direct
-    mast-cell evidence first where it does not. Every entry states which conditions it
-    is actually approved or trialled for.
+    Most entries draw their studies from another condition or from laboratory work;
+    the few direct MCAS reports are uncontrolled. Each card says which. The numbered
+    groups report a published stepwise sequence. Emergency treatment appears before
+    it; trigger-specific, emerging or refractory, and local-route treatments each sit
+    in their own group. Everything else remains outside the sequence. Within a group,
+    entries follow the order the review itself describes where it describes one. Where
+    it does not, an internal direct-study rank sets browsing order; it is not a
+    usefulness or treatment score. Every card shows the literal facts behind that
+    order and states which conditions are actually approved or trialled.
   </p>
   <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
     {entries.length} entries. No dosing, and no claim that anything here works.

@@ -2,23 +2,19 @@
  * Controlled vocabularies for the whole site.
  *
  * Every enum lives here exactly once. `content.config.ts` turns these arrays
- * into Zod enums (so bad data fails the build), the badge components turn them
- * into labels, and /methodology turns them into published definitions. If a
- * tier's meaning changes, it changes in one place and the site stays honest.
+ * into Zod enums (so bad data fails the build), components turn them into
+ * labels, and /methodology turns them into published definitions. If a term's
+ * meaning changes, it changes in one place and the site stays honest.
  */
 
 /**
- * How directly a treatment has been studied in mast cells.
+ * How a treatment relates to mast cells.
  *
- * This replaced a "direct MCAS evidence" grade that could not do its job:
- * nothing is approved for MCAS and almost nothing has been tested in it, so ten
- * of twelve entries scored the same value and the badge distinguished nothing.
- *
- * This axis does vary, and it carries a distinction the site made nowhere else:
- * some of these act *on* the mast cell, and some only block what the mast cell
- * releases. An antihistamine is not a weaker mast cell drug — it is not a mast
- * cell drug at all, and a reader deciding what to ask about deserves to know
- * which kind they are looking at.
+ * Most values describe where the cited work was done; `downstream` instead
+ * describes where the intervention acts. Presenting those facts as a single
+ * strength grade made emergency and routine downstream treatments look as if
+ * they had "no evidence". The UI therefore states the relationship literally
+ * and keeps study design in its own field.
  */
 export const MAST_CELL_BASIS = [
   'mcas-patients',
@@ -32,43 +28,37 @@ export type MastCellBasis = (typeof MAST_CELL_BASIS)[number];
 
 export const MAST_CELL_BASIS_INFO: Record<
   MastCellBasis,
-  { label: string; heading: string; definition: string }
+  { label: string; definition: string }
 > = {
   'mcas-patients': {
     label: 'MCAS patients',
-    heading: 'Studied in MCAS patients',
     definition:
       'Studied in people diagnosed with mast cell activation syndrome. Current evidence consists of case reports, uncontrolled series, or retrospective review rather than randomised comparisons — so it establishes that people have taken it, not that it worked.',
   },
   'mast-cell-disease': {
     label: 'Mast cell disease',
-    heading: 'Studied in another mast cell disease',
     definition:
       'Studied in patients with a different mast cell disease, usually systemic mastocytosis. Those disorders have diagnostic criteria and disease biology that differ from MCAS, so a result there does not establish an MCAS outcome.',
   },
   'mast-cell-mediated-condition': {
     label: 'Mast-cell-mediated condition',
-    heading: 'Studied in another mast-cell-mediated condition',
     definition:
       'Given to people with a condition in which mast cells are central to the disease process, with a human mast-cell effect also measured. This is human evidence, but it is not evidence in MCAS or in a clonal mast cell disorder, and it cannot establish an MCAS outcome.',
   },
   laboratory: {
     label: 'Mast cells in the laboratory',
-    heading: 'Studied on mast cells in the laboratory',
     definition:
-      'Studied on mast cells directly, but in cell culture or animals rather than in people. The study-design badge distinguishes human cells from non-human models. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that human exposure does not reach.',
+      'Studied on mast cells directly, but in cell culture or animals rather than in people. The study-design field distinguishes human cells from non-human models. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that human exposure does not reach.',
   },
   'related-condition': {
     label: 'Related inflammatory condition',
-    heading: 'Studied in a related inflammatory condition',
     definition:
-      'Studied in people with a condition in which mast cells can contribute, but the study did not measure an effect on mast cells. This is a clinical bridge for inclusion, not direct mast-cell evidence and not an MCAS outcome.',
+      'Studied in people with a condition in which mast cells can contribute, but the study did not measure an effect on mast cells. This is a clinical bridge for inclusion, not a direct observation of mast cells and not an MCAS outcome.',
   },
   downstream: {
     label: 'Downstream of the mast cell',
-    heading: 'Acts downstream of the mast cell',
     definition:
-      'Not studied in mast cells, and not acting on them. These block or degrade a mediator after release — histamine at its receptor, leukotrienes at theirs. That is a coherent thing to do and needs no mast cell data to justify it, but it is a different kind of intervention from the ones above.',
+      'Acts after mast-cell mediators are released rather than stabilising the mast cell itself. This includes treatments that block mediator receptors, degrade a mediator, or oppose the physiology of an acute reaction. It describes where the intervention acts, not its clinical importance.',
   },
 };
 
@@ -100,37 +90,48 @@ export type StudyDesign = (typeof STUDY_DESIGNS)[number];
 
 export const STUDY_DESIGN_INFO: Record<StudyDesign, { label: string; definition: string }> = {
   'randomised-controlled': {
-    label: 'randomised controlled trial',
+    label: 'Randomised controlled trial',
     definition: 'Participants allocated at random to treatment or comparison, with published results.',
   },
   cohort: {
-    label: 'cohort study',
+    label: 'Cohort study',
     definition: 'A defined group followed over time, without randomisation.',
   },
   'cross-sectional': {
-    label: 'cross-sectional survey',
+    label: 'Cross-sectional survey',
     definition: 'A group assessed at one point in time. Treatment histories and ratings are retrospective and can be affected by recall and selection.',
   },
   'case-series': {
-    label: 'case series',
+    label: 'Case series',
     definition: 'A set of individual patients described together, with no comparison group.',
   },
   'case-report': {
-    label: 'case report',
+    label: 'Case report',
     definition: 'One patient, or a very small number, described individually.',
   },
   'in-vitro': {
-    label: 'human mast cells in vitro',
+    label: 'Human mast cells in vitro',
     definition: 'A human mast-cell line or mast cells isolated from human tissue and studied outside the body.',
   },
   'non-human-in-vitro': {
-    label: 'non-human mast cells in vitro',
+    label: 'Non-human mast cells in vitro',
     definition: 'Mast cells taken from a non-human animal and studied outside the body.',
   },
   animal: {
-    label: 'animal model',
+    label: 'Animal model',
     definition: 'Live animals rather than people or isolated human cells.',
   },
+};
+
+/** Glossary anchors for study designs that have a matching patient definition. */
+export const STUDY_DESIGN_GLOSSARY_IDS: Partial<Record<StudyDesign, string>> = {
+  'randomised-controlled': 'randomised-controlled-trial',
+  cohort: 'observational',
+  'cross-sectional': 'observational',
+  'case-series': 'case-report',
+  'case-report': 'case-report',
+  'in-vitro': 'in-vitro',
+  'non-human-in-vitro': 'in-vitro',
 };
 
 /**
@@ -148,7 +149,7 @@ export type SpecialistUseBasis = (typeof SPECIALIST_USE_BASES)[number];
 
 /**
  * A patient-facing placement note for treatments that sit outside the
- * published stepwise sequence. This is neither a study grade nor a regulatory
+ * published stepwise sequence. This is neither a study result nor a regulatory
  * status; it prevents a case-level refractory report from looking like a
  * routine next step merely because it appears in the same index.
  */
@@ -225,68 +226,6 @@ export const SPECIALIST_USE_BASIS_INFO: Record<
   },
 };
 
-/**
- * The at-a-glance grade, derived rather than authored so it cannot drift from
- * the underlying data.
- *
- * It grades the strongest design carried out *in mast cells* — not the strongest
- * evidence anywhere, which would rank famotidine top for heartburn and aspirin
- * top for minor aches. Ordering puts everything human above everything that is
- * not, and places human mast cells in culture above an animal model because the
- * cells are both human and the cell type in question.
- *
- * An earlier grade was removed for having no variance. This one was checked
- * against the data before being adopted, and `tests/derive.test.ts` asserts it
- * stays spread.
- */
-export const RELEVANCE_GRADES = [
-  'randomised',
-  'human-observational',
-  'in-vitro',
-  'animal',
-  'none',
-] as const;
-export type RelevanceGrade = (typeof RELEVANCE_GRADES)[number];
-
-export const RELEVANCE_GRADE_INFO: Record<
-  RelevanceGrade,
-  { label: string; short: string; definition: string }
-> = {
-  randomised: {
-    label: 'Randomised trial in a mast-cell condition',
-    short: 'Randomised',
-    definition: 'A randomised controlled trial with published results in MCAS, another mast cell disease, or another condition with a measured human mast-cell basis.',
-  },
-  'human-observational': {
-    label: 'Observed in patients',
-    short: 'Observational',
-    definition: 'Studied in people with MCAS, another mast cell disease, or another condition with a measured human mast-cell basis, but without randomisation or a control group.',
-  },
-  'in-vitro': {
-    label: 'Human mast cells in culture',
-    short: 'In vitro',
-    definition: 'Tested on human mast cells in the laboratory. A mechanism in a dish, not a result in a person.',
-  },
-  animal: {
-    label: 'Non-human mast-cell evidence',
-    short: 'Non-human',
-    definition: 'Tested in live animals or on non-human mast cells outside the body. It does not establish a human mast-cell effect.',
-  },
-  none: {
-    label: 'No mast cell evidence',
-    short: 'None',
-    definition: 'Nothing has been measured in mast cells. The entry rests on a related-condition study or a published mechanism acting downstream of the cell.',
-  },
-};
-
-export const RELEVANCE_GRADE_RANK: Record<RelevanceGrade, number> = {
-  randomised: 0,
-  'human-observational': 1,
-  'in-vitro': 2,
-  animal: 3,
-  none: 4,
-};
-
 export const TRIAL_PHASES = ['1', '1/2', '2', '2/3', '3', '4', 'not-applicable'] as const;
 export type TrialPhase = (typeof TRIAL_PHASES)[number];
 
@@ -307,16 +246,6 @@ export const TREATMENT_STEP_INFO: Record<TreatmentStep, { label: string; describ
   6: { label: 'Aspirin', described: 'described as limited evidence, for persistent episodes despite H1 blockade' },
   7: { label: 'Oral corticosteroids', described: 'described for frequent episodes, with use limited by adverse effects' },
   8: { label: 'Omalizumab', described: 'described for severe recurrent reactions despite the preceding treatments' },
-};
-
-/** Index sort order: most directly studied in mast cells first. */
-export const MAST_CELL_BASIS_RANK: Record<MastCellBasis, number> = {
-  'mcas-patients': 0,
-  'mast-cell-disease': 1,
-  'mast-cell-mediated-condition': 2,
-  laboratory: 3,
-  'related-condition': 4,
-  downstream: 5,
 };
 
 /**
@@ -782,7 +711,7 @@ export const GLOSSARY: readonly GlossaryTerm[] = [
     term: 'Approved',
     group: 'regulation',
     definition:
-      'A regulator has reviewed evidence for a drug in a named condition and permitted it to be sold for that use. Approval says nothing about any other condition. On this site the badge reads "approved for other conditions" for exactly that reason.',
+      'A regulator has reviewed evidence for a drug in a named condition and permitted it to be sold for that use. Approval says nothing about any other condition. On this site approval is always paired with the named conditions it applies to.',
     also: ['indication'],
   },
   {

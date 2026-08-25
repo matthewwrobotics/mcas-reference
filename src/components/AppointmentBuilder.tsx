@@ -5,12 +5,12 @@ export interface SheetItem {
   section: string;
   name: string;
   mechanismClass: string;
-  tier: string;
-  tierLabel: string;
+  relationshipLabel: string;
+  studyTypeLabels: string[];
   otherEvidence?: string;
   regulatoryLabel: string;
   evidenceLimits?: string;
-  trial?: { nctId: string; statusLabel: string };
+  trials: { nctId: string; condition: string; statusLabel: string }[];
   citations: { title: string; url: string; pmid?: string }[];
 }
 
@@ -105,7 +105,7 @@ export default function AppointmentBuilder({ items }: Props) {
                 />
                 <span>
                   {item.name}
-                  <span className="sheet-option-meta">{item.tierLabel}</span>
+                  <span className="sheet-option-meta">{item.relationshipLabel}</span>
                 </span>
               </label>
             ))}
@@ -137,8 +137,9 @@ export default function AppointmentBuilder({ items }: Props) {
         <div className="print-only sheet-print-header">
           <h2>Discussion notes — mast cell activation</h2>
           <p>
-            Prepared from a patient-facing reference index. Mechanisms and evidence
-            grades only; no dosing, and nothing here is a recommendation.
+            Prepared from a patient-facing reference index. Mechanisms, mast-cell
+            relationships and cited study types only; no dosing, and nothing here is a
+            recommendation.
           </p>
         </div>
 
@@ -161,18 +162,23 @@ export default function AppointmentBuilder({ items }: Props) {
                   {item.name}
                   <span className="sheet-block-class">{item.mechanismClass}</span>
                 </h3>
-                <p className="sheet-grades">
-                  <span className={`badge basis-${item.tier}`}>{item.tierLabel}</span>{' '}
-                  <span className="badge badge-neutral">{item.regulatoryLabel}</span>{' '}
+                <div className="sheet-facts">
+                  <p><strong>How it relates to mast cells:</strong> {item.relationshipLabel}</p>
+                  <p><strong>Types of studies cited:</strong> {item.studyTypeLabels.join(', ')}</p>
+                </div>
+                <div className="sheet-context">
+                  <p className="sheet-context-markers">
+                    <span className="badge badge-neutral">{item.regulatoryLabel}</span>
+                  </p>
                   {item.otherEvidence && (
-                    <span className="badge badge-outline">{item.otherEvidence}</span>
-                  )}{' '}
-                  {item.trial && (
-                    <span className="badge badge-neutral">
-                      {item.trial.nctId}: {item.trial.statusLabel}
-                    </span>
+                    <p><strong>Approved or studied conditions:</strong> {item.otherEvidence}</p>
                   )}
-                </p>
+                  {item.trials.map((trial) => (
+                    <p key={trial.nctId}>
+                      <strong>Registered trial:</strong> {trial.nctId} · {trial.condition} · {trial.statusLabel}
+                    </p>
+                  ))}
+                </div>
                 {item.evidenceLimits && (
                   <p className="sheet-limits">
                     <strong>What this evidence cannot establish:</strong> {item.evidenceLimits}

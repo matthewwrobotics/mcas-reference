@@ -9,10 +9,7 @@
 
 import {
   AGING_AFTER_DAYS,
-  MAST_CELL_BASIS_RANK,
-  RELEVANCE_GRADE_RANK,
   type MastCellBasis,
-  type RelevanceGrade,
   type StudyDesign,
   STALE_AFTER_DAYS,
   type Rating,
@@ -155,21 +152,6 @@ export function consensusRating(group: AxisGroup): Rating | undefined {
   return group.distinct.length === 1 ? group.distinct[0] : undefined;
 }
 
-/**
- * Most directly studied in mast cells first, then alphabetically.
- *
- * Sorting on this rather than on trial strength is deliberate: avapritinib has
- * a placebo-controlled trial behind it, in a disease MCAS patients do not have.
- * Ranking by trial quality would put it top and quietly recommend it.
- */
-export function byEvidenceThenName<T extends { mastCellBasis: MastCellBasis; name: string }>(
-  a: T,
-  b: T,
-): number {
-  const d = MAST_CELL_BASIS_RANK[a.mastCellBasis] - MAST_CELL_BASIS_RANK[b.mastCellBasis];
-  return d !== 0 ? d : a.name.localeCompare(b.name);
-}
-
 /** Formats a date as e.g. "20 Aug 2026", stable across locales and time zones. */
 export function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('en-GB', {
@@ -181,45 +163,45 @@ export function formatDate(date: Date): string {
 }
 
 /**
- * The at-a-glance grade, computed from the entry rather than authored on it.
+ * Internal browsing rank for the strongest cited design that directly involved
+ * mast cells.
  *
- * Grades the strongest design done *in mast cells*. An approval elsewhere is a
- * separate fact and deliberately does not feed in here — otherwise famotidine
- * would grade top for heartburn and aspirin for minor aches, which is how the
- * previous grade lost its meaning.
+ * This is not rendered to patients and does not describe usefulness, clinical
+ * importance or overall evidence. It exists only for the user-selected fallback
+ * ordering where a clinical source supplies no order of its own.
  */
-export function relevanceGrade(entry: {
+export function directMastCellStudyRank(entry: {
   mastCellBasis: MastCellBasis;
   studyDesigns: readonly StudyDesign[];
-}): RelevanceGrade {
+}): number {
   // A related-condition trial or downstream mediator mechanism does not become
-  // mast-cell evidence merely because the study itself was randomised.
+  // a direct mast-cell study merely because the study itself was randomised.
   if (entry.mastCellBasis === 'related-condition' || entry.mastCellBasis === 'downstream') {
-    return 'none';
+    return 4;
   }
 
   const d = entry.studyDesigns;
-  if (d.includes('randomised-controlled')) return 'randomised';
+  if (d.includes('randomised-controlled')) return 0;
   if (
     d.includes('cohort') ||
     d.includes('cross-sectional') ||
     d.includes('case-series') ||
     d.includes('case-report')
   ) {
-    return 'human-observational';
+    return 1;
   }
-  if (d.includes('in-vitro')) return 'in-vitro';
-  if (d.includes('non-human-in-vitro') || d.includes('animal')) return 'animal';
-  return 'none';
+  if (d.includes('in-vitro')) return 2;
+  if (d.includes('non-human-in-vitro') || d.includes('animal')) return 3;
+  return 4;
 }
 
-/** Strongest grade first, then alphabetically. */
-export function byGradeThenName<T extends {
+/** Direct mast-cell study rank first, then alphabetically. Internal only. */
+export function byDirectMastCellStudyThenName<T extends {
   mastCellBasis: MastCellBasis;
   studyDesigns: readonly StudyDesign[];
   name: string;
 }>(a: T, b: T): number {
-  const d = RELEVANCE_GRADE_RANK[relevanceGrade(a)] - RELEVANCE_GRADE_RANK[relevanceGrade(b)];
+  const d = directMastCellStudyRank(a) - directMastCellStudyRank(b);
   return d !== 0 ? d : a.name.localeCompare(b.name);
 }
 
@@ -228,7 +210,7 @@ export function byGradeThenName<T extends {
  *
  * Both the index and the appointment picker order treatments, and they used to
  * do it differently: the index grouped by step, the picker flat-sorted every
- * entry by evidence strength. That put benzodiazepines, hydroxyurea, sunitinib
+ * entry by its direct-study rank. That put benzodiazepines, hydroxyurea, sunitinib
  * and tofacitinib above routine antihistamines in the one view a patient takes
  * to an appointment — an ordering that reads as a suggestion. Both callers now
  * share this, so the two cannot drift apart again.
@@ -253,7 +235,7 @@ export function sequenceRank(entry: {
 
 /**
  * The order a reader should meet treatments in: sequence position first, then
- * the order the step's own source describes, then evidence strength.
+ * the order the step's own source describes, then the internal direct-study rank.
  */
 export function byClinicalSequence<T extends {
   treatmentStep?: number;
@@ -268,5 +250,5 @@ export function byClinicalSequence<T extends {
   const order = (a.stepOrder ?? Infinity) - (b.stepOrder ?? Infinity);
   if (order !== 0 && Number.isFinite(order)) return order;
   if (a.stepOrder !== b.stepOrder) return a.stepOrder === undefined ? 1 : -1;
-  return byGradeThenName(a, b);
+  return byDirectMastCellStudyThenName(a, b);
 }

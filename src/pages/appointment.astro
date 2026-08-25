@@ -8,6 +8,7 @@ import {
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS_INFO,
   REGULATORY_INFO,
+  STUDY_DESIGN_INFO,
   TRIAL_STATUS_LABELS,
 } from '../lib/vocab';
 import { byClinicalSequence } from '../lib/derive';
@@ -16,7 +17,7 @@ import { TREATMENT_CONTEXT_INFO, TREATMENT_STEP_INFO } from '../lib/vocab';
 /*
  * The picker's legend for an entry: the same grouping the index uses.
  *
- * This list previously flat-sorted every treatment by evidence strength, which
+ * This list previously flat-sorted every treatment by a direct-study rank, which
  * floated benzodiazepines, hydroxyurea, sunitinib and tofacitinib above routine
  * antihistamines — purely because direct-but-weak MCAS case reports outrank
  * strong evidence borrowed from another condition. In the one view a patient
@@ -40,8 +41,10 @@ const toItems = (entries: any[], section: string): SheetItem[] =>
       section: groupOf(e.data, section),
       name: e.data.name,
       mechanismClass: e.data.mechanismClass,
-      tier: e.data.mastCellBasis,
-      tierLabel: `Studied in ${MAST_CELL_BASIS_INFO[e.data.mastCellBasis as keyof typeof MAST_CELL_BASIS_INFO].label.toLowerCase()}`,
+      relationshipLabel: MAST_CELL_BASIS_INFO[e.data.mastCellBasis as keyof typeof MAST_CELL_BASIS_INFO].label,
+      studyTypeLabels: e.data.studyDesigns.map(
+        (design: keyof typeof STUDY_DESIGN_INFO) => STUDY_DESIGN_INFO[design].label,
+      ),
       otherEvidence: e.data.establishedFor.length
         ? (['approved-us', 'approved-non-us', 'randomised-trials'] as const)
             .map((b) => {
@@ -57,13 +60,11 @@ const toItems = (entries: any[], section: string): SheetItem[] =>
         : undefined,
       regulatoryLabel: REGULATORY_INFO[e.data.regulatory as keyof typeof REGULATORY_INFO].label,
       evidenceLimits: e.data.evidenceLimits,
-      trial: e.data.trial
-        ? {
-            nctId: e.data.trial.nctId,
-            statusLabel:
-              TRIAL_STATUS_LABELS[e.data.trial.status as keyof typeof TRIAL_STATUS_LABELS],
-          }
-        : undefined,
+      trials: e.data.trials.map((trial: any) => ({
+        nctId: trial.nctId,
+        condition: trial.condition,
+        statusLabel: TRIAL_STATUS_LABELS[trial.status as keyof typeof TRIAL_STATUS_LABELS],
+      })),
       citations: e.data.citations.map((c: any) => ({
         title: c.title,
         url: c.url,
@@ -79,14 +80,14 @@ const items: SheetItem[] = [
 
 <Base
   title="Appointment sheet"
-  description="Build a one-page printable summary of selected entries — mechanism, evidence tier and citations — to take to a clinical appointment."
+  description="Build a one-page printable summary of selected entries — mechanism, mast-cell relationship, study types and citations — to take to a clinical appointment."
 >
   <div class="print-controls">
     <h1 class="font-serif text-3xl font-semibold tracking-tight">Appointment sheet</h1>
     <div class="prose-body mt-3" style="color: var(--text-muted);">
       <p>
         Pick the entries you want to raise. The sheet prints each one on a single
-        page, with its mechanism, its evidence grade and its citations.
+        page, with its mechanism, mast-cell relationship, cited study types and citations.
       </p>
       <p>
         It is not a request list. The aim is to arrive with the information a
@@ -94,10 +95,10 @@ const items: SheetItem[] = [
         further along.
       </p>
       <p>
-        Every printed entry separates mast-cell evidence from the conditions for
-        which the treatment is approved or trialled. An approval in another
-        condition is not evidence in this one, and a sheet that blurred the two
-        would be worse than no sheet.
+        Every printed entry keeps those facts separate from the conditions for which
+        the treatment is approved or trialled. An approval in another condition is not
+        evidence in this one, and a sheet that blurred the two would be worse than no
+        sheet.
       </p>
       <p class="text-sm" style="color: var(--text-faint);">
         Looking for someone to bring it to? <a href={href('/advocacy#finding-a-clinician')}>Finding

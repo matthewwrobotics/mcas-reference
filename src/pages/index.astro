@@ -21,14 +21,14 @@ const SECTIONS = [
     label: 'Medications',
     count: medications.length,
     blurb:
-      'Mast cell stabilisers, antihistamines, and kinase inhibitors, each with a sourced mechanism and an explicit evidence tier.',
+      'Mast cell stabilisers, antihistamines, and kinase inhibitors, with their mast-cell relationship, cited study types and named conditions kept separate.',
   },
   {
     path: '/supplements',
     label: 'Supplements',
     count: supplements.length,
     blurb:
-      'Held to the same bar as medications. Most of what clears it sits at the mechanistic tier, and the badges say so.',
+      'Held to the same sourcing bar as medications, with laboratory findings kept visibly separate from human studies and approval.',
   },
   {
     path: '/foods',
@@ -49,7 +49,7 @@ const SECTIONS = [
 
 <Base
   title="What mast cell activation syndrome is, and what is known about treating it"
-  description="An index of treatments and triggers discussed in mast cell activation disease, recording the published mechanism for each and how strong the evidence behind it actually is."
+  description="An index of treatments and triggers that separates mechanism, mast-cell relationship, study type, studied condition, approval, and evidence limits."
 >
   <section class="max-w-3xl">
     <h1 class="font-serif text-4xl font-semibold leading-tight tracking-tight">
@@ -65,8 +65,9 @@ const SECTIONS = [
     </p>
     <p class="prose-body mt-3" style="color: var(--text-muted);">
       This site indexes the treatments and triggers discussed for it. For each
-      one it records what the drug or food does, and how strong the evidence
-      behind that is. It carries no dosing and never says anything works.
+      treatment it separates mechanism, mast-cell relationship, study type,
+      studied condition, approval, and evidence limits instead of compressing
+      them into a score. It carries no dosing and never says anything works.
       <a href={href('/glossary')}>Every term used here is defined</a>, and
       <a href={href('/methodology')}>the rules are enforced by the build</a>.
     </p>
@@ -112,8 +113,8 @@ const SECTIONS = [
         </p>
         <ul class="prose-body mt-3 ml-5 list-disc space-y-1.5 text-sm" style="color: var(--text-muted);">
           <li>
-            Nothing is approved for MCAS itself, so every entry borrows its
-            evidence from another condition. Each one says which.
+            Nothing is approved for MCAS itself. Most entries draw their studies
+            from another condition or from laboratory work, and each one says where.
           </li>
           <li>
             <a href={href('/foods')}>Food lists disagree with each other</a>, and
@@ -157,16 +158,16 @@ const SECTIONS = [
         Nothing here is approved for MCAS, and almost nothing has been tested in it.
       </strong>
       Only {studiedInMcas} of {treatments.length} entries have been studied in MCAS
-      patients at all, and even those are uncontrolled. So every entry states two things
-      instead: how directly it has been studied in mast cells, and which conditions it is
-      actually approved or trialled for.
+      patients at all, and even those are uncontrolled. So every entry separates how the
+      treatment relates to mast cells, the types of studies cited, the conditions studied,
+      regulatory approval and what the evidence cannot establish.
     </p>
     <p class="prose-body mt-3" style="color: var(--text-muted);">
       The first of those carries a distinction worth knowing before you ask about
-      anything: {downstream} of these do not act on mast cells at all. They block or
-      degrade a mediator after release. That is a perfectly coherent thing to do — it is
-      simply a different kind of intervention from a drug aimed at the cell itself, and
-      nothing on this site used to tell you which was which.
+      anything: {downstream} of these act after mast-cell mediators are released. That
+      includes routine antihistamines and emergency epinephrine. The relationship says
+      where an intervention acts, not how important it is, and it is never shown as a
+      strength score.
     </p>
     <ul class="mt-4 space-y-2">
       {
@@ -174,7 +175,7 @@ const SECTIONS = [
           <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
             <a
               href={href(`/methodology#basis-${basis}`)}
-              class:list={['badge', `basis-${basis}`]}
+              class="badge badge-neutral"
             >
               {MAST_CELL_BASIS_INFO[basis].label}
             </a>

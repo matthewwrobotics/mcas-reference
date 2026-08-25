@@ -1,36 +1,67 @@
-# Completion record: new-patient usability work
+# Project handoff: new-patient usability work
 
-Claude paused mid-implementation; Codex completed and verified the batch. The
-final change set covers **24 explicit paths**. `npm run validate`, `npm run a11y`
-(51 pages, 0 violations), 99 tests, and `npm run verify:sources` (136 PubMed
+Claude paused mid-implementation; Codex completed the new-patient batch and the
+later mast-cell-display correction. `npm run validate`, `npm run a11y` (51
+pages, 0 violations), 88 tests, and `npm run verify:sources` (136 PubMed
 citations and 16 trial records) are green.
 
 Plan file: `~/.claude/plans/thoughts-here-s-the-full-shimmying-mist.md`.
 
-## Why this work exists
+## Decision reversal: the patient-facing mast-cell grade is removed
+
+An earlier review concluded that the grade calculation was internally consistent
+and could remain if its labels were clarified. That decision is reversed. The
+calculation ranked the strongest cited study design that directly involved mast
+cells, but a patient could reasonably read the badge as clinical evidence,
+usefulness or importance. It therefore displayed "None" for epinephrine and
+routine downstream H1/H2 antihistamines while placing experimental treatments
+with direct case reports above them.
+
+The inputs were not discarded. Cards and entry pages now show the literal
+mast-cell relationship and cited study types separately, alongside named studied
+conditions, approval context and evidence limits. A numeric direct-mast-cell
+study rank remains internal only as the final browsing-order fallback after
+clinical context, numbered step and sourced `stepOrder`. It is not a usefulness,
+effectiveness, importance or recommendation score.
+
+**Do not restore the visible grade as an unfinished feature.** Its removal is a
+deliberate correctness decision, not a missing UI pass.
+
+The owner subsequently rejected the longer sentence-style relationship labels
+as too cumbersome. The six concise labels from the earlier interface are
+restored (`MCAS patients`, `Mast cell disease`, `Mast-cell-mediated condition`,
+`Mast cells in the laboratory`, `Related inflammatory condition`, and
+`Downstream of the mast cell`). Their plain-language definitions remain directly
+linked, and the UI still introduces them as “How it relates” rather than using
+the grammatically incorrect “Studied in downstream…” construction.
+
+## Why the earlier usability work exists
 
 Two audits found the site reads as though the reader already knows what MCAS is.
 It never defined the condition — 250+ uses of six core terms with zero
 definitional phrases sitewide. Underneath that sat a correctness bug: cards
 rendered bare badges reading "Approved" and "None", qualified only by `sr-only`
 text and a `title` tooltip, which is invisible on touch devices. Beside a
-mast-cell evidence grade, "Approved" reads as *approved for MCAS* — which
+naked evidence badge, "Approved" reads as *approved for MCAS* — which
 nothing here is.
 
 ## Completion status
 
-Complete. The published methodology now matches the visible badge wording,
-including **"Approved for other conditions"** and the restored mast-cell evidence
-grade. The lint also rejects both an approved MCAS condition and the reserved
-`approved-us-mcas` regulatory status while that wording remains in use.
+Complete. The published methodology now explains why treatments are not scored.
+It matches the relationship and study-type wording, and approval appears only
+with its named conditions rather than as a redundant generic marker. The lint
+also rejects both an approved MCAS condition and the reserved `approved-us-mcas`
+regulatory status while the site says nothing is approved for MCAS.
 
 ## Landed
 
-- **`GradeBadge.astro`** — both badges carry visible context. Full labels on
-  entry pages, prefixed short labels on cards.
+- **`TreatmentFacts.astro` and `EvidenceRows.astro`** — cards use one compact,
+  wrapping line for relationship and study types; full entries use two rows.
+  Named approval and trial conditions remain directly below, without a redundant
+  generic approval marker.
 - **`lint-content.mjs`** — new rule fails the build if any `establishedFor`
-  condition under an approved basis names MCAS, so the badge wording cannot
-  silently become false. Proven to fire by seeding a violation. `PAGE_PROSE`
+  condition under an approved basis names MCAS, so the site-wide positioning
+  cannot silently become false. Proven to fire by seeding a violation. `PAGE_PROSE`
   widened from 1 page to 6.
 - **`stepOrder`** on the medication schema, with a `superRefine` requiring a
   `treatmentStep`. Sourced, not editorial: step 1's own review text says
@@ -38,7 +69,7 @@ grade. The lint also rejects both an approved MCAS condition and the reserved
   Documented at `methodology.astro` in the sequence section.
 - **`byClinicalSequence` / `sequenceRank`** in `derive.ts`, now shared by
   `TreatmentIndex.astro` and `appointment.astro`. The picker previously
-  flat-sorted by evidence strength, floating benzodiazepines, hydroxyurea,
+  flat-sorted by a direct-study rank, floating benzodiazepines, hydroxyurea,
   sunitinib and tofacitinib above routine antihistamines in the one view a
   patient carries to an appointment. It now groups emergency → steps 1–8 →
   contexts → unsequenced. 9 new tests.
@@ -61,7 +92,8 @@ grade. The lint also rejects both an approved MCAS condition and the reserved
 
 ## Completed after the handoff
 
-1. Reconciled `/methodology` with the current grade and approval labels.
+1. Reconciled `/methodology` with the literal relationship, study-type and
+   approval labels, including the reason the earlier score was removed.
 2. Put utility before caveats on `/medications` and `/foods` without removing
    any caveat.
 3. Added a back-to-top control on `/advocacy`.

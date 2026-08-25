@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   axisGroups,
-  relevanceGrade,
-  byGradeThenName,
-  byEvidenceThenName,
+  directMastCellStudyRank,
+  byDirectMastCellStudyThenName,
   byClinicalSequence,
   sequenceRank,
   consensusRating,
@@ -153,81 +152,56 @@ describe('consensusRating', () => {
   });
 });
 
-describe('byEvidenceThenName', () => {
-  it('sorts most directly studied in mast cells first, then alphabetically', () => {
-    const sorted = [
-      { mastCellBasis: 'downstream' as const, name: 'Cetirizine' },
-      { mastCellBasis: 'related-condition' as const, name: 'TLL-018' },
-      { mastCellBasis: 'mast-cell-mediated-condition' as const, name: 'Barzolvolimab' },
-      { mastCellBasis: 'mcas-patients' as const, name: 'Zebra' },
-      { mastCellBasis: 'mast-cell-disease' as const, name: 'Beta' },
-      { mastCellBasis: 'mast-cell-disease' as const, name: 'Alpha' },
-    ].sort(byEvidenceThenName);
-    expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Barzolvolimab', 'TLL-018', 'Cetirizine']);
+describe('directMastCellStudyRank', () => {
+  it('ranks the strongest cited design that directly involved mast cells', () => {
+    expect(directMastCellStudyRank({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['randomised-controlled'] })).toBe(0);
+    expect(directMastCellStudyRank({ mastCellBasis: 'mast-cell-mediated-condition', studyDesigns: ['randomised-controlled'] })).toBe(0);
+    expect(directMastCellStudyRank({ mastCellBasis: 'mcas-patients', studyDesigns: ['case-series'] })).toBe(1);
+    expect(directMastCellStudyRank({ mastCellBasis: 'mcas-patients', studyDesigns: ['cross-sectional'] })).toBe(1);
+    expect(directMastCellStudyRank({ mastCellBasis: 'laboratory', studyDesigns: ['in-vitro'] })).toBe(2);
+    expect(directMastCellStudyRank({ mastCellBasis: 'laboratory', studyDesigns: ['animal'] })).toBe(3);
   });
 
-  it('does not let trial strength outrank proximity to mast cells', () => {
-    // Avapritinib has a placebo-controlled trial behind it — in a disease MCAS
-    // patients do not have. Ranking on trial quality would put it top and
-    // quietly recommend it.
-    const sorted = [
-      { mastCellBasis: 'mast-cell-disease' as const, name: 'Avapritinib' },
-      { mastCellBasis: 'mcas-patients' as const, name: 'Studied in MCAS itself' },
-    ].sort(byEvidenceThenName);
-    expect(sorted[0]!.name).toBe('Studied in MCAS itself');
-  });
-
-  it('ranks a drug acting on mast cells above one acting downstream', () => {
-    const sorted = [
-      { mastCellBasis: 'downstream' as const, name: 'Famotidine' },
-      { mastCellBasis: 'laboratory' as const, name: 'Quercetin' },
-    ].sort(byEvidenceThenName);
-    expect(sorted[0]!.name).toBe('Quercetin');
-  });
-});
-
-describe('relevanceGrade', () => {
-  it('grades on the strongest design done in mast cells', () => {
-    expect(relevanceGrade({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['randomised-controlled'] })).toBe('randomised');
-    expect(relevanceGrade({ mastCellBasis: 'mast-cell-mediated-condition', studyDesigns: ['randomised-controlled'] })).toBe('randomised');
-    expect(relevanceGrade({ mastCellBasis: 'mcas-patients', studyDesigns: ['case-series'] })).toBe('human-observational');
-    expect(relevanceGrade({ mastCellBasis: 'mcas-patients', studyDesigns: ['cross-sectional'] })).toBe('human-observational');
-    expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['in-vitro'] })).toBe('in-vitro');
-    expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['animal'] })).toBe('animal');
-  });
-
-  it('returns none for anything acting downstream, whatever designs it lists', () => {
+  it('places downstream mechanisms on the final internal sort rank', () => {
     // Famotidine has a randomised trial — in acute urticaria, not in mast
-    // cells. Letting that count is how the previous grade became meaningless.
+    // cells. That trial remains visible as a separate fact on the card.
     expect(
-      relevanceGrade({ mastCellBasis: 'downstream', studyDesigns: ['randomised-controlled'] }),
-    ).toBe('none');
+      directMastCellStudyRank({ mastCellBasis: 'downstream', studyDesigns: ['randomised-controlled'] }),
+    ).toBe(4);
   });
 
-  it('does not convert a related-condition trial into mast-cell evidence', () => {
+  it('does not convert a related-condition trial into a direct mast-cell study', () => {
     expect(
-      relevanceGrade({ mastCellBasis: 'related-condition', studyDesigns: ['randomised-controlled'] }),
-    ).toBe('none');
+      directMastCellStudyRank({ mastCellBasis: 'related-condition', studyDesigns: ['randomised-controlled'] }),
+    ).toBe(4);
   });
 
-  it('keeps non-human cells on the non-human rung', () => {
+  it('keeps non-human cells below human in-vitro work', () => {
     expect(
-      relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['non-human-in-vitro'] }),
-    ).toBe('animal');
+      directMastCellStudyRank({ mastCellBasis: 'laboratory', studyDesigns: ['non-human-in-vitro'] }),
+    ).toBe(3);
   });
 
   it('takes the strongest design when several are present', () => {
     expect(
-      relevanceGrade({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['in-vitro', 'randomised-controlled'] }),
-    ).toBe('randomised');
+      directMastCellStudyRank({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['in-vitro', 'randomised-controlled'] }),
+    ).toBe(0);
   });
 
   it('ranks human in vitro above an animal model', () => {
     const sorted = [
       { mastCellBasis: 'laboratory' as const, studyDesigns: ['animal' as const], name: 'PEA' },
       { mastCellBasis: 'laboratory' as const, studyDesigns: ['in-vitro' as const], name: 'Quercetin' },
-    ].sort(byGradeThenName);
+    ].sort(byDirectMastCellStudyThenName);
     expect(sorted[0]!.name).toBe('Quercetin');
+  });
+
+  it('falls back to alphabetical order when the internal ranks match', () => {
+    const sorted = [
+      { mastCellBasis: 'laboratory' as const, studyDesigns: ['animal' as const], name: 'Zinc' },
+      { mastCellBasis: 'laboratory' as const, studyDesigns: ['animal' as const], name: 'Alpha' },
+    ].sort(byDirectMastCellStudyThenName);
+    expect(sorted.map((entry) => entry.name)).toEqual(['Alpha', 'Zinc']);
   });
 });
 
@@ -297,12 +271,12 @@ describe('byClinicalSequence', () => {
     studyDesigns: ['randomised-controlled'],
   };
 
-  it('follows stepOrder even when the later entry has stronger mast-cell evidence', () => {
+  it('follows stepOrder even when the later entry has a stronger direct-study rank', () => {
     expect(byClinicalSequence(cetirizine, hydroxyzine)).toBeLessThan(0);
     expect(byClinicalSequence(hydroxyzine, cetirizine)).toBeGreaterThan(0);
   });
 
-  it('falls back to evidence strength when neither sets stepOrder', () => {
+  it('falls back to the internal direct-study rank when neither sets stepOrder', () => {
     const a: Entry = { ...cetirizine, stepOrder: undefined };
     const b: Entry = { ...hydroxyzine, stepOrder: undefined };
     // b is studied in MCAS patients directly, so it should lead on evidence.

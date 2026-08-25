@@ -51,4 +51,4 @@ Tranilast is an oral anti-allergic medicine whose Japanese label describes inhib
 
 Those experiments support calling tranilast a laboratory-studied mast-cell stabilizer, but they do not supply a human MCAS result. A double-blind controlled comparison in perennial allergic rhinitis included tranilast, cromolyn, and placebo groups; the PubMed record does not identify the allocation as randomized, so this page does not display a randomized-trial badge for that study.
 
-Regulatory context is formulation- and country-specific. Rizaben capsules, fine granules, and dry syrup appear in the current Japanese PMDA prescribing information. The non-US approval tag records that fact separately from the mast-cell evidence and from any question of MCAS use.
+Regulatory context is formulation- and country-specific. Rizaben capsules, fine granules, and dry syrup appear in the current Japanese PMDA prescribing information. The non-US approval tag records that fact separately from the mast-cell relationship and from any question of MCAS use.

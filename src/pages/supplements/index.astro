@@ -16,11 +16,12 @@ const entries = (await getCollection('supplements')).filter((e) => !e.data.draft
     <strong style="color: var(--text);">
       Nothing here is approved for MCAS, and almost nothing has been tested in it.
     </strong>
-    Every entry borrows its evidence from somewhere else. What differs is where from —
-    and how good it is when it gets there. Entries are grouped below by how directly
-    they have been studied in <a href={href('/glossary#mast-cell')}>mast cells</a>,
-    strongest first, and each states which conditions it is actually
-    <a href={href('/glossary#approved')}>approved</a> or trialled for.
+    Every entry borrows its evidence from somewhere else. What differs is where from.
+    Where no clinical sequence sets an order, an internal rank uses the strongest cited
+    study design that directly involved <a href={href('/glossary#mast-cell')}>mast cells</a>.
+    That affects browsing order only, not clinical importance. Each card shows the
+    relationship and study types directly, plus any conditions actually
+    <a href={href('/glossary#approved')}>approved</a> or trialled.
   </p>
   <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
     {entries.length} entries. No dosing, and no claim that anything here works.

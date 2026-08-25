@@ -1,0 +1,35 @@
+---
+import StudyDesignLinks from './StudyDesignLinks.astro';
+import {
+  MAST_CELL_BASIS_INFO,
+  type MastCellBasis,
+  type StudyDesign,
+} from '../lib/vocab';
+import { href } from '../lib/paths';
+
+interface Props {
+  basis: MastCellBasis;
+  studyDesigns: StudyDesign[];
+}
+
+const { basis, studyDesigns } = Astro.props;
+---
+
+<!--
+  A compact set of literal facts, not a score. This deliberately occupies the
+  former badge slot so cards never lose their mast-cell context while the
+  misleading score is removed.
+-->
+<p class="treatment-facts mt-2 text-sm">
+  <span>
+    <span class="treatment-fact-label">How it relates:</span>{' '}
+    <a href={href(`/methodology#basis-${basis}`)}>
+      {MAST_CELL_BASIS_INFO[basis].label}
+    </a>
+  </span>
+  <span class="treatment-fact-separator" aria-hidden="true">·</span>
+  <span>
+    <span class="treatment-fact-label">Study types:</span>{' '}
+    <StudyDesignLinks designs={studyDesigns} />
+  </span>
+</p>
