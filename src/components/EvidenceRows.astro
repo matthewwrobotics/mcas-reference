@@ -32,6 +32,7 @@ interface Props {
   specialistUse: SpecialistUse[];
   treatmentContext?: TreatmentContext;
   regulatory: RegulatoryStatus;
+  practicalNote?: { text: string; sourceUrl: string };
   compact?: boolean;
 }
 const {
@@ -42,6 +43,7 @@ const {
   specialistUse,
   treatmentContext,
   regulatory,
+  practicalNote,
   compact = false,
 } = Astro.props;
 const info = MAST_CELL_BASIS_INFO[basis];
@@ -174,6 +176,20 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
             ) : (
               fallback
             )}
+          </span>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    !compact && practicalNote && (
+      <div>
+        <dt>Known for</dt>
+        <dd>
+          <span class="evidence-gloss">
+            {practicalNote.text}{' '}
+            <a href={practicalNote.sourceUrl}>Source</a>
           </span>
         </dd>
       </div>

@@ -25,7 +25,19 @@ evidenceLimits: >
   and the current consumer label warns that drowsiness may occur; neither fact
   establishes an MCAS outcome or predicts sedation for an individual.
 regulatory: otc
+practicalNote:
+  text: >
+    The FAA does not clear cetirizine for use while flying. It requires 48 hours
+    between a dose and flight duties — the same restriction it places on
+    levocetirizine, and unlike loratadine and desloratadine, which are on its
+    acceptable non-sedating list.
+  sourceUrl: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
 citations:
+  - title: "FAA Guide for Aviation Medical Examiners: Allergy — Antihistamine & Immunotherapy Medication"
+    url: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
+    sourceType: reference
+    year: 2022
+    accessed: 2026-08-25
   - title: "Cetirizine versus hydroxyzine and placebo in chronic idiopathic urticaria"
     url: "https://pubmed.ncbi.nlm.nih.gov/8893110/"
     sourceType: peer-reviewed

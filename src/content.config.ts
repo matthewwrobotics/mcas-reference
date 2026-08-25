@@ -159,6 +159,24 @@ const treatmentBase = z.object({
    */
   classRepresentative: z.string().min(1).optional(),
   /**
+   * What this drug is known for in practice, where a source establishes it.
+   *
+   * Class members differ in ways patients hear about long before they reach a
+   * reference site — that one is "the non-drowsy one", that another is the one
+   * pilots can take. Those beliefs are often marketing rather than fact, and a
+   * reference that stays silent leaves them standing.
+   *
+   * Requires a source like any other claim, and the source is named in the
+   * text rather than left implicit, because the useful part is usually who
+   * says so. It is not an efficacy claim and must not become one.
+   */
+  practicalNote: z
+    .object({
+      text: z.string().min(20).max(400),
+      sourceUrl: z.url(),
+    })
+    .optional(),
+  /**
    * What this evidence cannot establish, in plain prose. Replaces an earlier
    * ordinal "confound risk: high" score, which several readers took to mean the
    * drug was dangerous rather than that the study design was weak.
@@ -191,6 +209,19 @@ function applyPolicy(
       message:
         `"${entry.name}" has both a numbered treatmentStep and a separate treatmentContext. ` +
         `It cannot be inside and outside the published sequence at the same time.`,
+    });
+  }
+
+  // A practical note is a claim, so it answers to a citation like every other.
+  if (entry.practicalNote &&
+      !entry.citations.some((c) => c.url === entry.practicalNote!.sourceUrl)) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['practicalNote', 'sourceUrl'],
+      message:
+        `"${entry.name}" has a practical note whose sourceUrl matches no citation on ` +
+        `the entry. What a drug is "known for" is exactly the kind of claim that ` +
+        `arrives as folklore, so it is source-audited like any other.`,
     });
   }
 

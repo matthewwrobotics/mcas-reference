@@ -130,6 +130,11 @@ const groups = [
                         <span style="color: var(--text-faint);">
                           {' — '}{m.data.summary}
                         </span>
+                        {m.data.practicalNote && (
+                          <span class="mt-0.5 block" style="color: var(--text-muted);">
+                            {m.data.practicalNote.text}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>

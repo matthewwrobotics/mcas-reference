@@ -16,7 +16,19 @@ evidenceLimits: >
   cell condition. The class evidence was gathered with cetirizine. That
   loratadine is metabolised to another marketed antihistamine is a
   pharmacological relationship, not a result.
+practicalNote:
+  text: >
+    The FAA lets pilots fly while taking it: loratadine is one of two oral
+    antihistamines on its acceptable, non-sedating list. That is a regulator judging
+    impairment risk across a population, not a promise about how any one person will
+    feel.
+  sourceUrl: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
 citations:
+  - title: "FAA Guide for Aviation Medical Examiners: Allergy — Antihistamine & Immunotherapy Medication"
+    url: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
+    sourceType: reference
+    year: 2022
+    accessed: 2026-08-25
   - title: "Loratadine US over-the-counter Drug Facts label"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9e581ae1-d1e6-4038-86e8-fd0c5ab9878a"
     sourceType: drug-label
