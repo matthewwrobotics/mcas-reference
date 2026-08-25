@@ -12,21 +12,44 @@
  *   node scripts/a11y.mjs [baseUrl]
  */
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const BASE = process.argv[2] ?? 'http://localhost:4321/mcas-reference';
-const PATHS = [
-  '',
-  'medications',
-  'medications/masitinib',
-  'supplements',
-  'foods',
-  'advocacy',
-  'appointment',
-  'methodology',
-  'resources',
-];
+
+/**
+ * Every route, discovered from the build rather than listed by hand.
+ *
+ * This was a fixed list of nine paths. The site now builds forty-eight, so
+ * every entry added since the list was written had never been swept — the
+ * script reported "9 pages clean" and sounded like full coverage. A hardcoded
+ * inventory of a growing thing decays silently, which is the worst way for a
+ * check to fail.
+ */
+function discoverPaths() {
+  const dist = join(ROOT, 'dist');
+  if (!existsSync(dist)) {
+    console.error('No dist/ — run `npm run build` first so routes can be discovered.');
+    process.exit(1);
+  }
+  const out = [];
+  const walk = (dir) => {
+    for (const name of readdirSync(dir)) {
+      const full = join(dir, name);
+      if (statSync(full).isDirectory()) walk(full);
+      else if (name === 'index.html') {
+        out.push(relative(dist, dir).split(/[\\/]/).join('/'));
+      }
+    }
+  };
+  walk(dist);
+  return out.sort();
+}
+
+const PATHS = discoverPaths();
 
 const axeSource = readFileSync(
   new URL('../node_modules/axe-core/axe.min.js', import.meta.url),
@@ -63,7 +86,7 @@ for (const path of PATHS) {
 await browser.close();
 
 if (violations.size === 0) {
-  console.log(`✓ No accessibility violations across ${PATHS.length} pages.`);
+  console.log(`✓ No accessibility violations across all ${PATHS.length} built pages.`);
   process.exit(0);
 }
 
