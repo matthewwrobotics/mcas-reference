@@ -72,6 +72,17 @@ jobs:
         if: always()
         run: node scripts/check-staleness.mjs --out ./lychee/staleness.md
 
+      # Identity, not liveness: lychee above already checks whether URLs answer.
+      # This checks that the identifiers still resolve to what the site claims —
+      # that a PMID is the paper we named, and that a trial's phase, status and
+      # enrolment have not moved underneath us. `continue-on-error` so a drifted
+      # trial status still reaches the report rather than killing the run.
+      - name: Source integrity
+        id: sources
+        if: always()
+        continue-on-error: true
+        run: node scripts/verify-sources.mjs --out ./lychee/sources.md
+
       - name: Assemble report
         if: always()
         run: |
@@ -79,6 +90,8 @@ jobs:
             echo "Automated weekly check of every cited link and every entry's verification date."
             echo
             cat ./lychee/staleness.md
+            echo
+            cat ./lychee/sources.md
             echo
             echo "---"
             echo
@@ -88,11 +101,11 @@ jobs:
       # Open an issue only when links are actually broken. A freshness-only
       # report goes to the run summary rather than generating a weekly issue
       # nobody reads.
-      - name: Open issue for broken links
-        if: steps.lychee.outputs.exit_code != 0
+      - name: Open issue for broken links or drifted sources
+        if: steps.lychee.outputs.exit_code != 0 || steps.sources.outcome == 'failure'
         uses: peter-evans/create-issue-from-file@v5
         with:
-          title: Broken links found in cited sources
+          title: Cited sources need attention
           content-filepath: ./lychee/report.md
           labels: maintenance, automated
 

@@ -21,6 +21,16 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
+## Working with the other agents
+
+Roles, owned files and the pipeline: `docs/agents/ROLES.md`.
+Current checkpoint: `docs/agents/STATUS.md`.
+Research packet template: `docs/agents/PACKET.md`.
+
+Read those three to orient. `RESEARCH_HANDOFF.md`,
+`FOOD_RESEARCH_HANDOFF.md` and `TREATMENT_CANDIDATE_CATALOG.md` are archives —
+reference them, do not read them end to end to start work.
+
 ## Project rules (read before editing content)
 
 This site publishes an editorial policy at `/methodology` and enforces it in the
@@ -40,7 +50,17 @@ build. Before changing anything under `src/content/`, understand that:
 - **`lastVerified` means a human opened the sources.** Bumping the date without
   re-reading them defeats the entire freshness mechanism.
 
-Run `npm run validate` before considering any content change done.
+Run `npm run validate` before considering any content change done. It is
+deliberately offline and deterministic.
+
+`npm run verify:sources` is the networked companion: it confirms every PMID
+resolves to the paper cited, that a PMID agrees with its own URL, and that a
+trial's phase, status and enrolment still match the registry. It runs weekly and
+on demand, never as part of `validate`, and it never writes `lastVerified`.
+
+It checks **identity, not meaning**. Whether a cited paper supports the wording
+around it, and whether a claim that evidence does not exist is true, are things
+no script can settle.
 
 ## Committing when another agent is working in the same tree
 
