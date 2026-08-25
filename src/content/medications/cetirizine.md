@@ -27,17 +27,11 @@ evidenceLimits: >
 regulatory: otc
 practicalNote:
   text: >
-    The FAA does not clear cetirizine for use while flying. It requires 48 hours
-    between a dose and flight duties — the same restriction it places on
-    levocetirizine, and unlike loratadine and desloratadine, which are on its
-    acceptable non-sedating list.
-  sourceUrl: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
+    Its own label carries a plain drowsiness warning: drowsiness may occur. That is
+    the practical difference between it and loratadine or fexofenadine, both of
+    which are sold as non-drowsy.
+  sourceUrl: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=678dcc09-55da-4d9d-a39a-c450c61c387b"
 citations:
-  - title: "FAA Guide for Aviation Medical Examiners: Allergy — Antihistamine & Immunotherapy Medication"
-    url: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
-    sourceType: reference
-    year: 2022
-    accessed: 2026-08-25
   - title: "Cetirizine versus hydroxyzine and placebo in chronic idiopathic urticaria"
     url: "https://pubmed.ncbi.nlm.nih.gov/8893110/"
     sourceType: peer-reviewed

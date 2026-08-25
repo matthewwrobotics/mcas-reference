@@ -19,17 +19,11 @@ evidenceLimits: >
   consumer label carries the same drowsiness warning.
 practicalNote:
   text: >
-    Xyzal is often taken to be the less-drowsy version of cetirizine. The FAA does
-    not treat it that way: it places levocetirizine and cetirizine together, both
-    requiring 48 hours between a dose and flight duties, and puts neither on the
-    acceptable non-sedating list that loratadine and desloratadine are on.
-  sourceUrl: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
+    Xyzal is widely believed to be the less-drowsy version of cetirizine. Its label
+    does not say that. It carries the same plain warning that cetirizine's does —
+    drowsiness may occur — in the same words.
+  sourceUrl: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9ba39415-34af-49ca-b5cb-464e75517917"
 citations:
-  - title: "FAA Guide for Aviation Medical Examiners: Allergy — Antihistamine & Immunotherapy Medication"
-    url: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
-    sourceType: reference
-    year: 2022
-    accessed: 2026-08-25
   - title: "Levocetirizine dihydrochloride US over-the-counter Drug Facts label"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9ba39415-34af-49ca-b5cb-464e75517917"
     sourceType: drug-label

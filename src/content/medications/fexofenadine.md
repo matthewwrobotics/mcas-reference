@@ -16,6 +16,11 @@ evidenceLimits: >
   with fexofenadine, and none of it was in MCAS. The absorption interactions on
   its label are label facts about this drug; they say nothing about whether it
   changes anything in mast cell disease.
+practicalNote:
+  text: >
+    Sold as non-drowsy, with no general drowsiness warning on its label — unlike
+    cetirizine and levocetirizine, which both warn that drowsiness may occur.
+  sourceUrl: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1b5aa481-205d-4935-ae58-fcb8cbc35c4c"
 citations:
   - title: "Fexofenadine hydrochloride US over-the-counter Drug Facts label"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1b5aa481-205d-4935-ae58-fcb8cbc35c4c"

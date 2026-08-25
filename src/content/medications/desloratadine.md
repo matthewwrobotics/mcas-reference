@@ -16,18 +16,7 @@ evidenceLimits: >
   of it was in MCAS. Requiring a prescription is a regulatory fact about how
   this drug is sold, not a sign that it is stronger or better studied than the
   over-the-counter members of the same class.
-practicalNote:
-  text: >
-    Like loratadine, it sits on the FAA's acceptable non-sedating list for pilots —
-    a regulator's view of impairment risk across a population, not a promise about
-    any individual. It is the prescription-only member of that pair.
-  sourceUrl: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
 citations:
-  - title: "FAA Guide for Aviation Medical Examiners: Allergy — Antihistamine & Immunotherapy Medication"
-    url: "https://www.faa.gov/ame_guide/media/AllergyAntihistamineImmunotherapyMedication.pdf"
-    sourceType: reference
-    year: 2022
-    accessed: 2026-08-25
   - title: "Desloratadine US prescription label"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a90b899-7746-43dc-ac8a-e754428eb30c"
     sourceType: drug-label
