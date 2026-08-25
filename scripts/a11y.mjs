@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const BASE = process.argv[2] ?? 'http://localhost:4321/mcas-reference';
+const BASE = process.argv[2] ?? 'http://localhost:4321';
 
 /**
  * Every route, discovered from the build rather than listed by hand.

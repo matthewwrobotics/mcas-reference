@@ -4,11 +4,11 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Deployed to GitHub Pages at <site><base>. If the repo is ever renamed,
-// `base` must change with it or every internal link 404s.
+// The public site uses a custom domain. GitHub Pages remains the deployment
+// target, but the site is served from the domain root rather than a repository
+// subpath.
 export default defineConfig({
-  site: 'https://matthewwrobotics.github.io',
-  base: '/mcas-reference',
+  site: 'https://mcasreference.org',
   trailingSlash: 'ignore',
   // Astro's HTML compression collapses the newline between prose and an inline
   // element, so "…found that\n<a>only fermented foods…" renders as

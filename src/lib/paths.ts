@@ -1,7 +1,7 @@
 /**
- * The site is served from a subpath on GitHub Pages, so every internal link
- * has to carry the base. Centralised here so a repo rename is a one-line change
- * in astro.config.mjs rather than a site-wide find-and-replace.
+ * Keep internal URLs aware of Astro's configured base. Production is served
+ * from the custom-domain root, while retaining this helper makes previewing a
+ * build under a temporary base path safe.
  */
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, '');
 
