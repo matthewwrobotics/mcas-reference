@@ -538,9 +538,16 @@
     "name": "Kiwi",
     "category": "Fruit",
     "aliases": [],
-    "lastVerified": "2026-08-22",
+    "lastVerified": "2026-08-24",
     "form": "raw",
-    "note": "Kiwi is often described as a histamine “liberator”. The review this entry draws on says the proposed releasing mechanisms remain poorly understood, so no such axis exists here.",
+    "note": "Kiwi illustrates why measured content and a reported trigger must remain separate: its measured histamine is low, while one review records an unconfirmed endogenous-release hypothesis.",
+    "potentialTriggers": [
+      {
+        "signal": "reported-histamine-release",
+        "source": "histamine-state-of-art-2020",
+        "note": "The review names kiwi among foods reported to trigger endogenous histamine release, while stating that the responsible mechanism has not been elucidated."
+      }
+    ],
     "ratings": [
       {
         "axis": "histamine",
@@ -997,8 +1004,15 @@
     "aliases": [
       "Spinacia oleracea"
     ],
-    "lastVerified": "2026-08-20",
+    "lastVerified": "2026-08-24",
     "note": "Two axes worth separating. Spinach is unambiguously high in oxalate. Its histamine content is a different matter: it is present, and it rises the longer the leaves are stored.",
+    "potentialTriggers": [
+      {
+        "signal": "reported-histamine-release",
+        "source": "histamine-content-2021",
+        "note": "The comparative review includes spinach among foods described as having possible histamine-releasing capacity, then states that no supporting human clinical studies were found and that the few laboratory or animal studies were inconclusive."
+      }
+    ],
     "ratings": [
       {
         "axis": "oxalate",
@@ -1035,9 +1049,16 @@
     "name": "Strawberry",
     "category": "Fruit",
     "aliases": [],
-    "lastVerified": "2026-08-22",
+    "lastVerified": "2026-08-24",
     "form": "raw",
-    "note": "Three independent sources agree the measured content is low on every axis they cover — which is worth knowing, because strawberry appears on elimination lists for reasons that are not preformed histamine.",
+    "note": "Three independent sources agree the measured content is low on every axis they cover. A separate review signal records the unconfirmed claim that strawberry may trigger endogenous histamine release.",
+    "potentialTriggers": [
+      {
+        "signal": "reported-histamine-release",
+        "source": "histamine-content-2021",
+        "note": "The review lists strawberry among foods suggested to release endogenous histamine, while emphasizing that there are no supporting human clinical studies and only a few inconclusive laboratory or animal studies."
+      }
+    ],
     "ratings": [
       {
         "axis": "histamine",
@@ -1132,7 +1153,14 @@
     "aliases": [
       "Solanum lycopersicum"
     ],
-    "lastVerified": "2026-08-22",
+    "lastVerified": "2026-08-24",
+    "potentialTriggers": [
+      {
+        "signal": "reported-histamine-release",
+        "source": "histamine-content-2021",
+        "note": "The review includes tomato among foods described as having possible histamine-releasing capacity, while stating that a direct human clinical effect has not been established."
+      }
+    ],
     "ratings": [
       {
         "axis": "histamine",

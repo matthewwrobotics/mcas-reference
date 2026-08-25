@@ -26,6 +26,14 @@
     "terms": "Open access and read in full text for every rating attributed to it here. Compares ten published low-histamine diets against measured histamine and biogenic amine content."
   },
   {
+    "id": "histamine-state-of-art-2020",
+    "name": "Histamine Intolerance: The Current State of the Art (Biomolecules, 2020)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32824107/",
+    "kind": "Peer-reviewed narrative review, open access",
+    "redistribution": "open",
+    "terms": "CC BY 4.0 and read in full text. Used here only when the review explicitly names a food as having been reported to trigger endogenous histamine release. The article states that the responsible mechanism has not been elucidated, so this source supports a reported potential-trigger signal rather than a proven food property or measured-content rating."
+  },
+  {
     "id": "oxalate-kidney-2020",
     "name": "Dietary Oxalate Intake and Kidney Outcomes (Nutrients, 2020)",
     "url": "https://pubmed.ncbi.nlm.nih.gov/32887293/",
