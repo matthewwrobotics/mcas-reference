@@ -3,6 +3,11 @@ name: Hydroxyzine
 aliases: ["Atarax", "Vistaril"]
 summary: First-generation H1 antihistamine; blocks histamine after release and has prominent central nervous system and cardiac safety boundaries.
 mechanismClass: First-generation H1 receptor antagonist
+classMembers:
+  - "Diphenhydramine (Benadryl)"
+  - "Chlorpheniramine (Chlor-Trimeton)"
+  - "Clemastine (Tavist)"
+  - "Cyproheptadine"
 mastCellBasis: mast-cell-disease
 studyDesigns:
   - randomised-controlled

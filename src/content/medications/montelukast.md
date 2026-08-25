@@ -3,6 +3,9 @@ name: Montelukast
 aliases: ["Singulair"]
 summary: Cysteinyl leukotriene receptor antagonist; blocks a mast cell mediator class that antihistamines do not address.
 mechanismClass: Leukotriene receptor antagonist
+classMembers:
+  - "Zafirlukast (Accolate)"
+  - "Pranlukast"
 mastCellBasis: downstream
 studyDesigns:
   - randomised-controlled

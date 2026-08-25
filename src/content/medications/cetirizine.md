@@ -3,6 +3,13 @@ name: Cetirizine
 aliases: ["Zyrtec"]
 summary: Second-generation H1 antihistamine; blocks the H1 receptor and can still cause drowsiness despite a lower-sedation class profile.
 mechanismClass: H1 antihistamine
+classMembers:
+  - "Levocetirizine (Xyzal)"
+  - "Fexofenadine (Allegra)"
+  - "Loratadine (Claritin)"
+  - "Desloratadine (Clarinex)"
+  - "Bilastine"
+  - "Bepotastine"
 mastCellBasis: downstream
 studyDesigns:
   - randomised-controlled

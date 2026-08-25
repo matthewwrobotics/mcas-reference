@@ -26,6 +26,7 @@ interface SpecialistUse {
 }
 interface Props {
   basis: MastCellBasis;
+  classMembers?: string[];
   studyDesigns: StudyDesign[];
   establishedFor: Established[];
   specialistUse: SpecialistUse[];
@@ -35,6 +36,7 @@ interface Props {
 }
 const {
   basis,
+  classMembers = [],
   studyDesigns,
   establishedFor,
   specialistUse,
@@ -94,6 +96,15 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
             {TREATMENT_CONTEXT_INFO[treatmentContext].label}
           </a>
         </dd>
+      </div>
+    )
+  }
+
+  {
+    classMembers.length > 0 && (
+      <div>
+        <dt>Also covers</dt>
+        <dd class="evidence-gloss">{classMembers.join(', ')}</dd>
       </div>
     )
   }

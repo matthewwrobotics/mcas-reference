@@ -3,6 +3,9 @@ name: Famotidine
 aliases: ["Pepcid"]
 summary: H2 antihistamine; blocks the histamine H2 receptor, the principal mediator of gastric acid secretion.
 mechanismClass: H2 antihistamine
+classMembers:
+  - "Cimetidine (Tagamet)"
+  - "Nizatidine (Axid)"
 mastCellBasis: downstream
 studyDesigns:
   - randomised-controlled

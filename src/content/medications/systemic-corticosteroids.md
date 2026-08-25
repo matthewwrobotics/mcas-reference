@@ -3,6 +3,11 @@ name: "Systemic corticosteroids (prednisone representative)"
 aliases: ["oral corticosteroids", "prednisone", "prednisolone", "methylprednisolone", "dexamethasone"]
 summary: Step-7 class in a 2025 practical MCAS approach, supported by uncontrolled idiopathic-anaphylaxis records rather than an MCAS comparison.
 mechanismClass: Systemic glucocorticoid receptor agonist class
+classMembers:
+  - "Prednisone"
+  - "Prednisolone"
+  - "Methylprednisolone"
+  - "Dexamethasone"
 mastCellBasis: related-condition
 studyDesigns:
   - case-series

@@ -116,6 +116,19 @@ const treatmentBase = z.object({
   /** Documented clinical-practice use, kept separate from study evidence. */
   specialistUse: z.array(specialistUse).default([]),
   /**
+   * Other drugs this page stands for.
+   *
+   * Near-identical class members do not each get an entry — six second-generation
+   * antihistamine pages would repeat one evidence base six times. But a reader
+   * looking for Xyzal or Allegra has to find something, and before this field
+   * existed neither string appeared anywhere on the site. Listing them here keeps
+   * one page per evidence base while making the class searchable.
+   *
+   * Not aliases: fexofenadine is a different drug from cetirizine, not another
+   * name for it.
+   */
+  classMembers: z.array(z.string().min(2).max(80)).default([]),
+  /**
    * What this evidence cannot establish, in plain prose. Replaces an earlier
    * ordinal "confound risk: high" score, which several readers took to mean the
    * drug was dangerous rather than that the study design was weak.
