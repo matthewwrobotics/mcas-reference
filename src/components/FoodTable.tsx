@@ -1,7 +1,9 @@
 import { Component, Fragment, useMemo, useState, useId, type ReactNode } from 'react';
 import {
+  FOOD_TRIGGER_SIGNAL_INFO,
   RATING_AXIS_INFO,
   RATING_LABELS,
+  type FoodTriggerSignal,
   type Rating,
   type RatingAxis,
 } from '../lib/vocab';
@@ -16,6 +18,13 @@ export interface FoodRow {
   note?: string;
   lastVerified: string;
   groups: AxisGroup[];
+  potentialTriggers: FoodPotentialTrigger[];
+}
+
+export interface FoodPotentialTrigger {
+  signal: FoodTriggerSignal;
+  source: string;
+  note: string;
 }
 
 export interface SourceInfo {
@@ -184,8 +193,9 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
       <div className="scroll-x">
         <table className="food-table">
           <caption className="sr-only">
-            Foods and their ratings on each trigger axis, shown per source. Cells
-            marked “sources differ” have more than one published value.
+            Foods and their ratings on each content axis, plus separately sourced
+            potential-trigger reports. Cells marked “sources differ” have more than one
+            published value.
           </caption>
           <thead>
             <tr>
@@ -195,6 +205,9 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
                   {RATING_AXIS_INFO[a].label}
                 </th>
               ))}
+              <th scope="col" title="Reported potential trigger, kept separate from measured histamine content">
+                Potential trigger
+              </th>
               <th scope="col">
                 <span className="sr-only">Source detail</span>
               </th>
@@ -221,6 +234,9 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
                       </td>
                     ))}
                     <td>
+                      <TriggerCell triggers={food.potentialTriggers} />
+                    </td>
+                    <td>
                       <button
                         type="button"
                         className="food-expand"
@@ -237,7 +253,7 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
                     hidden={!isOpen}
                     className="food-detail-row"
                   >
-                    <td colSpan={visibleAxes.length + 2}>
+                    <td colSpan={visibleAxes.length + 3}>
                       <FoodDetail food={food} sources={sources} axes={visibleAxes} />
                     </td>
                   </tr>
@@ -255,6 +271,19 @@ function InteractiveFoodTable({ foods, sources, axes }: Props) {
         </p>
       )}
     </div>
+  );
+}
+
+function TriggerCell({ triggers = [] }: { triggers?: FoodPotentialTrigger[] }) {
+  if (triggers.length === 0) return <span className="food-none">—</span>;
+
+  return (
+    <span
+      className="badge badge-neutral"
+      title="Reported in the literature; mechanism and controlled human evidence remain uncertain"
+    >
+      Reported
+    </span>
   );
 }
 
@@ -294,6 +323,27 @@ function FoodDetail({
   return (
     <div className="food-detail">
       {food.note && <p className="food-note">{food.note}</p>}
+      {(food.potentialTriggers ?? []).length > 0 && (
+        <div className="food-axis-block">
+          <h3>
+            Potential trigger
+            <span className="badge badge-neutral">Mechanism uncertain</span>
+          </h3>
+          <ul>
+            {(food.potentialTriggers ?? []).map((trigger) => (
+              <li key={`${trigger.signal}-${trigger.source}`}>
+                <span className="badge badge-neutral">
+                  {FOOD_TRIGGER_SIGNAL_INFO[trigger.signal].detailLabel}
+                </span>{' '}
+                <a href={sources[trigger.source]?.url} rel="noopener">
+                  {sources[trigger.source]?.name ?? trigger.source}
+                </a>
+                <p className="food-source-note">{trigger.note}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {groups.map((g) => (
         <div key={g.axis} className="food-axis-block">
           <h3>

@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   AGING_AFTER_DAYS,
   STALE_AFTER_DAYS,
+  FOOD_TRIGGER_SIGNALS,
   RATING_AXES,
   REDISTRIBUTION,
 } from '../src/lib/vocab';
@@ -60,6 +61,25 @@ describe('food data', () => {
       for (const r of food.ratings) {
         expect(byId.has(r.source), `${food.id} cites unknown source ${r.source}`).toBe(true);
       }
+      for (const trigger of food.potentialTriggers ?? []) {
+        expect(
+          byId.has(trigger.source),
+          `${food.id} cites unknown potential-trigger source ${trigger.source}`,
+        ).toBe(true);
+      }
+    }
+  });
+
+  it('uses only known potential-trigger signals and open sources', () => {
+    for (const food of foods) {
+      for (const trigger of food.potentialTriggers ?? []) {
+        expect(FOOD_TRIGGER_SIGNALS).toContain(trigger.signal);
+        expect(
+          byId.get(trigger.source)?.redistribution,
+          `${food.id} restates link-only potential-trigger source ${trigger.source}`,
+        ).toBe('open');
+        expect(trigger.note?.length).toBeGreaterThan(20);
+      }
     }
   });
 
@@ -88,6 +108,15 @@ describe('food data', () => {
     for (const food of foods) {
       const keys = food.ratings.map((r: any) => `${r.source}::${r.axis}`);
       expect(new Set(keys).size, `${food.id} has duplicate ratings`).toBe(keys.length);
+    }
+  });
+
+  it('never records the same potential-trigger signal twice from one source', () => {
+    for (const food of foods) {
+      const keys = (food.potentialTriggers ?? []).map(
+        (trigger: any) => `${trigger.source}::${trigger.signal}`,
+      );
+      expect(new Set(keys).size, `${food.id} has duplicate trigger signals`).toBe(keys.length);
     }
   });
 });

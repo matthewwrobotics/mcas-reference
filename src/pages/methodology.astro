@@ -10,9 +10,12 @@ import {
   STUDY_DESIGN_INFO,
   TREATMENT_STEPS,
   TREATMENT_STEP_INFO,
+  TREATMENT_CONTEXTS,
+  TREATMENT_CONTEXT_INFO,
   type RelevanceGrade,
   type StudyDesign,
   type TreatmentStep,
+  type TreatmentContext,
   ESTABLISHED_BASIS,
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS,
@@ -141,9 +144,9 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
       Studied in
     </h3>
     <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
-      Ordered from most to least direct, and used to order the index pages. The
-      distinction this exists to make is the last one: several widely used treatments do
-      not act on mast cells at all.
+      Ordered from most to least direct, and used to order the index pages. A related-
+      condition study without a measured mast-cell effect does not become mast-cell
+      evidence, and several widely used treatments act only after a mediator is released.
     </p>
     <dl class="mt-3 space-y-4">
       {
@@ -236,8 +239,23 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         Canadian practice, and entries say so where it matters.
       </p>
       <p>
-        Anything outside that sequence — the KIT inhibitors, which treat clonal disease,
-        and every supplement — is grouped separately rather than being ranked against it.
+        Anything outside that sequence is grouped by its real catalog role rather than
+        being ranked as though all entries answered the same question. Emergency
+        treatment appears before maintenance; trigger-specific, emerging or refractory,
+        and local-route treatments have separate groups. Unclassified entries, including
+        many clonal-disease agents and every supplement, remain outside the sequence.
+      </p>
+      {
+        TREATMENT_CONTEXTS.map((context: TreatmentContext) => (
+          <p id={`context-${context}`}>
+            <strong>{TREATMENT_CONTEXT_INFO[context].label}:</strong>{' '}
+            {TREATMENT_CONTEXT_INFO[context].definition}
+          </p>
+        ))
+      }
+      <p>
+        The build rejects an entry that carries both a numbered treatment step and one
+        of these outside-sequence contexts.
       </p>
     </div>
     <ol class="mt-3 space-y-1 text-sm">
@@ -424,6 +442,45 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         <a href="https://pubmed.ncbi.nlm.nih.gov/38243020/" rel="noopener"
           >Using the Right Criteria for MCAS</a
         > is the best single entry point to that debate.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-10 scroll-mt-6" id="food-potential-trigger">
+    <h2 class="font-serif text-2xl font-semibold">Potential food-trigger reports</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        <strong>Potential trigger</strong> is kept separate from every measured-content
+        axis. A food can contain little measured histamine and still appear on an
+        elimination list, but that does not establish that it releases histamine from
+        mast cells. The table therefore says <strong>Reported</strong>, never “yes” or
+        “histamine liberator.”
+      </p>
+      <p>
+        The evidence boundary is unusually important here. A comparative review found
+        that foods such as strawberry have been described as possible endogenous-
+        histamine triggers, while also finding no supporting human clinical studies and
+        only a few inconclusive laboratory or animal studies. A review focused on
+        mastocytosis likewise found no double-blind placebo-controlled food challenges
+        of proposed histamine-releasing foods. The signal records that the claim exists;
+        it does not promote the claim into established biology.
+      </p>
+      <p>
+        The schema requires every signal to use a registered, restatable source whose
+        full text was opened, plus a food-specific explanatory note. It rejects unknown
+        sources, link-only sources and duplicate signals. A blank cell means no
+        qualifying signal is recorded here—not that the food is guaranteed to be
+        tolerated by every person.
+      </p>
+      <p>
+        Sources:{' '}
+        <a href="https://pubmed.ncbi.nlm.nih.gov/33919293/" rel="noopener">
+          comparative low-histamine-diet review
+        </a>{' '}
+        and{' '}
+        <a href="https://pubmed.ncbi.nlm.nih.gov/16093574/" rel="noopener">
+          mastocytosis evidence review
+        </a>.
       </p>
     </div>
   </section>

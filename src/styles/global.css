@@ -87,6 +87,8 @@
 }
 
 html {
+  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -104,6 +106,9 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.6;
+  /* Wide tables own their horizontal scrolling through .scroll-x. */
+  overflow-x: hidden;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
 }
 
@@ -194,7 +199,9 @@ a.badge:hover { border-color: currentColor; }
 
 .basis-mcas-patients { background: var(--tier-rct-mcas-bg); color: var(--tier-rct-mcas-fg); }
 .basis-mast-cell-disease { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
+.basis-mast-cell-mediated-condition { background: var(--tier-rct-adjacent-bg); color: var(--tier-rct-adjacent-fg); }
 .basis-laboratory { background: var(--tier-observational-bg); color: var(--tier-observational-fg); }
+.basis-related-condition { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
 .basis-downstream { background: var(--tier-mechanistic-bg); color: var(--tier-mechanistic-fg); }
 
 /* Evidence from outside MCAS. Outlined rather than filled, so it reads as a
@@ -230,6 +237,10 @@ a.badge:hover { border-color: currentColor; }
 
 /* Wide content must scroll inside its own box, never the page. */
 .scroll-x {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  contain: inline-size;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -344,8 +355,17 @@ a.badge:hover { border-color: currentColor; }
 }
 .food-expand:hover { background: var(--bg-sunken); }
 
-.food-detail-row td { background: var(--bg-sunken); }
-.food-detail { max-width: 70ch; }
+.food-detail-row td {
+  background: var(--bg-sunken);
+}
+.food-detail {
+  /* The detail belongs to the whole food, not to whichever table column is in
+     view. Anchor it inside the horizontal scroller so expanding a late-column
+     button never opens the explanation offscreen. */
+  position: sticky;
+  left: 0.75rem;
+  max-width: min(70ch, calc(100vw - 4rem));
+}
 .food-note { margin-bottom: 0.85rem; color: var(--text-muted); }
 .food-axis-block + .food-axis-block { margin-top: 1rem; }
 .food-axis-block h3 {

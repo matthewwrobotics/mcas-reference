@@ -32,6 +32,7 @@ const foods: FoodRow[] = foodEntries
     note: f.data.note,
     lastVerified: f.data.lastVerified.toISOString(),
     groups: axisGroups(f.data.ratings, isLinkOnly),
+    potentialTriggers: f.data.potentialTriggers ?? [],
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -48,7 +49,7 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
 
 <Base
   title="Food & triggers"
-  description="A food and trigger directory showing FODMAP, histamine, oxalate, salicylate and amine ratings per source — including where published sources disagree."
+  description="A food and trigger directory showing measured-content ratings per source, potential-trigger reports and where published sources disagree."
 >
   <h1 class="font-serif text-3xl font-semibold tracking-tight">Food &amp; triggers</h1>
 
@@ -63,6 +64,14 @@ const linkOnlySources = sourceEntries.filter((s) => s.data.redistribution === 'l
       >, and that measured histamine content justified fewer than a third of the
       exclusions. Averaging those sources into one number would manufacture a certainty
       the literature does not have.
+    </p>
+    <p>
+      <strong>Potential trigger</strong> is a separate literature signal, not another
+      content rating. “Reported” means an opened review explicitly names the food as a
+      possible endogenous-histamine trigger while also acknowledging that controlled
+      human evidence and the proposed release mechanism are unresolved. A blank cell
+      means no qualifying signal is recorded here; it does not promise universal
+      tolerance.
     </p>
     <p>
       The conflict you will meet most often is not between two laboratories — it is

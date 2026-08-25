@@ -3,7 +3,14 @@ import EvidenceRows from './EvidenceRows.astro';
 import LastVerified from './LastVerified.astro';
 import GradeBadge from './GradeBadge.astro';
 import { byGradeThenName, relevanceGrade } from '../lib/derive';
-import { TREATMENT_STEP_INFO, TREATMENT_STEPS, type TreatmentStep } from '../lib/vocab';
+import {
+  TREATMENT_CONTEXT_INFO,
+  TREATMENT_CONTEXTS,
+  TREATMENT_STEP_INFO,
+  TREATMENT_STEPS,
+  type TreatmentContext,
+  type TreatmentStep,
+} from '../lib/vocab';
 import { href } from '../lib/paths';
 
 interface Props {
@@ -16,8 +23,8 @@ const sorted = [...entries].sort((a, b) => byGradeThenName(a.data, b.data));
 // Grouped by the sequence a published management review describes, because
 // that is the order a reader is likely to meet these in. Within each step,
 // strongest mast-cell evidence first. Anything outside that sequence — the KIT
-// inhibitors, every supplement — falls into a final group rather than being
-// silently ranked against it.
+// inhibitors, emerging refractory reports, every supplement — is explicitly
+// placed rather than being silently ranked against the routine sequence.
 const steps = (TREATMENT_STEPS as readonly TreatmentStep[])
   .map((step) => ({
     key: `step-${step}`,
@@ -28,14 +35,28 @@ const steps = (TREATMENT_STEPS as readonly TreatmentStep[])
   .filter((g) => g.items.length > 0);
 
 const unsequenced = sorted.filter((e) => !e.data.treatmentStep);
+const contextGroups = (TREATMENT_CONTEXTS as readonly TreatmentContext[])
+  .map((context) => ({
+    key: context,
+    title: TREATMENT_CONTEXT_INFO[context].groupTitle,
+    detail: TREATMENT_CONTEXT_INFO[context].groupDetail,
+    position: TREATMENT_CONTEXT_INFO[context].indexPosition,
+    items: unsequenced.filter((e) => e.data.treatmentContext === context),
+  }))
+  .filter((group) => group.items.length > 0);
+const otherUnsequenced = unsequenced.filter(
+  (e) => !e.data.treatmentContext,
+);
 const groups = [
+  ...contextGroups.filter((group) => group.position === 'before-steps'),
   ...steps,
-  ...(unsequenced.length
+  ...contextGroups.filter((group) => group.position === 'after-steps'),
+  ...(otherUnsequenced.length
     ? [{
         key: 'unsequenced',
         title: 'Outside that sequence',
         detail: 'not part of the stepwise approach the review describes',
-        items: unsequenced,
+        items: otherUnsequenced,
       }]
     : []),
 ];
@@ -85,6 +106,7 @@ const groups = [
               studyDesigns={entry.data.studyDesigns}
               establishedFor={entry.data.establishedFor}
               specialistUse={entry.data.specialistUse}
+              treatmentContext={entry.data.treatmentContext}
               regulatory={entry.data.regulatory}
               compact
             />

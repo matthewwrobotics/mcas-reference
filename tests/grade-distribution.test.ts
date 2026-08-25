@@ -20,7 +20,7 @@ function entries() {
       const raw = readFileSync(`${ROOT}${dir}/${file}`, 'utf8');
       const name = raw.match(/^name:\s*(.+)$/m)?.[1] ?? file;
       const basis = raw.match(/^mastCellBasis:\s*(\S+)/m)?.[1] as never;
-      const designs = [...raw.matchAll(/^ {2}- (randomised-controlled|cohort|case-series|case-report|in-vitro|animal)$/gm)]
+      const designs = [...raw.matchAll(/^ {2}- (randomised-controlled|cohort|cross-sectional|case-series|case-report|in-vitro|non-human-in-vitro|animal)$/gm)]
         .map((m) => m[1]) as never[];
       out.push({ name, grade: relevanceGrade({ mastCellBasis: basis, studyDesigns: designs }) });
     }

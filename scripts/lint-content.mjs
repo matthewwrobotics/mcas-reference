@@ -3,7 +3,7 @@
  * Editorial policy guard.
  *
  * The Zod schemas in src/content.config.ts enforce everything expressible as
- * structure — citations present, confound flags where required, trial statuses
+ * structure — citations present, evidence-limit prose required, trial statuses
  * fresh. They cannot see inside the prose. This does.
  *
  * The site states publicly that it carries no dosing information and makes no
@@ -128,9 +128,10 @@ for (const dir of PROSE_DIRS) {
     const summary = extractSummary(frontmatter);
     const frontmatterLines = frontmatter.split('\n').length + 2;
 
-    // Scan the body and the summary. Confound-risk notes are deliberately
-    // exempt: their whole job is to discuss why an apparent effect may not be
-    // one, which requires the vocabulary this lint otherwise forbids.
+    // Scan the body and the summary. Evidence-limit frontmatter is deliberately
+    // outside these targets: its job is to explain why an apparent effect may
+    // not be attributable, which requires vocabulary this lint otherwise
+    // forbids.
     const targets = [
       { label: 'body', text: body, lineOffset: frontmatterLines },
       { label: 'summary', text: summary, lineOffset: 0 },

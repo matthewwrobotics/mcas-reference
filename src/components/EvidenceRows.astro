@@ -4,8 +4,10 @@ import {
   MAST_CELL_BASIS_INFO,
   SPECIALIST_USE_BASIS_INFO,
   STUDY_DESIGN_INFO,
+  TREATMENT_CONTEXT_INFO,
   type StudyDesign,
   type SpecialistUseBasis,
+  type TreatmentContext,
   REGULATORY_INFO,
   type EstablishedBasis,
   type MastCellBasis,
@@ -27,6 +29,7 @@ interface Props {
   studyDesigns: StudyDesign[];
   establishedFor: Established[];
   specialistUse: SpecialistUse[];
+  treatmentContext?: TreatmentContext;
   regulatory: RegulatoryStatus;
   compact?: boolean;
 }
@@ -35,6 +38,7 @@ const {
   studyDesigns,
   establishedFor,
   specialistUse,
+  treatmentContext,
   regulatory,
   compact = false,
 } = Astro.props;
@@ -73,6 +77,22 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
         <dt>Studied in</dt>
         <dd>
           <a href={href(`/methodology#basis-${basis}`)} class="evidence-key">{info.label}</a>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    treatmentContext && (
+      <div>
+        <dt>Catalog context</dt>
+        <dd>
+          <a
+            href={href(`/methodology#context-${treatmentContext}`)}
+            class="badge badge-neutral"
+          >
+            {TREATMENT_CONTEXT_INFO[treatmentContext].label}
+          </a>
         </dd>
       </div>
     )

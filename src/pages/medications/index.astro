@@ -17,9 +17,12 @@ const entries = (await getCollection('medications')).filter((e) => !e.data.draft
       Nothing here is approved for MCAS, and almost nothing has been tested in it.
     </strong>
     Every entry borrows its evidence from somewhere else. What differs is where from —
-    and how good it is when it gets there. Entries are grouped below by how directly
-    they have been studied in mast cells, strongest first, and each states which
-    conditions it is actually approved or trialled for.
+    and how good it is when it gets there. The numbered groups report a published
+    stepwise sequence. Emergency treatment appears before it; trigger-specific,
+    emerging or refractory, and local-route treatments each sit in their own group.
+    Everything else remains outside the sequence. Within each group, the most direct
+    mast-cell evidence appears first. Every entry states which conditions it is actually
+    approved or trialled for.
   </p>
   <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
     {entries.length} entries. No dosing, and no claim that anything here works.

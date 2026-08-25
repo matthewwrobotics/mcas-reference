@@ -23,7 +23,9 @@
 export const MAST_CELL_BASIS = [
   'mcas-patients',
   'mast-cell-disease',
+  'mast-cell-mediated-condition',
   'laboratory',
+  'related-condition',
   'downstream',
 ] as const;
 export type MastCellBasis = (typeof MAST_CELL_BASIS)[number];
@@ -36,19 +38,31 @@ export const MAST_CELL_BASIS_INFO: Record<
     label: 'MCAS patients',
     heading: 'Studied in MCAS patients',
     definition:
-      'Studied in people diagnosed with mast cell activation syndrome. In every current case that means open-label series or retrospective review, never a randomised comparison — so it establishes that people have taken it, not that it worked.',
+      'Studied in people diagnosed with mast cell activation syndrome. Current evidence consists of case reports, uncontrolled series, or retrospective review rather than randomised comparisons — so it establishes that people have taken it, not that it worked.',
   },
   'mast-cell-disease': {
     label: 'Mast cell disease',
     heading: 'Studied in another mast cell disease',
     definition:
-      'Studied in patients with a different mast cell disease, usually systemic mastocytosis. This is the closest anything here comes to trial evidence, and it still is not MCAS: mastocytosis is a clonal disease defined by a mutation MCAS patients are not established to have.',
+      'Studied in patients with a different mast cell disease, usually systemic mastocytosis. Those disorders have diagnostic criteria and disease biology that differ from MCAS, so a result there does not establish an MCAS outcome.',
+  },
+  'mast-cell-mediated-condition': {
+    label: 'Mast-cell-mediated condition',
+    heading: 'Studied in another mast-cell-mediated condition',
+    definition:
+      'Given to people with a condition in which mast cells are central to the disease process, with a human mast-cell effect also measured. This is human evidence, but it is not evidence in MCAS or in a clonal mast cell disorder, and it cannot establish an MCAS outcome.',
   },
   laboratory: {
     label: 'Mast cells in the laboratory',
     heading: 'Studied on mast cells in the laboratory',
     definition:
-      'Studied on mast cells directly, but in cell culture or animals rather than in people. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that ingestion does not reach.',
+      'Studied on mast cells directly, but in cell culture or animals rather than in people. The study-design badge distinguishes human cells from non-human models. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that human exposure does not reach.',
+  },
+  'related-condition': {
+    label: 'Related inflammatory condition',
+    heading: 'Studied in a related inflammatory condition',
+    definition:
+      'Studied in people with a condition in which mast cells can contribute, but the study did not measure an effect on mast cells. This is a clinical bridge for inclusion, not direct mast-cell evidence and not an MCAS outcome.',
   },
   downstream: {
     label: 'Downstream of the mast cell',
@@ -68,9 +82,11 @@ export const MAST_CELL_BASIS_INFO: Record<
 export const STUDY_DESIGNS = [
   'randomised-controlled',
   'cohort',
+  'cross-sectional',
   'case-series',
   'case-report',
   'in-vitro',
+  'non-human-in-vitro',
   'animal',
 ] as const;
 export type StudyDesign = (typeof STUDY_DESIGNS)[number];
@@ -84,6 +100,10 @@ export const STUDY_DESIGN_INFO: Record<StudyDesign, { label: string; definition:
     label: 'cohort study',
     definition: 'A defined group followed over time, without randomisation.',
   },
+  'cross-sectional': {
+    label: 'cross-sectional survey',
+    definition: 'A group assessed at one point in time. Treatment histories and ratings are retrospective and can be affected by recall and selection.',
+  },
   'case-series': {
     label: 'case series',
     definition: 'A set of individual patients described together, with no comparison group.',
@@ -93,8 +113,12 @@ export const STUDY_DESIGN_INFO: Record<StudyDesign, { label: string; definition:
     definition: 'One patient, or a very small number, described individually.',
   },
   'in-vitro': {
-    label: 'in vitro',
-    definition: 'Cells in culture — a mast cell line, or mast cells isolated from human tissue.',
+    label: 'human mast cells in vitro',
+    definition: 'A human mast-cell line or mast cells isolated from human tissue and studied outside the body.',
+  },
+  'non-human-in-vitro': {
+    label: 'non-human mast cells in vitro',
+    definition: 'Mast cells taken from a non-human animal and studied outside the body.',
   },
   animal: {
     label: 'animal model',
@@ -114,6 +138,64 @@ export const SPECIALIST_USE_BASES = [
   'recorded-first-party-discussion',
 ] as const;
 export type SpecialistUseBasis = (typeof SPECIALIST_USE_BASES)[number];
+
+/**
+ * A patient-facing placement note for treatments that sit outside the
+ * published stepwise sequence. This is neither a study grade nor a regulatory
+ * status; it prevents a case-level refractory report from looking like a
+ * routine next step merely because it appears in the same index.
+ */
+export const TREATMENT_CONTEXTS = [
+  'emergency-intervention',
+  'trigger-specific',
+  'emerging-refractory',
+  'local-route',
+] as const;
+export type TreatmentContext = (typeof TREATMENT_CONTEXTS)[number];
+
+export const TREATMENT_CONTEXT_INFO: Record<
+  TreatmentContext,
+  {
+    label: string;
+    definition: string;
+    groupTitle: string;
+    groupDetail: string;
+    indexPosition: 'before-steps' | 'after-steps';
+  }
+> = {
+  'emergency-intervention': {
+    label: 'Emergency intervention',
+    definition:
+      'Used for a time-critical acute event, particularly one meeting anaphylaxis criteria. It appears before the maintenance sequence because emergency treatment and prevention answer different questions; this placement is not an instruction to diagnose an event or use a device.',
+    groupTitle: 'Emergency intervention',
+    groupDetail: 'time-critical acute treatment, not a maintenance step',
+    indexPosition: 'before-steps',
+  },
+  'trigger-specific': {
+    label: 'Trigger-specific treatment',
+    definition:
+      'Directed at a defined sensitization or trigger, such as venom allergy. It may change risk from that trigger but is not a general treatment for every MCAS episode.',
+    groupTitle: 'Trigger-specific treatment',
+    groupDetail: 'directed at a defined sensitization or trigger',
+    indexPosition: 'after-steps',
+  },
+  'emerging-refractory': {
+    label: 'Emerging / refractory evidence',
+    definition:
+      'Included because a published report or survey documents use in people with MCAS, usually after extensive prior treatment. The evidence is uncontrolled, and this placement is not a recommendation or a routine treatment step.',
+    groupTitle: 'Emerging / refractory evidence',
+    groupDetail: 'direct reports or surveys outside the routine stepwise sequence',
+    indexPosition: 'after-steps',
+  },
+  'local-route': {
+    label: 'Local-route symptom treatment',
+    definition:
+      'The studied product is delivered to a particular site, such as the eye, nose, or airway. Its route-specific evidence does not establish systemic MCAS treatment or equivalence to an oral or injected formulation.',
+    groupTitle: 'Local-route symptom treatments',
+    groupDetail: 'route-specific products, not systemic MCAS interventions',
+    indexPosition: 'after-steps',
+  },
+};
 
 export const SPECIALIST_USE_BASIS_INFO: Record<
   SpecialistUseBasis,
@@ -164,14 +246,14 @@ export const RELEVANCE_GRADE_INFO: Record<
   { label: string; short: string; definition: string }
 > = {
   randomised: {
-    label: 'Randomised trial in mast cell disease',
+    label: 'Randomised trial in a mast-cell condition',
     short: 'Randomised',
-    definition: 'A randomised controlled trial with published results, in MCAS or another mast cell disease.',
+    definition: 'A randomised controlled trial with published results in MCAS, another mast cell disease, or another condition with a measured human mast-cell basis.',
   },
   'human-observational': {
     label: 'Observed in patients',
     short: 'Observational',
-    definition: 'Studied in people with MCAS or another mast cell disease, but without randomisation or a control group.',
+    definition: 'Studied in people with MCAS, another mast cell disease, or another condition with a measured human mast-cell basis, but without randomisation or a control group.',
   },
   'in-vitro': {
     label: 'Human mast cells in culture',
@@ -179,14 +261,14 @@ export const RELEVANCE_GRADE_INFO: Record<
     definition: 'Tested on human mast cells in the laboratory. A mechanism in a dish, not a result in a person.',
   },
   animal: {
-    label: 'Animal models',
-    short: 'Animal',
-    definition: 'Tested in live animals. Neither human nor, usually, specific to mast cells.',
+    label: 'Non-human mast-cell evidence',
+    short: 'Non-human',
+    definition: 'Tested in live animals or on non-human mast cells outside the body. It does not establish a human mast-cell effect.',
   },
   none: {
     label: 'No mast cell evidence',
     short: 'None',
-    definition: 'Nothing has been studied in mast cells. The entry rests on a published mechanism acting downstream of the cell.',
+    definition: 'Nothing has been measured in mast cells. The entry rests on a related-condition study or a published mechanism acting downstream of the cell.',
   },
 };
 
@@ -224,8 +306,10 @@ export const TREATMENT_STEP_INFO: Record<TreatmentStep, { label: string; describ
 export const MAST_CELL_BASIS_RANK: Record<MastCellBasis, number> = {
   'mcas-patients': 0,
   'mast-cell-disease': 1,
-  laboratory: 2,
-  downstream: 3,
+  'mast-cell-mediated-condition': 2,
+  laboratory: 3,
+  'related-condition': 4,
+  downstream: 5,
 };
 
 /**
@@ -467,6 +551,29 @@ export const RATING_LABELS: Record<Rating, string> = {
   moderate: 'Moderate',
   high: 'High',
   variable: 'Variable',
+};
+
+/**
+ * A source-level signal that a food is described as a possible trigger for a
+ * reason other than its measured histamine content.
+ *
+ * This is deliberately not another low/moderate/high rating axis. The current
+ * literature does not establish a reproducible clinical "histamine liberator"
+ * effect, so the UI reports the claim without turning it into a food property.
+ */
+export const FOOD_TRIGGER_SIGNALS = ['reported-histamine-release'] as const;
+export type FoodTriggerSignal = (typeof FOOD_TRIGGER_SIGNALS)[number];
+
+export const FOOD_TRIGGER_SIGNAL_INFO: Record<
+  FoodTriggerSignal,
+  { label: string; detailLabel: string; definition: string }
+> = {
+  'reported-histamine-release': {
+    label: 'Reported',
+    detailLabel: 'Proposed histamine release',
+    definition:
+      'A reviewed source names the food as a possible endogenous-histamine trigger, while also stating that the mechanism and controlled human evidence are unresolved.',
+  },
 };
 
 /**

@@ -189,17 +189,24 @@ export function relevanceGrade(entry: {
   mastCellBasis: MastCellBasis;
   studyDesigns: readonly StudyDesign[];
 }): RelevanceGrade {
-  // Acting downstream of the cell means nothing was studied in mast cells,
-  // whatever designs the entry lists for its other evidence.
-  if (entry.mastCellBasis === 'downstream') return 'none';
+  // A related-condition trial or downstream mediator mechanism does not become
+  // mast-cell evidence merely because the study itself was randomised.
+  if (entry.mastCellBasis === 'related-condition' || entry.mastCellBasis === 'downstream') {
+    return 'none';
+  }
 
   const d = entry.studyDesigns;
   if (d.includes('randomised-controlled')) return 'randomised';
-  if (d.includes('cohort') || d.includes('case-series') || d.includes('case-report')) {
+  if (
+    d.includes('cohort') ||
+    d.includes('cross-sectional') ||
+    d.includes('case-series') ||
+    d.includes('case-report')
+  ) {
     return 'human-observational';
   }
   if (d.includes('in-vitro')) return 'in-vitro';
-  if (d.includes('animal')) return 'animal';
+  if (d.includes('non-human-in-vitro') || d.includes('animal')) return 'animal';
   return 'none';
 }
 

@@ -8,9 +8,11 @@ import {
   MAST_CELL_BASIS,
   SPECIALIST_USE_BASES,
   STUDY_DESIGNS,
+  TREATMENT_CONTEXTS,
   TRIAL_PHASES,
   QUALIFYING_CITATION_TYPES,
   FOOD_FORMS,
+  FOOD_TRIGGER_SIGNALS,
   RATING_AXES,
   RATINGS,
   REDISTRIBUTION,
@@ -93,6 +95,8 @@ const treatmentBase = z.object({
   treatmentStep: z
     .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7), z.literal(8)])
     .optional(),
+  /** Separate placement for low-certainty use outside that sequence. */
+  treatmentContext: z.enum(TREATMENT_CONTEXTS).optional(),
   /** Conditions it is approved or trialled for. Empty is a real answer. */
   establishedFor: z.array(established).default([]),
   /** Documented clinical-practice use, kept separate from study evidence. */
@@ -122,6 +126,17 @@ function applyPolicy(
   entry: z.infer<typeof treatmentBase>,
   ctx: z.RefinementCtx,
 ) {
+  // A context placement is explicitly outside the numbered sequence.
+  if (entry.treatmentStep && entry.treatmentContext) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['treatmentContext'],
+      message:
+        `"${entry.name}" has both a numbered treatmentStep and a separate treatmentContext. ` +
+        `It cannot be inside and outside the published sequence at the same time.`,
+    });
+  }
+
   // 1. The inclusion bar. A citable published mechanism, never anecdote.
   const qualifying = entry.citations.filter((c) =>
     (QUALIFYING_CITATION_TYPES as readonly string[]).includes(c.sourceType),
@@ -229,8 +244,18 @@ function applyPolicy(
   // 6. Study design and population must agree. An entry studied in patients
   //    cannot be supported only by cell culture, and one whose evidence is a
   //    dish cannot claim patients.
-  const humanDesigns = ['randomised-controlled', 'cohort', 'case-series', 'case-report'];
-  const inPatients = entry.mastCellBasis === 'mcas-patients' || entry.mastCellBasis === 'mast-cell-disease';
+  const humanDesigns = [
+    'randomised-controlled',
+    'cohort',
+    'cross-sectional',
+    'case-series',
+    'case-report',
+  ];
+  const inPatients =
+    entry.mastCellBasis === 'mcas-patients' ||
+    entry.mastCellBasis === 'mast-cell-disease' ||
+    entry.mastCellBasis === 'mast-cell-mediated-condition' ||
+    entry.mastCellBasis === 'related-condition';
   const hasHuman = entry.studyDesigns.some((d) => humanDesigns.includes(d));
   if (inPatients && !hasHuman) {
     ctx.addIssue({
@@ -274,6 +299,13 @@ const foodRating = z.object({
   url: z.url().optional(),
 });
 
+const foodPotentialTrigger = z.object({
+  signal: z.enum(FOOD_TRIGGER_SIGNALS),
+  /** Must be an open, registered source whose full text supports the signal. */
+  source: z.string().min(1),
+  note: z.string().min(1),
+});
+
 const foods = defineCollection({
   loader: file('./src/content/foods.json'),
   schema: z
@@ -284,6 +316,8 @@ const foods = defineCollection({
       form: z.enum(FOOD_FORMS).optional(),
       aliases: z.array(z.string()).default([]),
       ratings: z.array(foodRating).min(1),
+      /** Literature signals kept separate from measured-content ratings. */
+      potentialTriggers: z.array(foodPotentialTrigger).default([]),
       note: z.string().optional(),
       lastVerified: z.coerce.date(),
     })
@@ -332,6 +366,27 @@ const foods = defineCollection({
         }
       });
 
+      food.potentialTriggers.forEach((trigger, i) => {
+        const redistribution = REDISTRIBUTION_BY_SOURCE.get(trigger.source);
+        if (!redistribution) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['potentialTriggers', i, 'source'],
+            message:
+              `"${food.name}" cites unknown potential-trigger source ` +
+              `"${trigger.source}". Add it to src/content/sources.json first.`,
+          });
+        } else if (redistribution !== 'open') {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['potentialTriggers', i, 'source'],
+            message:
+              `"${food.name}" restates a trigger signal from link-only source ` +
+              `"${trigger.source}". Use an opened, restatable source instead.`,
+          });
+        }
+      });
+
       // Two ratings from the same source on the same axis is a data entry bug,
       // and would show up downstream as a source disagreeing with itself.
       const seen = new Set<string>();
@@ -345,6 +400,21 @@ const foods = defineCollection({
           });
         }
         seen.add(key);
+      });
+
+      const seenTriggers = new Set<string>();
+      food.potentialTriggers.forEach((trigger, i) => {
+        const key = `${trigger.source}::${trigger.signal}`;
+        if (seenTriggers.has(key)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['potentialTriggers', i],
+            message:
+              `"${food.name}" records ${trigger.signal} twice from source ` +
+              `"${trigger.source}".`,
+          });
+        }
+        seenTriggers.add(key);
       });
     }),
 });

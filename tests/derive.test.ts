@@ -150,11 +150,13 @@ describe('byEvidenceThenName', () => {
   it('sorts most directly studied in mast cells first, then alphabetically', () => {
     const sorted = [
       { mastCellBasis: 'downstream' as const, name: 'Cetirizine' },
+      { mastCellBasis: 'related-condition' as const, name: 'TLL-018' },
+      { mastCellBasis: 'mast-cell-mediated-condition' as const, name: 'Barzolvolimab' },
       { mastCellBasis: 'mcas-patients' as const, name: 'Zebra' },
       { mastCellBasis: 'mast-cell-disease' as const, name: 'Beta' },
       { mastCellBasis: 'mast-cell-disease' as const, name: 'Alpha' },
     ].sort(byEvidenceThenName);
-    expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Cetirizine']);
+    expect(sorted.map((e) => e.name)).toEqual(['Zebra', 'Alpha', 'Beta', 'Barzolvolimab', 'TLL-018', 'Cetirizine']);
   });
 
   it('does not let trial strength outrank proximity to mast cells', () => {
@@ -180,7 +182,9 @@ describe('byEvidenceThenName', () => {
 describe('relevanceGrade', () => {
   it('grades on the strongest design done in mast cells', () => {
     expect(relevanceGrade({ mastCellBasis: 'mast-cell-disease', studyDesigns: ['randomised-controlled'] })).toBe('randomised');
+    expect(relevanceGrade({ mastCellBasis: 'mast-cell-mediated-condition', studyDesigns: ['randomised-controlled'] })).toBe('randomised');
     expect(relevanceGrade({ mastCellBasis: 'mcas-patients', studyDesigns: ['case-series'] })).toBe('human-observational');
+    expect(relevanceGrade({ mastCellBasis: 'mcas-patients', studyDesigns: ['cross-sectional'] })).toBe('human-observational');
     expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['in-vitro'] })).toBe('in-vitro');
     expect(relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['animal'] })).toBe('animal');
   });
@@ -191,6 +195,18 @@ describe('relevanceGrade', () => {
     expect(
       relevanceGrade({ mastCellBasis: 'downstream', studyDesigns: ['randomised-controlled'] }),
     ).toBe('none');
+  });
+
+  it('does not convert a related-condition trial into mast-cell evidence', () => {
+    expect(
+      relevanceGrade({ mastCellBasis: 'related-condition', studyDesigns: ['randomised-controlled'] }),
+    ).toBe('none');
+  });
+
+  it('keeps non-human cells on the non-human rung', () => {
+    expect(
+      relevanceGrade({ mastCellBasis: 'laboratory', studyDesigns: ['non-human-in-vitro'] }),
+    ).toBe('animal');
   });
 
   it('takes the strongest design when several are present', () => {
