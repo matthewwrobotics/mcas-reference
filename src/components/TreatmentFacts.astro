@@ -3,6 +3,7 @@ import StudyDesignLinks from './StudyDesignLinks.astro';
 import {
   MAST_CELL_BASIS_INFO,
   type MastCellBasis,
+  type RegulatoryStatus,
   type StudyDesign,
 } from '../lib/vocab';
 import { href } from '../lib/paths';
@@ -10,9 +11,24 @@ import { href } from '../lib/paths';
 interface Props {
   basis: MastCellBasis;
   studyDesigns: StudyDesign[];
+  regulatory: RegulatoryStatus;
 }
 
-const { basis, studyDesigns } = Astro.props;
+const { basis, studyDesigns, regulatory } = Astro.props;
+
+/*
+ * Whether a reader can buy it today.
+ *
+ * The `otc` status was recorded on six entries and displayed on none: the
+ * regulatory label only appeared as a fallback when an entry had no approved
+ * conditions to list, so every over-the-counter drug — which all have
+ * approved conditions — suppressed it. That is the first thing someone
+ * choosing between antihistamines needs and the last thing the site said.
+ *
+ * Only the positive case is marked. The absence of this tag is not a claim
+ * that something is prescription-only; the data does not record that yet.
+ */
+const overTheCounter = regulatory === 'otc';
 ---
 
 <!--
@@ -32,4 +48,12 @@ const { basis, studyDesigns } = Astro.props;
     <span class="treatment-fact-label">Study types:</span>{' '}
     <StudyDesignLinks designs={studyDesigns} />
   </span>
+  {
+    overTheCounter && (
+      <>
+        <span class="treatment-fact-separator" aria-hidden="true">·</span>
+        <span class="badge badge-outline">Sold over the counter</span>
+      </>
+    )
+  }
 </p>

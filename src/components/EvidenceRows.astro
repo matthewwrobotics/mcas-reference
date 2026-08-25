@@ -179,4 +179,20 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
       </div>
     )
   }
+
+  {
+    /* Whether a reader can buy it today, stated on the entry as well as the
+       card. Shown only when true — the absence of this row is not a claim that
+       something is prescription-only, which the data does not yet record. */
+    !compact && regulatory === 'otc' && (
+      <div>
+        <dt>Availability</dt>
+        <dd>
+          <span class="evidence-gloss">
+            sold over the counter in the US, without a prescription
+          </span>
+        </dd>
+      </div>
+    )
+  }
 </dl>
