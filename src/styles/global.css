@@ -521,3 +521,14 @@ a.badge:hover { border-color: currentColor; }
   .treatment-fact-separator { display: none; }
   .treatment-facts > span:not(.treatment-fact-separator) { flex-basis: 100%; }
 }
+
+/* Class members, collapsed on a representative's card. Native <details> so the
+   list works with no JavaScript and announces its own state. */
+.class-members > summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.class-members > summary:hover { color: var(--text); }
+.class-members[open] > summary { margin-bottom: 0.25rem; }

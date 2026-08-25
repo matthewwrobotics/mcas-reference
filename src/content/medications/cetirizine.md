@@ -4,12 +4,11 @@ aliases: ["Zyrtec"]
 summary: Second-generation H1 antihistamine; blocks the H1 receptor and can still cause drowsiness despite a lower-sedation class profile.
 mechanismClass: H1 antihistamine
 classMembers:
-  - "Levocetirizine (Xyzal)"
-  - "Fexofenadine (Allegra)"
-  - "Loratadine (Claritin)"
-  - "Desloratadine (Clarinex)"
-  - "Bilastine"
-  - "Bepotastine"
+  # Names without a page of their own. The four US-marketed members have pages
+  # and are linked from this entry's card; bepotastine was listed here in error
+  # — it is marketed in the US only as an ophthalmic solution, not an oral
+  # antihistamine, so it belongs with the eye products.
+  - "Bilastine (not marketed in the US)"
 mastCellBasis: downstream
 studyDesigns:
   - randomised-controlled

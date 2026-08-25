@@ -21,7 +21,24 @@ const { entries, basePath } = Astro.props;
 // Shared with the appointment picker so the two orderings cannot drift apart.
 // Groups below re-filter this list, so the sequence rank is a no-op here; what
 // matters is stepOrder ahead of the internal direct-study rank within a step.
-const sorted = [...entries].sort((a, b) => byClinicalSequence(a.data, b.data));
+/*
+ * Class members never appear as their own row. They share the representative's
+ * evidence, so six of them in a browsing list would read as six findings when
+ * there is one. They hang off the representative's card instead, and keep
+ * their own pages.
+ */
+const members = new Map<string, any[]>();
+for (const entry of entries) {
+  const rep = entry.data.classRepresentative;
+  if (!rep) continue;
+  members.set(rep, [...(members.get(rep) ?? []), entry]);
+}
+for (const list of members.values()) {
+  list.sort((a, b) => a.data.name.localeCompare(b.data.name));
+}
+
+const listed = entries.filter((e) => !e.data.classRepresentative);
+const sorted = [...listed].sort((a, b) => byClinicalSequence(a.data, b.data));
 
 // Grouped by the sequence a published management review describes, because
 // that is the order a reader is likely to meet these in. Within each step, the
@@ -98,6 +115,27 @@ const groups = [
               studyDesigns={entry.data.studyDesigns}
               regulatory={entry.data.regulatory}
             />
+
+            {
+              members.has(entry.id) && (
+                <details class="class-members mt-2">
+                  <summary>
+                    Others in this class ({members.get(entry.id)!.length}) — same
+                    evidence, different labels
+                  </summary>
+                  <ul class="mt-2 space-y-1.5">
+                    {members.get(entry.id)!.map((m: any) => (
+                      <li class="text-sm">
+                        <a href={href(`${basePath}/${m.id}`)}>{m.data.name}</a>
+                        <span style="color: var(--text-faint);">
+                          {' — '}{m.data.summary}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )
+            }
 
             <p class="mt-1.5 max-w-prose text-sm" style="color: var(--text-muted);">
               {entry.data.summary}

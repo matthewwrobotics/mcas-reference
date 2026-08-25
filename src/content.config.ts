@@ -144,6 +144,21 @@ const treatmentBase = z.object({
    */
   classMembers: z.array(z.string().min(2).max(80)).default([]),
   /**
+   * The entry whose evidence base this one shares.
+   *
+   * Listing class members as bare strings kept the index short but left a
+   * reader choosing between antihistamines with nothing to go on: Xyzal and
+   * Allegra existed only as text inside cetirizine's card. Each now has a page
+   * of its own, carrying the facts that actually differ between them — whether
+   * it needs a prescription, what its own label warns about.
+   *
+   * The shared evidence is not restated as though it were independent. A member
+   * page says whose evidence it is borrowing, and the index keeps members
+   * behind a disclosure on the representative's card so one class does not
+   * occupy six rows of a browsing list.
+   */
+  classRepresentative: z.string().min(1).optional(),
+  /**
    * What this evidence cannot establish, in plain prose. Replaces an earlier
    * ordinal "confound risk: high" score, which several readers took to mean the
    * drug was dangerous rather than that the study design was weak.
@@ -176,6 +191,32 @@ function applyPolicy(
       message:
         `"${entry.name}" has both a numbered treatmentStep and a separate treatmentContext. ` +
         `It cannot be inside and outside the published sequence at the same time.`,
+    });
+  }
+
+  // A class member sits under its representative, not in the sequence itself.
+  if (entry.classRepresentative && (entry.treatmentStep || entry.treatmentContext)) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['classRepresentative'],
+      message:
+        `"${entry.name}" is a class member and also placed in the sequence. Its ` +
+        `representative already holds that place; two entries sharing one evidence ` +
+        `base must not both occupy the browsing list.`,
+    });
+  }
+
+  // A member must carry its own label — that is what justifies a separate page
+  // when the study evidence is borrowed wholesale from the representative.
+  if (entry.classRepresentative &&
+      !entry.citations.some((c) => c.sourceType === 'drug-label')) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['citations'],
+      message:
+        `"${entry.name}" shares another entry's evidence but cites no drug label of ` +
+        `its own. Its own label is the reason it is a separate page; without one it ` +
+        `is a duplicate.`,
     });
   }
 
