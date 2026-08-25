@@ -72,7 +72,21 @@ const established = z.object({
 
 const specialistUse = z.object({
   basis: z.enum(SPECIALIST_USE_BASES),
-  clinicians: z.array(z.string().min(3).max(100)).min(1),
+  /**
+   * Where the reported use came from and at what scale — not who reported it.
+   *
+   * This field named individual clinicians until 2026-08-25. The attributions
+   * were accurate, but naming them contradicted a position this site publishes:
+   * /methodology states it does not adjudicate between the consensus-1 and
+   * consensus-2 criteria, and the clinicians named are the authors and
+   * advocates of one of them. Citing that camp's leaders as the practice
+   * authority quietly picked the side the site says it does not pick.
+   *
+   * Provenance is also the more useful fact. "47 patients across six specialist
+   * practices" tells a reader something the names do not, and the authors stay
+   * one click away in the citation `sourceUrl` is required to match.
+   */
+  provenance: z.string().min(10).max(200),
   /** Must match a citation URL on this entry so the tag is source-auditable. */
   sourceUrl: z.url(),
 });

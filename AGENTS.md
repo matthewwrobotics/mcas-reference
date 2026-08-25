@@ -76,6 +76,22 @@ Before committing, run `git status --porcelain` and account for every line. If a
 file appeared that you did not write, leave it — or verify it fully first and say
 in the message that you did.
 
+## The specialist-use tag records provenance, not names
+
+`specialistUse` says where reported clinical use came from and at what scale —
+"47 patients drawn from six specialist MCAS practices" — and never which
+clinicians. It named them until August 2026, and the attributions were accurate.
+The problem was that `/methodology` states this site does not adjudicate between
+the consensus-1 and consensus-2 criteria, and the clinicians named were the
+authors and advocates of one of them. Naming them picked a side the site says it
+does not pick. Provenance is also the more useful fact; the authors are one click
+away in the required citation.
+
+**This is deliberately not enforced by a check**, unlike most rules here. Names
+may be reintroduced later with framing that resolves the consensus problem, and a
+lint rule would have to be unpicked rather than merely followed. Treat the
+absence of a check as a decision, not an oversight.
+
 ## Asserting an absence
 
 The schema forces a claim to be cited. It cannot force a search for evidence

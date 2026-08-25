@@ -14,13 +14,7 @@ establishedFor:
     basis: approved-us
 specialistUse:
   - basis: treating-author-report
-    clinicians:
-      - "Lawrence B. Afrin"
-      - "Leonard B. Weinstock"
-      - "Tania T. Dempsey"
-      - "Katja Aschenbrenner"
-      - "Svetlana Blitshteyn"
-      - "Jill R. Schofield"
+    provenance: "47 patients drawn from six specialist MCAS practices"
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/40675372/"
 evidenceLimits: >
   The direct MCAS publication is a retrospective case series selected from the authors' patient panels, without randomisation, a comparison group, prospective outcome collection, or blinding. It combines several GLP-1-based medicines, indications, comorbidities, and concurrent care, and it used consensus-2 diagnostic criteria; the report cannot isolate a class effect or predict an individual outcome. A separate two-case chronic-urticaria report involved metabolic prescribing alongside weight, dietary, and inflammatory changes. Human data on GLP-1-receptor expression in mast cells remain conflicting, so these reports do not establish direct mast-cell stabilisation. Semaglutide and tirzepatide also have different receptor pharmacology, formulations, indications, contraindications, and label warnings.
@@ -51,7 +45,7 @@ lastVerified: 2026-08-21
 
 “GLP-1-based medicines” is a class label rather than one interchangeable drug. Semaglutide is a GLP-1-receptor agonist, while tirzepatide activates both GIP and GLP-1 receptors. Formulations in this broad group have metabolic indications and distinct labels; none has a US indication for MCAS.
 
-A 2025 retrospective publication assembled 47 people diagnosed with MCAS from the authors' patient panels after exposure to several GLP-1-based medicines. The paper states that the cases came from those panels and presents a representative case from each author. That provenance supports the documented-specialist-use tag for the six named clinician-authors, while the retrospective, selected, uncontrolled design remains unchanged.
+A 2025 retrospective publication assembled 47 people diagnosed with MCAS from the authors' patient panels after exposure to several GLP-1-based medicines. The paper states that the cases came from those panels and presents a representative case from each author. That provenance — cases drawn from specialist practices rather than an unselected population — is what the documented-specialist-use tag records. The authors are named in the citation below. The retrospective, selected, uncontrolled design is unchanged by any of it.
 
 The mechanistic bridge is unsettled. GLP-1 signalling can alter metabolism, gastric emptying, appetite, inflammatory networks, and multiple immune-cell pathways. A separate two-case report in chronic spontaneous urticaria notes that mast-cell GLP-1-receptor expression is established in rodents but conflicting in humans, and discusses weight, diet, gut, inflammasome, and other indirect explanations. This page therefore does not label the class a mast-cell stabiliser.
 

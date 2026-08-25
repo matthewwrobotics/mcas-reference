@@ -12,7 +12,7 @@ establishedFor:
     basis: approved-us
 specialistUse:
   - basis: treating-author-report
-    clinicians: ["Leonard B. Weinstock"]
+    provenance: "one case and a practice-record cohort, reported by the treating clinician"
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/38883580/"
 evidenceLimits: >
   The MCAS evidence is an individual case plus a medical-record cohort described inside that report, without randomisation or a comparator. The case course included imatinib, other mast-cell-directed care, and later avoidance of an occupational trigger, so it cannot attribute the course to imatinib alone. The article uses consensus-2 diagnostic criteria, which are not interchangeable with every MCAS consensus definition. The US mastocytosis indication is mutation-limited: the label states that KIT D816V disease is not sensitive to imatinib. Serious toxicity and interaction boundaries make this very different from routine mediator blockade.
@@ -45,6 +45,6 @@ lastVerified: 2026-08-21
 
 Imatinib inhibits several tyrosine kinases, including KIT and platelet-derived growth factor receptors. The mutation boundary is crucial: its current US label includes aggressive systemic mastocytosis only when KIT D816V is absent or KIT status is unknown, and states that D816V-positive disease is not sensitive to imatinib.
 
-A 2024 report describes one person diagnosed with MCAS using consensus-2 criteria and also summarizes a medical-record cohort treated by author Leonard B. Weinstock. The paper explicitly identifies Weinstock as the treating author, which is why this entry carries the separate documented-specialist-use tag. Lawrence B. Afrin co-authored the report but is not identified as the treating clinician, so the tag does not infer that role from authorship.
+A 2024 report describes one person diagnosed with MCAS using consensus-2 criteria, and summarises a medical-record cohort from the treating clinician's own practice. The paper identifies which of its authors treated those patients, which is why this entry carries the documented-specialist-use tag rather than inferring the role from authorship — co-authoring a report is not the same as having treated the patients in it.
 
 Human exposure in a reported MCAS population makes this more than a laboratory hypothesis. It remains uncontrolled evidence, and the individual case combined medication changes with recognition and avoidance of a major occupational trigger. The specialist-use tag records who documented the practice; it does not upgrade the study design or imply an endorsement.

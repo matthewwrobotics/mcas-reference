@@ -21,7 +21,7 @@ interface Established {
 }
 interface SpecialistUse {
   basis: SpecialistUseBasis;
-  clinicians: string[];
+  provenance: string;
   sourceUrl: string;
 }
 interface Props {
@@ -120,7 +120,7 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
           {
             !compact && specialistUse.map((signal) => (
               <span class="mt-1 block text-xs evidence-gloss">
-                {signal.clinicians.join(', ')} ·{' '}
+                {signal.provenance} ·{' '}
                 <a href={signal.sourceUrl}>{SPECIALIST_USE_BASIS_INFO[signal.basis].label}</a>
               </span>
             ))

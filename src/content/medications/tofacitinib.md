@@ -19,7 +19,7 @@ establishedFor:
   - condition: "polyarticular-course juvenile idiopathic arthritis after TNF-blocker failure"
     basis: approved-us
 evidenceLimits: >
-  The direct MCAS evidence is a two-patient report from 2017 with no comparator, blinding, standardized prospective outcome assessment, or measured effect on mast cells. Two clinical histories cannot separate drug attribution from time, selection, concurrent care, or diagnostic assumptions, and JAK signalling occurs across many immune-cell types. The paper was first-authored by Lawrence B. Afrin, but the accessible primary record does not identify the treating clinician precisely enough for the site's specialist-use tag. Tofacitinib is a broad systemic immunomodulator whose current boxed warning covers serious infections, mortality, malignancy, major adverse cardiovascular events, and thrombosis; its approved indications do not include MCAS.
+  The direct MCAS evidence is a two-patient report from 2017 with no comparator, blinding, standardized prospective outcome assessment, or measured effect on mast cells. Two clinical histories cannot separate drug attribution from time, selection, concurrent care, or diagnostic assumptions, and JAK signalling occurs across many immune-cell types. The accessible primary record does not identify the treating clinician precisely enough for the site's specialist-use tag, so this entry carries none. Tofacitinib is a broad systemic immunomodulator whose current boxed warning covers serious infections, mortality, malignancy, major adverse cardiovascular events, and thrombosis; its approved indications do not include MCAS.
 regulatory: approved-us-other
 citations:
   - title: "Successful targeted treatment of mast cell activation syndrome with tofacitinib"
