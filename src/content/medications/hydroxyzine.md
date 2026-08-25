@@ -3,7 +3,7 @@ name: Hydroxyzine
 aliases: ["Atarax", "Vistaril"]
 summary: First-generation H1 antihistamine; blocks histamine after release and has prominent central nervous system and cardiac safety boundaries.
 mechanismClass: First-generation H1 receptor antagonist
-mastCellBasis: downstream
+mastCellBasis: mast-cell-disease
 studyDesigns:
   - randomised-controlled
 treatmentStep: 1
@@ -13,9 +13,15 @@ establishedFor:
   - condition: "pediatric mastocytosis"
     basis: randomised-trials
 evidenceLimits: >
-  No controlled study in MCAS supports this entry. The direct mast-cell-disease evidence is a small, older crossover comparison in eight children with mastocytosis, not MCAS. Hydroxyzine is a first-generation antihistamine with drowsiness and central nervous system depressant interactions on the current label; the label also contraindicates use with a prolonged QT interval and reports QT prolongation and torsade de pointes. Those safety boundaries are separate from evidence strength.
+  No controlled study in MCAS supports this entry. The controlled evidence is in mast cell disease: a small, older crossover comparison in eight children with mastocytosis, which is not MCAS. A 2016 systematic review of H1-antihistamines in primary mast cell activation syndromes found only five crossover trials in total, enrolling 71 patients between them, and judged all five at moderate or high risk of bias — hydroxyzine is among the agents it names as historic and now less commonly used. This entry is recorded as mast-cell-disease evidence rather than downstream because the drug was studied in patients with a mast cell disease, which is what that field records; its mechanism still acts after histamine release. Hydroxyzine is a first-generation antihistamine with drowsiness and central nervous system depressant interactions on the current label; the label also contraindicates use with a prolonged QT interval and reports QT prolongation and torsade de pointes. Those safety boundaries are separate from evidence strength.
 regulatory: approved-us-other
 citations:
+  - title: "H1-antihistamines for primary mast cell activation syndromes: a systematic review"
+    url: "https://pubmed.ncbi.nlm.nih.gov/26095756/"
+    sourceType: review
+    year: 2016
+    pmid: "26095756"
+    accessed: 2026-08-25
   - title: "Hydroxyzine pamoate current US prescribing information"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0c9101ee-0746-4833-83cf-d0d09e52c0a9"
     sourceType: drug-label
@@ -32,7 +38,7 @@ citations:
     year: 2019
     pmid: "30961835"
     accessed: 2026-08-21
-lastVerified: 2026-08-21
+lastVerified: 2026-08-25
 ---
 
 Hydroxyzine is a first-generation H1 receptor antagonist. It occupies the receptor that histamine would activate after mast-cell release, so its placement here is downstream of the mast cell rather than as a mast-cell stabiliser.
