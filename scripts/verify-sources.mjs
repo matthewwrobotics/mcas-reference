@@ -83,6 +83,25 @@ function collect() {
     }
   }
 
+  // The food directory cites through a registry: foods.json names a source id,
+  // and sources.json holds the URL. Without this the entire food side of the
+  // site went unchecked, because no food entry carries a PMID directly.
+  try {
+    for (const src of JSON.parse(readFileSync(join(ROOT, 'src/content/sources.json'), 'utf8'))) {
+      const pmid = src.url?.match(/pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/)?.[1];
+      if (!pmid) continue;
+      citations.push({
+        path: 'src/content/sources.json',
+        name: src.id,
+        title: src.name ?? '',
+        url: src.url,
+        pmid,
+      });
+    }
+  } catch {
+    /* registry absent in some checkouts */
+  }
+
   for (const file of ['src/content/labs.json', 'src/content/resources.json']) {
     let data;
     try {

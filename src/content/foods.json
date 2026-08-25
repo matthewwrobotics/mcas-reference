@@ -113,6 +113,23 @@
     ]
   },
   {
+    "id": "asparagus",
+    "name": "Asparagus",
+    "category": "Vegetable",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "boiled",
+    "note": "The figure is for boiled asparagus specifically. Boiling reduces soluble oxalate, so a raw or roasted preparation is not covered by this number.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "2.6 mg total oxalate per 100 g across three boiled samples."
+      }
+    ]
+  },
+  {
     "id": "avocado",
     "name": "Avocado",
     "category": "Fruit",
@@ -343,6 +360,23 @@
     ]
   },
   {
+    "id": "chicken-breast",
+    "name": "Chicken breast",
+    "category": "Meat",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "As with fish, freshness rather than species is what moves this. Histamine forms through bacterial action after death, and no cooking step removes what has already formed.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Values across the fresh-breast series stayed below 10 mg/kg; several other chicken products were not detected or low."
+      }
+    ]
+  },
+  {
     "id": "chickpeas",
     "name": "Chickpeas",
     "category": "Legumes",
@@ -534,6 +568,25 @@
     ]
   },
   {
+    "id": "ketchup",
+    "name": "Ketchup",
+    "category": "Other",
+    "aliases": [
+      "Tomato ketchup"
+    ],
+    "lastVerified": "2026-08-25",
+    "form": "cooked",
+    "note": "Kept separate from fresh tomato. Processing and storage change the result, and the range here is wide enough that a single figure would misrepresent it.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "variable",
+        "note": "Reported from not detected to 22 mg/kg, with putrescine from not detected to 165 mg/kg."
+      }
+    ]
+  },
+  {
     "id": "kiwi",
     "name": "Kiwi",
     "category": "Fruit",
@@ -719,6 +772,35 @@
     ]
   },
   {
+    "id": "papaya",
+    "name": "Papaya",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "The 2018 amine review did not report a histamine figure for papaya, so no histamine rating is recorded against it. A source that did not measure something is not a source saying the value is low.",
+    "ratings": [
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Placed in the low-all-amines group."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected in the Brazilian samples."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "Below the 20 mg per 100 g boundary this site uses for low."
+      }
+    ]
+  },
+  {
     "id": "peanuts",
     "name": "Peanuts",
     "category": "Nuts and seeds",
@@ -751,6 +833,23 @@
     ]
   },
   {
+    "id": "pear",
+    "name": "Pear",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "Rated on one axis only, because one axis is all that was measured. An empty cell here means nothing has been recorded — not that the value is low.",
+    "ratings": [
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "high",
+        "note": "Grouped with foods high in other amines. Histamine was not reported for pear in this review, so no histamine rating is recorded against it."
+      }
+    ]
+  },
+  {
     "id": "peas",
     "name": "Peas",
     "category": "Legumes",
@@ -776,6 +875,35 @@
       }
     ],
     "form": "raw"
+  },
+  {
+    "id": "pineapple",
+    "name": "Pineapple",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "Fresh fruit only. A cited study found detectable histamine in processed pineapple juice, so the juice is a different object and is not covered by this entry.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Not detected in the reviewed data."
+      },
+      {
+        "axis": "amine",
+        "source": "plant-amines-2018",
+        "rating": "low",
+        "note": "Placed in the low-all-amines group."
+      },
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "Not detected across the Brazilian samples."
+      }
+    ]
   },
   {
     "id": "pistachios",
@@ -1045,6 +1173,25 @@
     ]
   },
   {
+    "id": "star-fruit",
+    "name": "Star fruit",
+    "category": "Fruit",
+    "aliases": [
+      "Carambola"
+    ],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "Star fruit also appears in published case reports of oxalate nephropathy. A measured composition figure is a stronger basis for listing it than a case report alone, which is why it is recorded here on the measurement.",
+    "ratings": [
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "high",
+        "note": "160 and 295.4 mg total oxalate per 100 g across the reported datasets."
+      }
+    ]
+  },
+  {
     "id": "strawberry",
     "name": "Strawberry",
     "category": "Fruit",
@@ -1183,6 +1330,29 @@
         "source": "histamine-brazil-2025",
         "rating": "low",
         "note": "Not detected to 9.5 mg/kg across the Brazilian datasets."
+      }
+    ]
+  },
+  {
+    "id": "watermelon",
+    "name": "Watermelon",
+    "category": "Fruit",
+    "aliases": [],
+    "lastVerified": "2026-08-25",
+    "form": "raw",
+    "note": "Low on both axes measured, though each dataset behind those figures is small.",
+    "ratings": [
+      {
+        "axis": "histamine",
+        "source": "histamine-brazil-2025",
+        "rating": "low",
+        "note": "0.7 mg/kg."
+      },
+      {
+        "axis": "oxalate",
+        "source": "oxalate-foods-2023",
+        "rating": "low",
+        "note": "0.3 mg total oxalate per 100 g."
       }
     ]
   },
