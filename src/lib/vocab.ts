@@ -601,3 +601,195 @@ export const STALE_AFTER_DAYS = 180;
 
 /** A trial status older than this is not trustworthy enough to publish. */
 export const TRIAL_STATUS_MAX_AGE_DAYS = 180;
+
+/**
+ * Plain-language definitions of the vocabulary this site uses constantly and
+ * never explained.
+ *
+ * An audit counted 250+ uses of `tryptase`, `mediator`, `clonal`, `refractory`,
+ * `in vitro` and `degranulation` across the site with no definition anywhere —
+ * a reference written as though its reader already knew the words. These are
+ * written for someone who has just heard the term for the first time.
+ *
+ * Kept here rather than in the page so that entry pages and index labels can
+ * link to the same definitions, and so a term cannot be defined twice and drift.
+ */
+export interface GlossaryTerm {
+  /** Anchor id. Stable — entry pages link to these. */
+  id: string;
+  term: string;
+  /** Other spellings a reader may arrive with. */
+  also?: readonly string[];
+  definition: string;
+  group: 'condition' | 'biology' | 'evidence' | 'regulation';
+}
+
+export const GLOSSARY_GROUPS = {
+  condition: {
+    title: 'The condition',
+    blurb: 'Words that describe the diagnosis itself and its relatives.',
+  },
+  biology: {
+    title: 'The biology',
+    blurb: 'What mast cells do, and the substances a test looks for.',
+  },
+  evidence: {
+    title: 'Kinds of evidence',
+    blurb:
+      'Every entry on this site records what kind of study its evidence came from. These definitions explain what each design can and cannot establish.',
+  },
+  regulation: {
+    title: 'Approval and prescribing',
+    blurb: 'What a regulator has and has not said about a drug.',
+  },
+} as const;
+
+export const GLOSSARY: readonly GlossaryTerm[] = [
+  {
+    id: 'mast-cell',
+    term: 'Mast cell',
+    group: 'biology',
+    definition:
+      'A type of immune cell that sits in tissues meeting the outside world — skin, gut lining, airways, and around blood vessels. It stores packets of active chemicals and releases them when triggered. That release is useful against parasites and central to allergy.',
+  },
+  {
+    id: 'mediator',
+    term: 'Mediator',
+    group: 'biology',
+    definition:
+      'One of the chemicals a mast cell releases — histamine, tryptase, prostaglandins and leukotrienes among them. "Mediator" is the collective word for them. Symptoms in mast cell disease are attributed to these substances reaching tissues, not to the cells travelling anywhere.',
+  },
+  {
+    id: 'degranulation',
+    term: 'Degranulation',
+    group: 'biology',
+    definition:
+      'The moment a mast cell empties its stored granules and releases mediators all at once. It is the fast part of a reaction; other mediators are made fresh over the following hours, which is one reason an episode can have two phases.',
+  },
+  {
+    id: 'histamine',
+    term: 'Histamine',
+    group: 'biology',
+    definition:
+      'The best known mast cell mediator. It acts on several different receptors, which is why medicines are grouped by which receptor they block — H1 and H2 are the two that appear most on this site.',
+  },
+  {
+    id: 'tryptase',
+    term: 'Tryptase',
+    group: 'biology',
+    definition:
+      'An enzyme found almost only in mast cells, which makes it the most useful thing to measure in blood. Levels sit at a personal baseline and rise during an episode. Because the rise fades within hours, when the sample is drawn matters as much as the number.',
+    also: ['serum tryptase', 'baseline tryptase'],
+  },
+  {
+    id: 'fceri',
+    term: 'FcεRI',
+    group: 'biology',
+    definition:
+      'The receptor on a mast cell that IgE antibodies attach to. When an allergen bridges two of these, the cell degranulates. Several medicines act by reducing how much IgE can reach this receptor.',
+    also: ['high-affinity IgE receptor'],
+  },
+  {
+    id: 'mcas',
+    term: 'Mast cell activation syndrome (MCAS)',
+    group: 'condition',
+    definition:
+      'Repeated episodes in which mast cells release mediators too readily, affecting more than one organ system at once. Diagnosis rests on three criteria — the pattern of episodes, a measured rise in a mediator, and a response to treatment aimed at mast cells. Two competing versions of those criteria are in active use and admit different patients.',
+  },
+  {
+    id: 'mastocytosis',
+    term: 'Mastocytosis',
+    group: 'condition',
+    definition:
+      'A separate, rarer condition in which there are too many mast cells, usually driven by an acquired KIT mutation. It is diagnosed on biopsy findings rather than on episodes alone. Much of the evidence on this site was gathered in mastocytosis rather than in MCAS, which is why each entry records where its evidence came from.',
+  },
+  {
+    id: 'clonal',
+    term: 'Clonal',
+    group: 'condition',
+    definition:
+      'Describing cells that are all descended from a single abnormal cell, usually carrying the same mutation. Clonal mast cell disease is a different thing from mast cell activation without such a mutation, and the distinction changes which investigations follow.',
+  },
+  {
+    id: 'anaphylaxis',
+    term: 'Anaphylaxis',
+    group: 'condition',
+    definition:
+      'A severe, usually rapid systemic allergic reaction. It may affect breathing, circulation, skin or the gut and can be life-threatening. It is a medical emergency requiring immediate care, whatever the underlying diagnosis turns out to be.',
+  },
+  {
+    id: 'refractory',
+    term: 'Refractory',
+    group: 'condition',
+    definition:
+      'Describing episodes that continue despite the treatments usually tried first. On this site the word marks entries considered only after earlier options, not entries considered stronger.',
+  },
+  {
+    id: 'in-vitro',
+    term: 'In vitro',
+    group: 'evidence',
+    definition:
+      'Latin for "in glass": an experiment done on cells in a dish rather than in a living body. It can show that a substance acts on a mast cell, but nothing about what happens in a person who swallows it — dose, absorption and everything else in the body are absent.',
+    also: ['laboratory study', 'cell culture'],
+  },
+  {
+    id: 'case-report',
+    term: 'Case report',
+    group: 'evidence',
+    definition:
+      'A published description of what happened to one patient, or a handful. Useful for noticing something unexpected, but with nobody to compare against, improvement cannot be separated from chance or from the condition settling on its own.',
+    also: ['case series'],
+  },
+  {
+    id: 'observational',
+    term: 'Observational study',
+    group: 'evidence',
+    definition:
+      'A study that watches what happens without deciding who receives what. Patients already taking a drug tend to differ from those who are not, so an apparent difference may reflect who chose it rather than the drug itself.',
+    also: ['cohort study', 'cross-sectional study'],
+  },
+  {
+    id: 'randomised-controlled-trial',
+    term: 'Randomised controlled trial',
+    group: 'evidence',
+    definition:
+      'A study in which chance decides who receives the treatment and who receives a comparison, so the two groups start alike. It is the strongest ordinary design, because a difference afterwards is harder to explain away.',
+    also: ['RCT', 'randomised trial'],
+  },
+  {
+    id: 'confounding',
+    term: 'Confounding',
+    group: 'evidence',
+    definition:
+      'When something else, shared by the people who received a treatment, explains the result instead. It is the reason an observational finding carries less weight than a randomised one.',
+  },
+  {
+    id: 'consensus-criteria',
+    term: 'Consensus criteria',
+    group: 'evidence',
+    definition:
+      'A definition of a condition agreed by a panel of specialists rather than settled by a single experiment. Two such definitions for MCAS are in use and disagree about who qualifies. This site describes both and does not pick between them.',
+  },
+  {
+    id: 'off-label',
+    term: 'Off-label',
+    group: 'regulation',
+    definition:
+      'Prescribing an approved drug for a condition it was not approved for. It is legal and common, and it is the situation for essentially everything on this site, because no drug is approved for MCAS itself.',
+  },
+  {
+    id: 'approved',
+    term: 'Approved',
+    group: 'regulation',
+    definition:
+      'A regulator has reviewed evidence for a drug in a named condition and permitted it to be sold for that use. Approval says nothing about any other condition. On this site the badge reads "approved for other conditions" for exactly that reason.',
+    also: ['indication'],
+  },
+  {
+    id: 'dietary-supplement',
+    term: 'Dietary supplement',
+    group: 'regulation',
+    definition:
+      'A product sold under food rules rather than drug rules. It is not assessed for effectiveness before sale, and the amount in a capsule need not match a studied preparation, so evidence gathered on one product may not transfer to another.',
+  },
+];

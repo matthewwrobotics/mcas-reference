@@ -1,0 +1,48 @@
+---
+/*
+ * The one thing on this site that is time-critical.
+ *
+ * Everything else here is reference material a reader consults at leisure;
+ * this is the case where reading further is the wrong action. It therefore
+ * appears above the material it interrupts, not in a footer.
+ *
+ * Sourced only to material already vetted elsewhere on the site — the AAAAI
+ * work group report in resources.json and the epinephrine entry — so that a
+ * safety notice cannot become the one unverified citation on the page.
+ */
+import { href } from '../lib/paths';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<aside
+  class="card p-4"
+  style="border-color: var(--emergency-border); background: var(--emergency-bg);"
+  aria-labelledby="emergency-heading"
+>
+  <h2 id="emergency-heading" class="text-sm font-semibold" style="color: var(--emergency-text);">
+    If a reaction is severe, this page is not the right place to be
+  </h2>
+  <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+    Trouble breathing, throat or tongue swelling, faintness, collapse, or a
+    reaction spreading quickly across the body may be anaphylaxis. It is a
+    medical emergency. Emergency services are the right call. Anyone who has an
+    emergency plan and an adrenaline auto-injector should follow that plan
+    rather than this page.
+  </p>
+  {
+    !compact && (
+      <p class="prose-body mt-2 text-sm" style="color: var(--text-faint);">
+        This site carries no dosing and no instructions for using an
+        auto-injector — that belongs with the prescriber who issued it. The{' '}
+        <a href={href('/medications/epinephrine')}>epinephrine entry</a> records
+        the mechanism and evidence. The{' '}
+        <a href={href('/resources')}>AAAAI work group report</a> supports the
+        diagnostic material on this site.
+      </p>
+    )
+  }
+</aside>

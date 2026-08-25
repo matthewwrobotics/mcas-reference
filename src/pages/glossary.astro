@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/paths';
+import { GLOSSARY, GLOSSARY_GROUPS, type GlossaryTerm } from '../lib/vocab';
+
+const groups = (Object.keys(GLOSSARY_GROUPS) as (keyof typeof GLOSSARY_GROUPS)[]).map((key) => ({
+  key,
+  ...GLOSSARY_GROUPS[key],
+  terms: GLOSSARY.filter((t: GlossaryTerm) => t.group === key),
+}));
+---
+
+<Base
+  title="Glossary"
+  description="Plain-language definitions of the mast cell and evidence vocabulary used across this site."
+>
+  <section class="max-w-3xl">
+    <h1 class="font-serif text-3xl font-semibold tracking-tight">Glossary</h1>
+    <p class="prose-body mt-3 text-lg" style="color: var(--text-muted);">
+      Every word this site uses without stopping to explain it. Nothing here
+      assumes you have met the term before.
+    </p>
+    <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
+      The evidence words matter more than they look. Each entry on this site
+      states what kind of study its evidence came from, and the difference
+      between a dish of cells and a randomised trial is most of what separates a
+      promising idea from a settled one.
+    </p>
+  </section>
+
+  <nav class="mt-8 max-w-3xl" aria-label="Glossary sections">
+    <ul class="flex flex-wrap gap-2">
+      {
+        groups.map((group) => (
+          <li>
+            <a class="badge badge-outline no-underline" href={`#${group.key}`}>
+              {group.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  {
+    groups.map((group) => (
+      <section class="mt-10 max-w-3xl">
+        <h2 class="font-serif text-2xl font-semibold" id={group.key}>
+          {group.title}
+        </h2>
+        <p class="prose-body mt-1 text-sm" style="color: var(--text-faint);">
+          {group.blurb}
+        </p>
+
+        <dl class="mt-4 space-y-3">
+          {group.terms.map((term) => (
+            <div class="card p-4" id={term.id}>
+              <dt class="font-semibold">
+                {term.term}
+                {term.also && (
+                  <span class="ml-2 text-sm font-normal" style="color: var(--text-faint);">
+                    also: {term.also.join(', ')}
+                  </span>
+                )}
+              </dt>
+              <dd class="prose-body mt-1.5 text-sm" style="color: var(--text-muted);">
+                {term.definition}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))
+  }
+
+  <p class="prose-body mt-10 max-w-3xl text-sm" style="color: var(--text-faint);">
+    How the evidence words are applied to entries, and what each grade requires,
+    is set out on <a href={href('/methodology')}>the methodology page</a>.
+  </p>
+</Base>

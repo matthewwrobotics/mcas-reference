@@ -18,8 +18,9 @@ const entries = (await getCollection('supplements')).filter((e) => !e.data.draft
     </strong>
     Every entry borrows its evidence from somewhere else. What differs is where from —
     and how good it is when it gets there. Entries are grouped below by how directly
-    they have been studied in mast cells, strongest first, and each states which
-    conditions it is actually approved or trialled for.
+    they have been studied in <a href={href('/glossary#mast-cell')}>mast cells</a>,
+    strongest first, and each states which conditions it is actually
+    <a href={href('/glossary#approved')}>approved</a> or trialled for.
   </p>
   <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
     {entries.length} entries. No dosing, and no claim that anything here works.

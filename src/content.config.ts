@@ -109,6 +109,21 @@ const treatmentBase = z.object({
   treatmentStep: z
     .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7), z.literal(8)])
     .optional(),
+  /**
+   * Order within a treatment step, lowest first.
+   *
+   * Sorting a step purely by evidence strength put sedating first-generation
+   * antihistamines above second-generation ones, in a step whose own source
+   * describes the opposite preference — so the list implied a clinical ranking
+   * that reversed the literature it came from.
+   *
+   * This carries the same provenance as the step itself: it records the order
+   * described by the review behind `treatmentStep`, not an editorial judgement
+   * about what is better. Where the review states no order within a step, leave
+   * it unset and the evidence sort still decides. Each card keeps its evidence
+   * grade, so re-ordering hides nothing.
+   */
+  stepOrder: z.number().int().min(1).max(99).optional(),
   /** Separate placement for low-certainty use outside that sequence. */
   treatmentContext: z.enum(TREATMENT_CONTEXTS).optional(),
   /** Conditions it is approved or trialled for. Empty is a real answer. */
@@ -161,6 +176,17 @@ function applyPolicy(
       message:
         `"${entry.name}" has both a numbered treatmentStep and a separate treatmentContext. ` +
         `It cannot be inside and outside the published sequence at the same time.`,
+    });
+  }
+
+  // stepOrder positions an entry inside a step, so there must be a step.
+  if (entry.stepOrder !== undefined && !entry.treatmentStep) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['stepOrder'],
+      message:
+        `"${entry.name}" sets stepOrder but has no treatmentStep. An order within a ` +
+        `sequence is meaningless for an entry the sequence does not contain.`,
     });
   }
 

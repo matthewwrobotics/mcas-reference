@@ -1,0 +1,25 @@
+---
+/*
+ * Reader-facing pages can offer the browser print dialog without duplicating
+ * the progressive-enhancement and print-hiding behavior.
+ *
+ * Rendered hidden and revealed by the inline script, so a reader without
+ * JavaScript is never shown a control that cannot work. It hides itself again
+ * in print, which is the one context where it is certainly useless.
+ */
+interface Props {
+  label?: string;
+}
+const { label = 'Print this page' } = Astro.props;
+---
+
+<button type="button" data-print hidden class="badge badge-outline print-hide">
+  {label}
+</button>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button[data-print]').forEach((button) => {
+    button.hidden = false;
+    button.addEventListener('click', () => window.print());
+  });
+</script>

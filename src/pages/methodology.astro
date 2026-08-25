@@ -107,21 +107,19 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
   </section>
 
   <section class="mt-10" id="evidence-model">
-    <h2 class="font-serif text-2xl font-semibold">Why there are no evidence grades</h2>
+    <h2 class="font-serif text-2xl font-semibold">How this site separates evidence</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>
-        This site has tried two versions of an evidence grade and removed both. The
-        reason is a fact about the field rather than about the design: <strong>nothing
-        is approved for MCAS, and almost nothing has been tested in it.</strong> Any
-        badge answering “how strong is the evidence in MCAS?” returns the same weak
-        answer for nearly every entry, which distinguishes nothing and makes the whole
-        index read as a list of things that do not work.
+        No single badge here answers whether a treatment works for MCAS. That would
+        collapse different questions into one verdict in a field where <strong>nothing
+        is approved for MCAS, and almost nothing has been tested in it.</strong>
       </p>
       <p>
-        So each entry states two things that do vary, and a reader can weigh them
-        without being handed a verdict:
+        Instead, each entry keeps three facts separate so a reader can see what the
+        evidence actually establishes:
       </p>
       <ul class="ml-5 list-disc space-y-1">
+        <li><strong>Mast-cell evidence</strong> — the strongest study design done in mast cells.</li>
         <li><strong>Studied in</strong> — how directly it has been studied in mast cells.</li>
         <li>
           <strong>Approved for / trials in</strong> — the conditions it is actually
@@ -199,11 +197,11 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
       }
     </dl>
     <p class="prose-body mt-3 text-sm" style="color: var(--text-muted);">
-      An <strong>Approved</strong> marker sits beside the grade where a regulator has
-      licensed the treatment for any indication. It is deliberately kept separate:
-      approval is always <em>for a named condition</em>, and those conditions are listed
-      on the entry. Folding approval into the grade is what made the previous one
-      meaningless.
+      An <strong>Approved for other conditions</strong> marker sits beside the grade
+      where a regulator has licensed the treatment for a non-MCAS indication. The
+      qualifying words are deliberate: the named conditions appear on the entry, and
+      approval for one condition is not evidence of approval for another. Folding
+      approval into the grade is what made the previous one meaningless.
     </p>
 
     <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
@@ -244,6 +242,18 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         treatment appears before maintenance; trigger-specific, emerging or refractory,
         and local-route treatments have separate groups. Unclassified entries, including
         many clonal-disease agents and every supplement, remain outside the sequence.
+      </p>
+      <p>
+        <strong>Order within a group follows the same source.</strong> Where the review
+        describes an order inside a step — step 1 prioritises second-generation
+        antihistamines over first-generation ones — entries carry a
+        <code>stepOrder</code> recording it, and the build rejects a
+        <code>stepOrder</code> on any entry that is not in the sequence at all. Where
+        the review describes no order, the most direct mast-cell evidence comes first.
+        Sorting purely by evidence strength put a sedating first-generation
+        antihistamine above a second-generation one, which reversed the literature the
+        group was built from. Every card still shows its own evidence grade, so nothing
+        is concealed by the order.
       </p>
       {
         TREATMENT_CONTEXTS.map((context: TreatmentContext) => (

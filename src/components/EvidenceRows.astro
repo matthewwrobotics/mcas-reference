@@ -46,6 +46,16 @@ const {
 } = Astro.props;
 const info = MAST_CELL_BASIS_INFO[basis];
 
+const studyDesignGlossary: Partial<Record<StudyDesign, string>> = {
+  'randomised-controlled': 'randomised-controlled-trial',
+  cohort: 'observational',
+  'cross-sectional': 'observational',
+  'case-series': 'case-report',
+  'case-report': 'case-report',
+  'in-vitro': 'in-vitro',
+  'non-human-in-vitro': 'in-vitro',
+};
+
 // Group by basis so the label is written once per group rather than repeated
 // against every condition.
 const groups = (['approved-us', 'approved-non-us', 'randomised-trials'] as const)
@@ -114,7 +124,18 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
       <div>
         <dt>Study design</dt>
         <dd class="evidence-gloss">
-          {studyDesigns.map((d) => STUDY_DESIGN_INFO[d].label).join(', ')}
+          {studyDesigns.map((d, index) => (
+            <>
+              {index > 0 && ', '}
+              {studyDesignGlossary[d] ? (
+                <a href={href(`/glossary#${studyDesignGlossary[d]}`)}>
+                  {STUDY_DESIGN_INFO[d].label}
+                </a>
+              ) : (
+                STUDY_DESIGN_INFO[d].label
+              )}
+            </>
+          ))}
         </dd>
       </div>
     )
@@ -144,7 +165,17 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
   {
     groups.map((g) => (
       <div>
-        <dt>{g.label}</dt>
+        <dt>
+          <a
+            href={href(
+              g.basis === 'randomised-trials'
+                ? '/glossary#randomised-controlled-trial'
+                : '/glossary#approved',
+            )}
+          >
+            {g.label}
+          </a>
+        </dt>
         <dd>{g.conditions.join(', ')}</dd>
       </div>
     ))
@@ -153,9 +184,16 @@ const fallback = groups.some((g) => g.basis.startsWith('approved'))
   {
     fallback && (
       <div>
-        <dt>Approved for</dt>
+        <dt><a href={href('/glossary#approved')}>Approved for</a></dt>
         <dd>
-          <span class="evidence-gloss">nothing — {fallback}</span>
+          <span class="evidence-gloss">
+            nothing —{' '}
+            {regulatory === 'dietary-supplement' ? (
+              <a href={href('/glossary#dietary-supplement')}>{fallback}</a>
+            ) : (
+              fallback
+            )}
+          </span>
         </dd>
       </div>
     )

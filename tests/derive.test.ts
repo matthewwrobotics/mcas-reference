@@ -4,13 +4,20 @@ import {
   relevanceGrade,
   byGradeThenName,
   byEvidenceThenName,
+  byClinicalSequence,
+  sequenceRank,
   consensusRating,
   daysSince,
   disagreementAxes,
   formatDate,
   staleness,
 } from '../src/lib/derive';
-import { AGING_AFTER_DAYS, STALE_AFTER_DAYS } from '../src/lib/vocab';
+import {
+  AGING_AFTER_DAYS,
+  STALE_AFTER_DAYS,
+  type MastCellBasis,
+  type StudyDesign,
+} from '../src/lib/vocab';
 
 const NOW = new Date('2026-08-20T12:00:00Z');
 const daysBefore = (n: number) =>
@@ -227,5 +234,94 @@ describe('relevanceGrade', () => {
 describe('formatDate', () => {
   it('formats in UTC so the displayed day does not shift by time zone', () => {
     expect(formatDate(new Date('2026-08-20T00:00:00Z'))).toBe('20 Aug 2026');
+  });
+});
+
+describe('sequenceRank', () => {
+  const at = (over: Record<string, unknown>) => sequenceRank(over as any);
+
+  it('puts emergency treatment before every numbered step', () => {
+    expect(at({ treatmentContext: 'emergency-intervention' })).toBeLessThan(
+      at({ treatmentStep: 1 }),
+    );
+  });
+
+  it('keeps the numbered steps in their published order', () => {
+    expect(at({ treatmentStep: 1 })).toBeLessThan(at({ treatmentStep: 8 }));
+  });
+
+  it('puts after-steps contexts below every numbered step', () => {
+    expect(at({ treatmentStep: 8 })).toBeLessThan(
+      at({ treatmentContext: 'emerging-refractory' }),
+    );
+  });
+
+  it('preserves the defined order of after-steps context groups', () => {
+    expect(at({ treatmentContext: 'trigger-specific' })).toBeLessThan(
+      at({ treatmentContext: 'emerging-refractory' }),
+    );
+    expect(at({ treatmentContext: 'emerging-refractory' })).toBeLessThan(
+      at({ treatmentContext: 'local-route' }),
+    );
+  });
+
+  it('puts unplaced entries last', () => {
+    expect(at({ treatmentContext: 'emerging-refractory' })).toBeLessThan(at({}));
+  });
+});
+
+describe('byClinicalSequence', () => {
+  type Entry = {
+    name: string;
+    treatmentStep?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    treatmentContext?: 'emergency-intervention' | 'emerging-refractory' | 'trigger-specific' | 'local-route';
+    stepOrder?: number;
+    mastCellBasis: MastCellBasis;
+    studyDesigns: readonly StudyDesign[];
+  };
+  // The defect this ordering exists to prevent: a sedating first-generation
+  // antihistamine outranking a second-generation one, because a direct-but-weak
+  // mast-cell study beats strong evidence borrowed from another condition.
+  const cetirizine: Entry = {
+    name: 'Cetirizine',
+    treatmentStep: 1,
+    stepOrder: 1,
+    mastCellBasis: 'downstream',
+    studyDesigns: ['randomised-controlled'],
+  };
+  const hydroxyzine: Entry = {
+    name: 'Hydroxyzine',
+    treatmentStep: 1,
+    stepOrder: 2,
+    mastCellBasis: 'mcas-patients',
+    studyDesigns: ['randomised-controlled'],
+  };
+
+  it('follows stepOrder even when the later entry has stronger mast-cell evidence', () => {
+    expect(byClinicalSequence(cetirizine, hydroxyzine)).toBeLessThan(0);
+    expect(byClinicalSequence(hydroxyzine, cetirizine)).toBeGreaterThan(0);
+  });
+
+  it('falls back to evidence strength when neither sets stepOrder', () => {
+    const a: Entry = { ...cetirizine, stepOrder: undefined };
+    const b: Entry = { ...hydroxyzine, stepOrder: undefined };
+    // b is studied in MCAS patients directly, so it should lead on evidence.
+    expect(byClinicalSequence(a, b)).toBeGreaterThan(0);
+  });
+
+  it('sorts an entry without stepOrder after one that has it', () => {
+    const unordered: Entry = { ...hydroxyzine, stepOrder: undefined };
+    expect(byClinicalSequence(cetirizine, unordered)).toBeLessThan(0);
+    expect(byClinicalSequence(unordered, cetirizine)).toBeGreaterThan(0);
+  });
+
+  it('ranks by sequence position before anything else', () => {
+    const emergency: Entry = {
+      name: 'Epinephrine',
+      treatmentContext: 'emergency-intervention',
+      mastCellBasis: 'downstream',
+      studyDesigns: ['cohort'],
+    };
+    expect(byClinicalSequence(emergency, cetirizine)).toBeLessThan(0);
   });
 });

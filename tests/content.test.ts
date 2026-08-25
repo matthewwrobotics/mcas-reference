@@ -167,3 +167,12 @@ describe('citations across all treatment entries', () => {
     }
   });
 });
+
+describe('treatment sequence metadata', () => {
+  const config = read('src/content.config.ts');
+
+  it('keeps the schema guard for stepOrder without a treatmentStep', () => {
+    expect(config).toContain('entry.stepOrder !== undefined && !entry.treatmentStep');
+    expect(config).toContain('sets stepOrder but has no treatmentStep');
+  });
+});

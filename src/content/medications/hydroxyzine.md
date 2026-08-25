@@ -12,6 +12,7 @@ mastCellBasis: mast-cell-disease
 studyDesigns:
   - randomised-controlled
 treatmentStep: 1
+stepOrder: 2
 establishedFor:
   - condition: "histamine-mediated pruritus, including chronic urticaria"
     basis: approved-us

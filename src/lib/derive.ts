@@ -17,6 +17,9 @@ import {
   STALE_AFTER_DAYS,
   type Rating,
   type RatingAxis,
+  type TreatmentContext,
+  TREATMENT_CONTEXT_INFO,
+  TREATMENT_CONTEXTS,
 } from './vocab';
 
 const DAY_MS = 86_400_000;
@@ -218,4 +221,52 @@ export function byGradeThenName<T extends {
 }>(a: T, b: T): number {
   const d = RELEVANCE_GRADE_RANK[relevanceGrade(a)] - RELEVANCE_GRADE_RANK[relevanceGrade(b)];
   return d !== 0 ? d : a.name.localeCompare(b.name);
+}
+
+/**
+ * A treatment's place in the published sequence, as a sortable rank.
+ *
+ * Both the index and the appointment picker order treatments, and they used to
+ * do it differently: the index grouped by step, the picker flat-sorted every
+ * entry by evidence strength. That put benzodiazepines, hydroxyurea, sunitinib
+ * and tofacitinib above routine antihistamines in the one view a patient takes
+ * to an appointment — an ordering that reads as a suggestion. Both callers now
+ * share this, so the two cannot drift apart again.
+ */
+export function sequenceRank(entry: {
+  treatmentStep?: number;
+  treatmentContext?: TreatmentContext;
+}): number {
+  if (entry.treatmentContext) {
+    const position = TREATMENT_CONTEXT_INFO[entry.treatmentContext].indexPosition;
+    // Preserve the published context order as well as its position around the
+    // numbered steps. Without distinct ranks, a Map-based consumer can order
+    // whole context groups by whichever evidence-ranked item happens to appear
+    // first.
+    return position === 'before-steps'
+      ? 0
+      : 100 + TREATMENT_CONTEXTS.indexOf(entry.treatmentContext);
+  }
+  if (entry.treatmentStep) return 10 + entry.treatmentStep;
+  return 200;
+}
+
+/**
+ * The order a reader should meet treatments in: sequence position first, then
+ * the order the step's own source describes, then evidence strength.
+ */
+export function byClinicalSequence<T extends {
+  treatmentStep?: number;
+  treatmentContext?: TreatmentContext;
+  stepOrder?: number;
+  mastCellBasis: MastCellBasis;
+  studyDesigns: readonly StudyDesign[];
+  name: string;
+}>(a: T, b: T): number {
+  const rank = sequenceRank(a) - sequenceRank(b);
+  if (rank !== 0) return rank;
+  const order = (a.stepOrder ?? Infinity) - (b.stepOrder ?? Infinity);
+  if (order !== 0 && Number.isFinite(order)) return order;
+  if (a.stepOrder !== b.stepOrder) return a.stepOrder === undefined ? 1 : -1;
+  return byGradeThenName(a, b);
 }

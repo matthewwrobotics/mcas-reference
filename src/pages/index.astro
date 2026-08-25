@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
+import EmergencyNotice from '../components/EmergencyNotice.astro';
 import { MAST_CELL_BASIS, MAST_CELL_BASIS_INFO, type MastCellBasis } from '../lib/vocab';
 
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
@@ -47,23 +48,87 @@ const SECTIONS = [
 ---
 
 <Base
-  title="A sourced reference for mast cell activation"
+  title="What mast cell activation syndrome is, and what is known about treating it"
   description="An index of treatments and triggers discussed in mast cell activation disease, recording the published mechanism for each and how strong the evidence behind it actually is."
 >
   <section class="max-w-3xl">
     <h1 class="font-serif text-4xl font-semibold leading-tight tracking-tight">
-      What is actually known about it, and how well.
+      Mast cell activation syndrome, and what is actually known about it
     </h1>
     <p class="prose-body mt-4 text-lg" style="color: var(--text-muted);">
-      An index of the treatments and triggers discussed in mast cell activation disease.
-      For each one it records the published mechanism of action and — the part that is
-      usually hard to find — how strong the evidence behind it really is.
+      <a href={href('/glossary#mast-cell')}>Mast cells</a> are immune cells that sit
+      in the skin, gut, airways and around blood vessels. They store
+      <a href={href('/glossary#histamine')}>histamine</a> and other chemicals and
+      release them when triggered. In mast cell activation syndrome they release
+      them too readily, and the result is repeated episodes affecting more than
+      one part of the body at once.
     </p>
     <p class="prose-body mt-3" style="color: var(--text-muted);">
-      No dosing. No claims that anything works. Nothing gets an entry without a citable
-      published mechanism, and every entry wears its evidence grade where you can see it.
-      <a href={href('/methodology')}>Those rules are enforced by the build</a>, not by
-      good intentions.
+      This site indexes the treatments and triggers discussed for it. For each
+      one it records what the drug or food does, and how strong the evidence
+      behind that is. It carries no dosing and never says anything works.
+      <a href={href('/glossary')}>Every term used here is defined</a>, and
+      <a href={href('/methodology')}>the rules are enforced by the build</a>.
+    </p>
+  </section>
+
+  <div class="mt-6 max-w-3xl">
+    <EmergencyNotice />
+  </div>
+
+  <section class="mt-10 max-w-3xl">
+    <h2 class="font-serif text-2xl font-semibold">Where to start</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2">
+      <div class="card p-5">
+        <h3 class="text-lg font-semibold">I think I might have this</h3>
+        <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+          There is no symptom checklist here, and that is deliberate. These
+          symptoms overlap several commoner conditions, so a list would invite a
+          conclusion the evidence cannot support. What a diagnosis actually
+          requires is a different question, and a more useful one.
+        </p>
+        <ol class="prose-body mt-3 ml-5 list-decimal space-y-1.5 text-sm" style="color: var(--text-muted);">
+          <li>
+            <a href={href('/advocacy#the-criteria')}>Read what a diagnosis requires</a> —
+            three criteria, and two competing versions of them.
+          </li>
+          <li>
+            <a href={href('/advocacy#the-core-panel')}>Note the timing of the tests</a>.
+            The main blood test only means something if it is drawn within a few
+            hours of an episode.
+          </li>
+          <li>
+            <a href={href('/advocacy#finding-a-clinician')}>Find someone to take it to</a>,
+            then <a href={href('/appointment')}>build a sheet</a> to bring.
+          </li>
+        </ol>
+      </div>
+
+      <div class="card p-5">
+        <h3 class="text-lg font-semibold">I have a diagnosis</h3>
+        <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
+          The directories below are the reference material. Two things are worth
+          knowing before reading them.
+        </p>
+        <ul class="prose-body mt-3 ml-5 list-disc space-y-1.5 text-sm" style="color: var(--text-muted);">
+          <li>
+            Nothing is approved for MCAS itself, so every entry borrows its
+            evidence from another condition. Each one says which.
+          </li>
+          <li>
+            <a href={href('/foods')}>Food lists disagree with each other</a>, and
+            the directory shows where they conflict rather than hiding it.
+          </li>
+          <li>
+            <a href={href('/appointment')}>The appointment sheet</a> prints
+            selected entries with their mechanisms and citations.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="prose-body mt-3 text-sm" style="color: var(--text-faint);">
+      None of this is medical advice, and no page here can tell you whether you
+      have this condition.
     </p>
   </section>
 

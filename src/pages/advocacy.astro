@@ -2,12 +2,18 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CitationList from '../components/CitationList.astro';
+import EmergencyNotice from '../components/EmergencyNotice.astro';
+import PrintButton from '../components/PrintButton.astro';
 import {
   TREATMENT_STEPS,
   TREATMENT_STEP_INFO,
   type TreatmentStep,
 } from '../lib/vocab';
 import { href } from '../lib/paths';
+
+/** Stable anchor for a heading, so long sections can be linked directly. */
+const slug = (title: string) =>
+  title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const labs = await getCollection('labs');
 const orgs = (await getCollection('resources'))
@@ -74,9 +80,15 @@ const sources = allCitations.filter(
     <h1 class="font-serif text-3xl font-semibold tracking-tight">
       What to ask your doctor for
     </h1>
+
+    <div class="mt-4 print-hide">
+      <EmergencyNotice compact />
+    </div>
+
     <div class="prose-body mt-3" style="color: var(--text-muted);">
       <p>
-        Written to be printed and handed over. It sets out which tests the published
+        Written to be printed and handed over.
+        <span class="ml-1 inline-block align-middle"><PrintButton /></span> It sets out which tests the published
         MCAS criteria are built on, <strong>when they have to be drawn</strong>, and
         which drug classes those criteria refer to.
       </p>
@@ -106,7 +118,7 @@ const sources = allCitations.filter(
   </div>
 
   <section class="mt-10 print-entry">
-    <h2 class="font-serif text-2xl font-semibold">The three criteria, and the two versions of them</h2>
+    <h2 class="font-serif text-2xl font-semibold" id="the-criteria">The three criteria, and the two versions of them</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>A diagnosis requires all three of:</p>
       <ol class="ml-5 list-decimal space-y-1">
@@ -145,7 +157,7 @@ const sources = allCitations.filter(
   {
     grouped.map((group) => (
       <section class="mt-10">
-        <h2 class="font-serif text-2xl font-semibold">{group.title}</h2>
+        <h2 class="font-serif text-2xl font-semibold" id={slug(group.title)}>{group.title}</h2>
         <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">{group.blurb}</p>
         <ul class="mt-4 space-y-3">
           {group.items.map((lab) => (
@@ -183,7 +195,7 @@ const sources = allCitations.filter(
   }
 
   <section class="mt-10">
-    <h2 class="font-serif text-2xl font-semibold">The drug classes the criteria refer to</h2>
+    <h2 class="font-serif text-2xl font-semibold" id="drug-classes">The drug classes the criteria refer to</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>
         The third criterion is a response to drugs that stabilise mast cells or block
@@ -228,7 +240,7 @@ const sources = allCitations.filter(
   </section>
 
   <section class="mt-10">
-    <h2 class="font-serif text-2xl font-semibold">Finding a clinician</h2>
+    <h2 class="font-serif text-2xl font-semibold" id="finding-a-clinician">Finding a clinician</h2>
     <div class="prose-body mt-2" style="color: var(--text-muted);">
       <p>
         This site does not list individual doctors. There is no board
@@ -290,7 +302,7 @@ const sources = allCitations.filter(
   </section>
 
   <section class="mt-10 print-entry">
-    <h2 class="font-serif text-2xl font-semibold">Sources</h2>
+    <h2 class="font-serif text-2xl font-semibold" id="sources">Sources</h2>
     <p class="prose-body mt-2 text-sm" style="color: var(--text-muted);">
       Everything above is drawn from these. Where they disagree, the page says so
       rather than picking a side.
@@ -300,4 +312,8 @@ const sources = allCitations.filter(
       <a href={href('/methodology')}>How this site decides what to publish →</a>
     </p>
   </section>
+
+  <p class="mt-8 text-sm print-hide">
+    <a href="#main">↑ Back to top</a>
+  </p>
 </Base>

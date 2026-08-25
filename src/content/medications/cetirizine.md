@@ -14,6 +14,7 @@ mastCellBasis: downstream
 studyDesigns:
   - randomised-controlled
 treatmentStep: 1
+stepOrder: 1
 establishedFor:
   - condition: "hay fever and upper respiratory allergy symptoms"
     basis: approved-us

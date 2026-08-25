@@ -2,20 +2,42 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import AppointmentBuilder, { type SheetItem } from '../components/AppointmentBuilder';
+import EmergencyNotice from '../components/EmergencyNotice.astro';
+import { href } from '../lib/paths';
 import {
   ESTABLISHED_BASIS_INFO,
   MAST_CELL_BASIS_INFO,
   REGULATORY_INFO,
   TRIAL_STATUS_LABELS,
 } from '../lib/vocab';
-import { byEvidenceThenName } from '../lib/derive';
+import { byClinicalSequence } from '../lib/derive';
+import { TREATMENT_CONTEXT_INFO, TREATMENT_STEP_INFO } from '../lib/vocab';
+
+/*
+ * The picker's legend for an entry: the same grouping the index uses.
+ *
+ * This list previously flat-sorted every treatment by evidence strength, which
+ * floated benzodiazepines, hydroxyurea, sunitinib and tofacitinib above routine
+ * antihistamines — purely because direct-but-weak MCAS case reports outrank
+ * strong evidence borrowed from another condition. In the one view a patient
+ * carries into an appointment, that order reads as a suggestion.
+ */
+const groupOf = (data: any, section: string): string => {
+  if (data.treatmentContext) {
+    return `${section} — ${TREATMENT_CONTEXT_INFO[data.treatmentContext as keyof typeof TREATMENT_CONTEXT_INFO].groupTitle}`;
+  }
+  if (data.treatmentStep) {
+    return `${section} — ${data.treatmentStep}. ${TREATMENT_STEP_INFO[data.treatmentStep as keyof typeof TREATMENT_STEP_INFO].label}`;
+  }
+  return `${section} — outside the stepwise sequence`;
+};
 
 const toItems = (entries: any[], section: string): SheetItem[] =>
   [...entries]
-    .sort((a, b) => byEvidenceThenName(a.data, b.data))
+    .sort((a, b) => byClinicalSequence(a.data, b.data))
     .map((e) => ({
       id: `${section}:${e.id}`,
-      section,
+      section: groupOf(e.data, section),
       name: e.data.name,
       mechanismClass: e.data.mechanismClass,
       tier: e.data.mastCellBasis,
@@ -63,18 +85,29 @@ const items: SheetItem[] = [
     <h1 class="font-serif text-3xl font-semibold tracking-tight">Appointment sheet</h1>
     <div class="prose-body mt-3" style="color: var(--text-muted);">
       <p>
-        Pick the entries you want to raise and print a single sheet with each one's
-        mechanism, evidence grade, and citations. The point is not to arrive with a
-        request — it is to arrive with the same information your clinician would want to
-        check, already sourced, so the conversation starts further along.
+        Pick the entries you want to raise. The sheet prints each one on a single
+        page, with its mechanism, its evidence grade and its citations.
       </p>
       <p>
-        Everything printed carries two separate facts: how directly the treatment has
-        been studied in mast cells, and which conditions it is actually approved or
-        trialled for. Keeping those apart is the point. A sheet that let an approval in
-        another condition stand in for evidence in this one would be worse than no sheet
-        at all.
+        It is not a request list. The aim is to arrive with the information a
+        clinician would check anyway, already sourced, so the conversation starts
+        further along.
       </p>
+      <p>
+        Every printed entry separates mast-cell evidence from the conditions for
+        which the treatment is approved or trialled. An approval in another
+        condition is not evidence in this one, and a sheet that blurred the two
+        would be worse than no sheet.
+      </p>
+      <p class="text-sm" style="color: var(--text-faint);">
+        Looking for someone to bring it to? <a href={href('/advocacy#finding-a-clinician')}>Finding
+        a clinician</a> is on the tests and diagnosis page. That page also explains
+        which tests support the criteria and when those tests need to be drawn.
+      </p>
+    </div>
+
+    <div class="mt-5 print-hide">
+      <EmergencyNotice />
     </div>
   </div>
 

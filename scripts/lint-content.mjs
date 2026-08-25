@@ -35,9 +35,44 @@ const PROSE_DIRS = ['src/content/medications', 'src/content/supplements'];
 const JSON_PROSE = [
   { file: 'src/content/labs.json', fields: ['measures', 'timing', 'caveat', 'name'] },
 ];
-const PAGE_PROSE = ['src/pages/advocacy.astro'];
+/*
+ * Every page carrying prose addressed to a patient rather than to a reader who
+ * already knows the vocabulary. This list was `advocacy.astro` alone until the
+ * onboarding rewrite added patient-facing copy to five more pages — copy of
+ * exactly the kind this lint exists to police, which would have gone unchecked.
+ */
+const PAGE_PROSE = [
+  'src/pages/advocacy.astro',
+  'src/pages/index.astro',
+  'src/pages/appointment.astro',
+  'src/pages/glossary.astro',
+  'src/pages/medications/index.astro',
+  'src/pages/foods/index.astro',
+];
 const MAX_BODY_WORDS = 400;
 const MIN_BODY_WORDS = 25;
+
+/**
+ * The badge on every card reads "Approved for other conditions". That wording is
+ * only true while nothing here is approved for MCAS itself — true today across
+ * every entry, and the sort of fact that changes quietly. Being trialled in MCAS
+ * is fine and common; only an approved basis makes the badge lie.
+ */
+const MCAS_CONDITION =
+  /\bmast cell activation (syndrome|disease)\b|\bMCAS\b/i;
+
+/** Conditions from `establishedFor` entries whose basis is a regulatory approval. */
+function approvedConditions(frontmatter) {
+  const block = frontmatter.match(/^establishedFor:\n((?:[ \t]+.*\n?)*)/m);
+  if (!block) return [];
+  const out = [];
+  for (const item of block[1].split(/^\s*-\s/m).slice(1)) {
+    const condition = item.match(/condition:\s*["']?(.*?)["']?\s*$/m);
+    const basis = item.match(/basis:\s*["']?([a-z-]+)/m);
+    if (condition && basis && basis[1].startsWith('approved')) out.push(condition[1]);
+  }
+  return out;
+}
 
 /** Patterns that must never appear in reader-facing prose. */
 const FORBIDDEN = [
@@ -149,6 +184,30 @@ for (const dir of PROSE_DIRS) {
           });
         }
       }
+    }
+
+    for (const condition of approvedConditions(frontmatter)) {
+      if (MCAS_CONDITION.test(condition)) {
+        problems.push({
+          file: rel,
+          line: frontmatterLines,
+          message:
+            `establishedFor lists “${condition}” under an approved basis. GradeBadge renders ` +
+            'approvals as “Approved for other conditions”, which this would make false. If a ' +
+            'regulator has genuinely approved something for MCAS, change the badge wording first.',
+        });
+      }
+    }
+
+    const regulatory = frontmatter.match(/^regulatory:\s*["']?([a-z-]+)/m)?.[1];
+    if (regulatory === 'approved-us-mcas') {
+      problems.push({
+        file: rel,
+        line: frontmatterLines,
+        message:
+          'regulatory is “approved-us-mcas”, but GradeBadge still renders approvals as ' +
+          '“Approved for other conditions”. Change the badge wording before using this status.',
+      });
     }
 
     const words = body.trim().split(/\s+/).filter(Boolean).length;
