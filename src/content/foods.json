@@ -55,7 +55,7 @@
       {
         "axis": "fodmap",
         "source": "monash",
-        "url": "https://www.monashfodmap.com/"
+        "url": "https://www.monashfodmap.com/about-fodmap-and-ibs/high-and-low-fodmap-foods/"
       },
       {
         "axis": "histamine",
@@ -180,7 +180,7 @@
       {
         "axis": "fodmap",
         "source": "monash",
-        "url": "https://www.monashfodmap.com/",
+        "url": "https://www.monashfodmap.com/about-fodmap-and-ibs/high-and-low-fodmap-foods/",
         "note": "Ripeness changes the result; check the app rather than assuming."
       },
       {
@@ -1163,7 +1163,7 @@
       {
         "axis": "fodmap",
         "source": "monash",
-        "url": "https://www.monashfodmap.com/"
+        "url": "https://www.monashfodmap.com/about-fodmap-and-ibs/high-and-low-fodmap-foods/"
       },
       {
         "axis": "histamine",
@@ -1318,7 +1318,7 @@
       {
         "axis": "fodmap",
         "source": "monash",
-        "url": "https://www.monashfodmap.com/"
+        "url": "https://www.monashfodmap.com/about-fodmap-and-ibs/high-and-low-fodmap-foods/"
       },
       {
         "axis": "histamine",

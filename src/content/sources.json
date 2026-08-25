@@ -2,10 +2,10 @@
   {
     "id": "monash",
     "name": "Monash University FODMAP Diet App",
-    "url": "https://www.monashfodmap.com/",
+    "url": "https://www.monashfodmap.com/about-fodmap-and-ibs/high-and-low-fodmap-foods/",
     "kind": "Proprietary laboratory database",
     "redistribution": "link-only",
-    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Their measured values are facts, and facts are not themselves copyrightable — but the database is accessed under terms of use, the compilation and its thresholds reflect their editorial judgement, and the certification mark is theirs. This site links out rather than restating, which also keeps every rating here traceable to something a reader can open.",
+    "terms": "Monash laboratory-tested the foods in this database and licenses access through their app. Their measured values are facts, and facts are not themselves copyrightable — but the database is accessed under terms of use, the compilation and its thresholds reflect their editorial judgement, and the certification mark is theirs. This site links out to their published high- and low-FODMAP food page rather than restating, which also keeps every rating here traceable to something a reader can open.",
     "linkReason": "Measured values licensed through their app; linked so every rating here stays traceable."
   },
   {

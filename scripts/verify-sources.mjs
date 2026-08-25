@@ -297,19 +297,67 @@ async function checkTrials(trials, citations) {
   return ids.length;
 }
 
+/* --------------------------------------------------------------- soft 404 */
+
+/**
+ * A page that answers 200 and says "Error 404" in its title.
+ *
+ * The weekly link check reads status codes, so this class is invisible to it.
+ * Found the hard way: histaminintoleranz.ch/en/foodlist.html returns 200 with
+ * the title "Error 404", and a leaflet URL on the same host returns 200 with
+ * HTML rather than the PDF it names. Either would have shipped as a working
+ * citation.
+ *
+ * Only the small registry of link-only sources is checked — those are the URLs
+ * a reader is sent to *instead* of a restated value, so a dead one costs the
+ * reader the whole fact.
+ */
+async function checkSoftFailures() {
+  let registry;
+  try {
+    registry = JSON.parse(readFileSync(join(ROOT, 'src/content/sources.json'), 'utf8'));
+  } catch {
+    return 0;
+  }
+  const linkOnly = registry.filter((s) => s.redistribution === 'link-only');
+  for (const s of linkOnly) {
+    try {
+      const res = await fetch(s.url, { headers: { 'user-agent': 'Mozilla/5.0' } });
+      if (!res.ok) {
+        warn('src/content/sources.json', `"${s.id}" returned ${res.status}.`);
+        continue;
+      }
+      const body = await res.text();
+      const title = body.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? '';
+      if (/\b(404|not found|page unavailable)\b/i.test(title)) {
+        fail(
+          'src/content/sources.json',
+          `"${s.id}" answers 200 but its title reads "${title.trim().slice(0, 60)}" — ` +
+            `a soft 404. Readers are sent here instead of a restated value.`,
+        );
+      }
+    } catch (err) {
+      warn('src/content/sources.json', `"${s.id}" could not be fetched: ${err.message}`);
+    }
+    await sleep(500);
+  }
+  return linkOnly.length;
+}
+
 /* -------------------------------------------------------------------- run */
 
 const { citations, trials } = collect();
 const pmidCount = await checkPubmed(citations);
 const trialCount = await checkTrials(trials, citations);
+const softCount = await checkSoftFailures();
 
 const fails = problems.filter((p) => p.level === 'FAIL');
 const warns = problems.filter((p) => p.level === 'WARN');
 
 const lines = ['## Source integrity', ''];
 lines.push(
-  `Checked ${pmidCount} PubMed citation(s) and ${trialCount} trial record(s) ` +
-    `across ${citations.length} citation(s).`,
+  `Checked ${pmidCount} PubMed citation(s), ${trialCount} trial record(s) and ` +
+    `${softCount} link-only source page(s) across ${citations.length} citation(s).`,
   '',
 );
 if (fails.length === 0 && warns.length === 0) {
