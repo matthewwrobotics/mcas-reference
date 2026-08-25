@@ -15,12 +15,12 @@ establishedFor:
   - condition: "paediatric mastocytosis"
     basis: randomised-trials
 evidenceLimits: >
-  There is no primary report of ketotifen outcomes in MCAS patients cited here,
-  and this entry previously claimed one. What exists is two small double-blind
-  crossover studies from the 1980s, in urticaria pigmentosa and in paediatric
-  mastocytosis — randomised, but tiny, old, and in a different disease. Ketotifen
-  is also usually added to an existing regimen rather than used alone, so even
-  uncontrolled reports cannot attribute anything to it specifically.
+  The two double-blind crossover studies behind this entry date from the 1980s and
+  were done in urticaria pigmentosa and in paediatric mastocytosis — randomised, but
+  tiny, old, and in a different disease. No primary report of ketotifen outcomes in
+  MCAS patients is cited here. Ketotifen is also usually added to an existing
+  regimen rather than used alone, so even uncontrolled reports cannot attribute
+  anything to it specifically.
 regulatory: approved-non-us
 offLabelRationale: >
   Oral ketotifen is approved as an antihistamine in Canada, the UK, and parts of

@@ -10,16 +10,15 @@ establishedFor:
   - condition: "chronic spontaneous urticaria"
     basis: randomised-trials
 evidenceLimits: >
-  Nothing in MCAS. This entry previously said the supporting studies were
-  open-label; that was wrong. There is a randomised, double-blind,
-  placebo-controlled crossover study — in chronic spontaneous urticaria, a
-  different condition. The histamine-intolerance literature it otherwise rests on
-  is open-label, and diagnosing histamine intolerance is itself unsettled: the
-  reviews treat a good response to a low-histamine diet as the working criterion,
-  which makes the diagnosis and the treatment response the same observation.
-  Supplementation also usually begins alongside dietary change. Note too that
-  serum DAO is not established to reflect DAO activity in the gut, and reduced DAO
-  may be a marker of mucosal damage rather than a primary cause.
+  The strongest study behind this entry is a randomised, double-blind, placebo-
+  controlled crossover trial, run in chronic spontaneous urticaria rather than in
+  MCAS. The histamine-intolerance literature it otherwise rests on is open-label,
+  and diagnosing histamine intolerance is itself unsettled: the reviews treat a good
+  response to a low-histamine diet as the working criterion, which makes the
+  diagnosis and the treatment response the same observation. Supplementation also
+  usually begins alongside dietary change. Note too that serum DAO is not
+  established to reflect DAO activity in the gut, and reduced DAO may be a marker of
+  mucosal damage rather than a primary cause.
 regulatory: dietary-supplement
 citations:
   - title: "Diamine Oxidase Supplementation in Chronic Spontaneous Urticaria: A Randomized, Double-Blind Placebo-Controlled Study"

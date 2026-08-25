@@ -21,7 +21,10 @@ establishedFor:
   - condition: "chronic spontaneous urticaria"
     basis: randomised-trials
 evidenceLimits: >
-  No randomised evidence in MCAS. H1 blockade is the conventional first step described in mast cell disease management, but that position rests on mechanism and consensus rather than trials in this population. The randomised results concern chronic urticaria, and the current consumer label warns that drowsiness may occur; neither fact establishes an MCAS outcome or predicts sedation for an individual.
+  The conventional first-step position rests on mechanism and consensus rather than
+  on trials in this population. The randomised results concern chronic urticaria,
+  and the current consumer label warns that drowsiness may occur; neither fact
+  establishes an MCAS outcome or predicts sedation for an individual.
 regulatory: otc
 citations:
   - title: "Cetirizine versus hydroxyzine and placebo in chronic idiopathic urticaria"
