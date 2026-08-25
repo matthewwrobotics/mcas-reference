@@ -26,37 +26,47 @@ export const MAST_CELL_BASIS = [
 ] as const;
 export type MastCellBasis = (typeof MAST_CELL_BASIS)[number];
 
+/*
+ * Labels are written as literal statements, not category names.
+ *
+ * The category names — "Downstream of the mast cell", "Related inflammatory
+ * condition" — were accurate and meant nothing to a reader meeting the term for
+ * the first time. Saying what was actually done ("Acts after mast-cell mediators
+ * are released") costs a few words and removes the need to already know the
+ * vocabulary. They are read most often by someone deciding whether an entry is
+ * relevant to them, not by someone auditing the taxonomy.
+ */
 export const MAST_CELL_BASIS_INFO: Record<
   MastCellBasis,
   { label: string; definition: string }
 > = {
   'mcas-patients': {
-    label: 'MCAS patients',
+    label: 'Studied in people with MCAS',
     definition:
       'Studied in people diagnosed with mast cell activation syndrome. Current evidence consists of case reports, uncontrolled series, or retrospective review rather than randomised comparisons — so it establishes that people have taken it, not that it worked.',
   },
   'mast-cell-disease': {
-    label: 'Mast cell disease',
+    label: 'Studied in another mast-cell disease',
     definition:
       'Studied in patients with a different mast cell disease, usually systemic mastocytosis. Those disorders have diagnostic criteria and disease biology that differ from MCAS, so a result there does not establish an MCAS outcome.',
   },
   'mast-cell-mediated-condition': {
-    label: 'Mast-cell-mediated condition',
+    label: 'Studied in another mast-cell-mediated condition',
     definition:
       'Given to people with a condition in which mast cells are central to the disease process, with a human mast-cell effect also measured. This is human evidence, but it is not evidence in MCAS or in a clonal mast cell disorder, and it cannot establish an MCAS outcome.',
   },
   laboratory: {
-    label: 'Mast cells in the laboratory',
+    label: 'Studied directly on mast cells in a laboratory',
     definition:
       'Studied on mast cells directly, but in cell culture or animals rather than in people. The study-design field distinguishes human cells from non-human models. A mechanism demonstrated in a dish is a reason to investigate, not a result — and the concentrations used are frequently ones that human exposure does not reach.',
   },
   'related-condition': {
-    label: 'Related inflammatory condition',
+    label: 'Studied in a related condition, with no mast-cell effect measured',
     definition:
       'Studied in people with a condition in which mast cells can contribute, but the study did not measure an effect on mast cells. This is a clinical bridge for inclusion, not a direct observation of mast cells and not an MCAS outcome.',
   },
   downstream: {
-    label: 'Downstream of the mast cell',
+    label: 'Acts after mast-cell mediators are released',
     definition:
       'Acts after mast-cell mediators are released rather than stabilising the mast cell itself. This includes treatments that block mediator receptors, degrade a mediator, or oppose the physiology of an acute reaction. It describes where the intervention acts, not its clinical importance.',
   },

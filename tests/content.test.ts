@@ -186,17 +186,30 @@ describe('patient-facing treatment facts', () => {
       .map((file) => `src/content/${collection}/${file}`),
   );
 
-  it('keeps the six relationship labels concise and non-ordinal', () => {
+  it('states the six relationships literally', () => {
     expect(Object.fromEntries(
       Object.entries(MAST_CELL_BASIS_INFO).map(([key, value]) => [key, value.label]),
     )).toEqual({
-      'mcas-patients': 'MCAS patients',
-      'mast-cell-disease': 'Mast cell disease',
-      'mast-cell-mediated-condition': 'Mast-cell-mediated condition',
-      laboratory: 'Mast cells in the laboratory',
-      'related-condition': 'Related inflammatory condition',
-      downstream: 'Downstream of the mast cell',
+      'mcas-patients': 'Studied in people with MCAS',
+      'mast-cell-disease': 'Studied in another mast-cell disease',
+      'mast-cell-mediated-condition': 'Studied in another mast-cell-mediated condition',
+      laboratory: 'Studied directly on mast cells in a laboratory',
+      'related-condition': 'Studied in a related condition, with no mast-cell effect measured',
+      downstream: 'Acts after mast-cell mediators are released',
     });
+  });
+
+  /*
+   * The point of the labels, tested directly rather than implied by the exact
+   * strings above. The removed grade failed because one word carried a verdict;
+   * a reworded label must not quietly bring the verdict back.
+   */
+  it('never grades a relationship', () => {
+    const ordinal =
+      /\b(none|strong|strongest|weak|weakest|best|worst|poor|good|better|worse|high|low|tier|grade|rank|level)\b/i;
+    for (const [key, { label }] of Object.entries(MAST_CELL_BASIS_INFO)) {
+      expect(label, `${key} label reads as a verdict: "${label}"`).not.toMatch(ordinal);
+    }
   });
 
   it('keeps the acceptance examples on their intended relationship and study type', () => {

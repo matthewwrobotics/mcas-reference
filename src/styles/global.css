@@ -157,6 +157,9 @@ a.badge,
 }
 a.badge:hover { border-color: currentColor; }
 
+/* Labels written as sentences need to wrap; .badge is nowrap by default. */
+.badge-wrap { white-space: normal; }
+
 .badge-neutral {
   background: var(--bg-sunken);
   color: var(--text-muted);
