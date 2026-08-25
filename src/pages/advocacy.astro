@@ -10,6 +10,9 @@ import {
 import { href } from '../lib/paths';
 
 const labs = await getCollection('labs');
+const orgs = (await getCollection('resources'))
+  .filter((r) => r.data.kind === 'patient-organization')
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
 
 const ROLES = [
@@ -222,6 +225,68 @@ const sources = allCitations.filter(
       among the mediator-targeting agents. This site does not yet have an entry for
       them, so they are noted here rather than linked.
     </p>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="font-serif text-2xl font-semibold">Finding a clinician</h2>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <p>
+        This site does not list individual doctors. There is no board
+        certification in MCAS, so any such list would rest on someone's judgement
+        rather than a credential — and a page that reads as a referral is a
+        different kind of thing from a page that cites its sources.
+      </p>
+      <p>
+        What it can do is point at the organisations that maintain referral
+        routes, and say what is worth establishing early.
+      </p>
+    </div>
+
+    <ul class="mt-4 space-y-3">
+      {
+        orgs.map((o) => (
+          <li class="card print-entry p-4">
+            <h3 class="font-semibold">
+              <a class="citation-link" href={o.data.url} rel="noopener">{o.data.name}</a>
+            </h3>
+            <p class="mt-1 max-w-prose text-sm" style="color: var(--text-muted);">
+              {o.data.description}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="mt-6 text-sm font-semibold uppercase tracking-wide" style="color: var(--text-faint);">
+      Worth establishing early
+    </h3>
+    <div class="prose-body mt-2" style="color: var(--text-muted);">
+      <ul class="ml-5 list-disc space-y-2">
+        <li>
+          <strong>Which criteria they apply.</strong> The single most useful thing
+          to know. Consensus-1 and consensus-2 admit meaningfully different
+          patient populations, so two clinicians can disagree about a diagnosis
+          while reading the same results correctly. Asking is not a challenge; it
+          tells you how the rest of the conversation will go.
+        </li>
+        <li>
+          <strong>Whether they can order a tryptase during an episode.</strong>
+          The test is only interpretable inside a narrow window, so the practical
+          question is access rather than willingness — who can order it, and how,
+          when an episode is actually happening. Worth arranging before one.
+        </li>
+        <li>
+          <strong>Who investigates the alternatives.</strong> Several more common
+          conditions present similarly, and ruling them out is part of the
+          diagnosis rather than a detour around it.
+        </li>
+      </ul>
+      <p>
+        A clinician who declines a test on the list above is not necessarily
+        dismissing the question — several of those disagreements are live in the
+        literature, and this page says which.
+      </p>
+    </div>
   </section>
 
   <section class="mt-10 print-entry">
