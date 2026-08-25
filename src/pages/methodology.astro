@@ -296,10 +296,34 @@ const REPO = 'https://github.com/matthewwrobotics/mcas-reference';
         imply six separate bodies of evidence.
       </p>
       <p>
-        The drugs it stands for are listed on the page under <strong>Also covers</strong>,
-        so searching for a brand name finds the entry that actually applies. They are
-        not recorded as alternative names: fexofenadine is a different drug from
-        cetirizine, not another word for it.
+        Sharing an evidence base does not mean sharing everything. Whether a drug needs
+        a prescription, and what its own label warns about, differ across a class and are
+        often the only things a reader has to choose between them. Each US-marketed member
+        therefore has a page of its own, carrying those facts, linked from a
+        <strong>class disclosure</strong> on the representative's card rather than
+        occupying its own row in the browsing list. Its <code>classRepresentative</code>
+        names whose evidence it is borrowing, and the page says so rather than restating
+        the studies as though they were its own.
+      </p>
+      <p>
+        Two rules keep that from multiplying pages. A member cannot also sit in the
+        treatment sequence, because its representative already holds that place. And a
+        member must cite a drug label of its own — that label is the reason it is a
+        separate page, and without one it is a duplicate. Members with no US label, such
+        as bilastine, stay names under <strong>Also covers</strong> rather than becoming
+        pages. Names are not aliases: fexofenadine is a different drug from cetirizine,
+        not another word for it.
+      </p>
+      <p>
+        <strong>What a drug is known for</strong> is recorded where a source establishes
+        it, in a <code>practicalNote</code>. Patients arrive having heard these things —
+        that one antihistamine is the non-drowsy one, that another is what pilots take —
+        and a reference that stays silent leaves the marketing standing. Because that
+        kind of claim arrives as folklore more often than as fact, the build rejects a
+        note whose source is not also a citation on the same entry. Checking the first
+        two reversed both: levocetirizine's label carries the same drowsiness warning
+        cetirizine's does, in the same words, so it is not the less-drowsy counterpart it
+        is sold as. A note is not an efficacy claim and must not become one.
       </p>
       <p>
         A class member gets its own page when the evidence separates it. Rupatadine
