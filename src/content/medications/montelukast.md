@@ -14,10 +14,18 @@ establishedFor:
     basis: approved-us
   - condition: "allergic rhinitis"
     basis: approved-us
+  - condition: "chronic urticaria"
+    basis: randomised-trials
 evidenceLimits: >
-  No controlled evidence in MCAS. Its use here is a mechanistic argument — leukotrienes are mast cell mediators that antihistamines leave unopposed — supported by consensus management reviews rather than by trials in this population. Note separately that montelukast carries a US boxed warning for neuropsychiatric events; that is a labelled safety fact, not a comment on the strength of the evidence.
+  No controlled evidence in MCAS. The randomised comparison was in a selected chronic-urticaria population, while the MCAS bridge rests on downstream mediator pharmacology and management reviews rather than trials in this population. Montelukast also carries a US boxed warning for serious neuropsychiatric events; that is a labelled safety fact, not an evidence-strength judgment.
 regulatory: approved-us-other
 citations:
+  - title: "Efficacy of leukotriene receptor antagonist in chronic urticaria"
+    url: "https://pubmed.ncbi.nlm.nih.gov/11678862/"
+    sourceType: peer-reviewed
+    year: 2001
+    pmid: "11678862"
+    accessed: 2026-08-21
   - title: "Montelukast sodium US prescribing information"
     url: "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1eeb3123-9e93-4681-8096-800a7c7acf8a"
     sourceType: drug-label
@@ -39,4 +47,4 @@ lastVerified: 2026-08-21
 
 Montelukast antagonises the cysteinyl leukotriene receptor CysLT1. Cysteinyl leukotrienes are lipid mediators synthesised by mast cells on activation rather than stored preformed in granules, and they act on bronchial smooth muscle, vascular permeability, and mucus secretion.
 
-This matters structurally: leukotrienes are released by the same cell as histamine but act at entirely separate receptors, so an antihistamine regimen leaves them unopposed. That gap is the mechanistic argument for adding a leukotriene antagonist, and it is why the agent appears in mast cell disease management reviews.
+Leukotrienes are released by the same cell as histamine but act at separate receptors, so H1 antagonism does not block this pathway. That distinction is the mechanistic reason leukotriene antagonists appear in mast cell disease management reviews. The controlled outcome citation on this page concerns chronic urticaria rather than MCAS.

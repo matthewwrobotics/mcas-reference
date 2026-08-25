@@ -1,7 +1,7 @@
 ---
 name: Cetirizine
 aliases: ["Zyrtec"]
-summary: Second-generation H1 antihistamine; blocks the H1 receptor without the sedation profile of first-generation agents.
+summary: Second-generation H1 antihistamine; blocks the H1 receptor and can still cause drowsiness despite a lower-sedation class profile.
 mechanismClass: H1 antihistamine
 mastCellBasis: downstream
 studyDesigns:
@@ -13,7 +13,7 @@ establishedFor:
   - condition: "chronic spontaneous urticaria"
     basis: randomised-trials
 evidenceLimits: >
-  No randomised evidence in MCAS. H1 blockade is the conventional first step in mast cell disease management, but that position rests on mechanism and consensus rather than on trials in this population. What the randomised trials establish is that blocking H1 helps in conditions where histamine drives the symptoms — which is an argument for trying it, not a result in MCAS.
+  No randomised evidence in MCAS. H1 blockade is the conventional first step described in mast cell disease management, but that position rests on mechanism and consensus rather than trials in this population. The randomised results concern chronic urticaria, and the current consumer label warns that drowsiness may occur; neither fact establishes an MCAS outcome or predicts sedation for an individual.
 regulatory: otc
 citations:
   - title: "Cetirizine versus hydroxyzine and placebo in chronic idiopathic urticaria"

@@ -44,7 +44,7 @@ establishedFor:
   - condition: "indolent systemic mastocytosis"
     basis: randomised-trials
 evidenceLimits: >
-  Nothing has been published in MCAS. The randomised evidence is in indolent systemic mastocytosis — a clonal disease defined by the KIT D816V mutation this drug was designed to inhibit. MCAS is by definition not that disease, so the trial does not transfer: the mechanism the trial demonstrates is one MCAS patients are not established to have.
+  Nothing has been published in MCAS. The randomised evidence is in indolent systemic mastocytosis — a clonal proliferative disease commonly defined by the KIT D816V mutation this drug was designed to inhibit. That diagnosis and mutation-selected biology are different from an MCAS population, so the trial cannot establish an MCAS outcome.
 regulatory: approved-us-other
 citations:
   - title: "AYVAKIT (avapritinib) US prescribing information"
@@ -69,4 +69,4 @@ lastVerified: 2026-08-21
 
 Avapritinib is a tyrosine kinase inhibitor designed to bind the active conformation of KIT, and it retains potency against the D816V mutation that drives clonal mast cell proliferation in most systemic mastocytosis. That mutation renders earlier KIT inhibitors such as imatinib ineffective, which is the specific gap avapritinib was built to close.
 
-The distinction that matters for this site: the randomised evidence is in indolent systemic mastocytosis — a clonal disease defined by that mutation — not in mast cell activation syndrome, where clonality is by definition absent or unproven. The tier here is "RCT, adjacent condition" for that reason, and the strength of the trial should not be read across to MCAS.
+The distinction that matters for this site: the randomised evidence is in indolent systemic mastocytosis — a clonal proliferative disease commonly defined by that mutation — not in mast cell activation syndrome. Clonal forms of mast-cell activation can exist without making an indolent-systemic-mastocytosis trial an MCAS trial; the diagnostic population and mutation-selected target still differ. The strength of the adjacent trial should not be read across to MCAS.
