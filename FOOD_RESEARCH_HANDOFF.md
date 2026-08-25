@@ -44,10 +44,27 @@ four labels.
 
 Do **not** add a salicylate or lectin rating merely to fill an empty axis. The
 available evidence does not yet fit the site's ordinal rating model cleanly.
-Do **not** create a “histamine liberator” axis: the latest review says the
-mechanism has not been elucidated and the evidence is inconclusive.
+Do **not** create a low/moderate/high “histamine liberator” axis: the latest
+review says the mechanism has not been elucidated and the evidence is
+inconclusive.
 
-## Current-state audit
+### 2026-08-24 follow-up: potential-trigger signal implemented
+
+The owner requested a visible way to preserve reports about low-histamine foods
+such as strawberry. Codex added a separate **Potential trigger** column whose
+only current value is **Reported**. It does not alter the histamine rating and
+never says that a food is a proven “histamine liberator.” Expanded details show
+the opened review, the proposed mechanism, and the evidence limitation.
+
+The structural field is `potentialTriggers`; its first controlled value is
+`reported-histamine-release`. The schema rejects unknown sources, link-only
+sources, and duplicate signals, and requires a food-specific note. Strawberry,
+kiwi, tomato, and spinach are the initial conservative set because the opened
+reviews name them directly. Category-level claims such as “nuts” were not
+copied onto every nut or legume. A blank cell means no qualifying signal is
+recorded, not guaranteed tolerance.
+
+## Pre-implementation audit (2026-08-21)
 
 Authoritative files inspected:
 
@@ -58,7 +75,9 @@ Authoritative files inspected:
 - `src/pages/foods/index.astro`
 - `src/pages/methodology.astro`
 
-The current directory has 34 foods and six sources.
+Before this batch, the directory had 34 foods and six sources. The implemented
+directory now has 46 foods; the tables below preserve the baseline that drove
+the expansion rather than claiming to describe the current build.
 
 | Category | Foods |
 |---|---:|
@@ -505,7 +524,11 @@ measured composition table and should not become per-food ratings.
 9. A human must open every source used and choose the `lastVerified` date.
 10. Run `npm run validate` after any change under `src/content/`.
 
-## Recommended implementation order
+## Original implementation order (completed)
+
+The source review, initial food additions, other-amine ratings, second-wave
+foods, validation, and visual inspection are complete. Splitting the generic
+`Beans` entry remains a separate preparation-specific modeling decision.
 
 1. Human-open and verify the three proposed source articles.
 2. Add the three source records with their explicit mapping rules.
