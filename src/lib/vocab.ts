@@ -73,11 +73,18 @@ export const MAST_CELL_BASIS_INFO: Record<
 };
 
 /**
- * What kind of study was actually done. Recorded per entry rather than inferred
- * from the population, because it previously *was* inferred: every laboratory
- * entry claimed "cell lines and animal models" regardless of what happened,
- * which was wrong for a cell-line-only entry and wrong for an animal-only one
- * in opposite directions.
+ * What kind of study supports the entry — the design, wherever it was run.
+ *
+ * This is one of two independent axes and does not stand alone. `studyDesigns`
+ * says *what design*; `mastCellBasis` says *how close to mast cells* it came.
+ * Cetirizine carries `randomised-controlled` because randomised trials of it
+ * exist; they were in chronic urticaria, which is what its `downstream` basis
+ * records. Both facts are true and the entry shows them side by side.
+ *
+ * Recorded per entry rather than inferred from the population, because it
+ * previously *was* inferred: every laboratory entry claimed "cell lines and
+ * animal models" regardless of what happened, which was wrong for a
+ * cell-line-only entry and wrong for an animal-only one in opposite directions.
  */
 export const STUDY_DESIGNS = [
   'randomised-controlled',

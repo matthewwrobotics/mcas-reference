@@ -19,29 +19,28 @@ when landing work; keep it short enough that nobody skips it.
 
 ## Open decisions
 
-**`studyDesigns` semantics are loose, and the grade is correct by accident.**
-The field is documented as what was studied *in mast cells*, but cetirizine,
-famotidine and montelukast all list `randomised-controlled` for trials in
-urticaria, asthma and acid-related disease — none of which are mast cell
-populations. Those entries still grade `none` only because
-`mastCellBasis: downstream` suppresses the grade before the designs are read.
+*(None currently open.)*
 
-That worked until hydroxyzine, whose randomised trial *was* in mastocytosis
-patients. The same trial — a ketotifen-versus-hydroxyzine crossover, PMID
-2654254 — was graded `randomised` on ketotifen and `none` on hydroxyzine.
-Corrected by moving hydroxyzine to `mast-cell-disease`, which matches the
-published definition, but the underlying looseness remains.
+### Settled — do not reopen
 
-Two ways to resolve it, and it needs a decision rather than a patch:
+**`studyDesigns` is not loose, and the grade is not accidental.** Raised on
+2026-08-25 after hydroxyzine and ketotifen graded differently on the same trial,
+then investigated and withdrawn.
 
-1. Tighten the field so only designs run in mast cells or mast-cell-disease
-   populations count. Cetirizine, famotidine and montelukast lose
-   `randomised-controlled`, which is arguably what the definition already says.
-2. Rename it to mean any design anywhere, and rely on `mastCellBasis` alone to
-   gate the grade — which is what the code effectively does today.
+The two fields are independent axes and both are needed. `studyDesigns` says
+what *design* supports the entry; `mastCellBasis` says how close that study came
+to mast cells. Cetirizine reads "study design: randomised controlled trial",
+"studied in: downstream of the mast cell", "randomised trials in: chronic
+spontaneous urticaria" — which is exactly true and tells a reader more than
+either field alone. The `downstream → none` branch in `relevanceGrade` is
+construction, not a short-circuit hiding bad data.
 
-Option 1 is more honest and makes the grade robust rather than incidentally
-right. Option 2 is less work and changes no output.
+The hydroxyzine discrepancy was a single misclassified `mastCellBasis`, since
+that trial *was* run in mastocytosis patients. Fixed at the entry.
+
+Emptying `studyDesigns` for downstream entries — the "fix" originally proposed
+here — would destroy information: cetirizine would stop showing that randomised
+trials exist at all. Recorded so nobody spends a day on it.
 
 ## Archived detail
 
