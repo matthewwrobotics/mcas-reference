@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CitationList from '../components/CitationList.astro';
-import EmergencyNotice from '../components/EmergencyNotice.astro';
 import PrintButton from '../components/PrintButton.astro';
 import {
   TREATMENT_STEPS,
@@ -81,9 +80,6 @@ const sources = allCitations.filter(
       What to ask your doctor for
     </h1>
 
-    <div class="mt-4 print-hide">
-      <EmergencyNotice compact />
-    </div>
 
     <div class="prose-body mt-3" style="color: var(--text-muted);">
       <p>

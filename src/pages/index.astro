@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/paths';
-import EmergencyNotice from '../components/EmergencyNotice.astro';
 import { MAST_CELL_BASIS, MAST_CELL_BASIS_INFO, type MastCellBasis } from '../lib/vocab';
 
 const medications = (await getCollection('medications')).filter((e) => !e.data.draft);
@@ -73,9 +72,6 @@ const SECTIONS = [
     </p>
   </section>
 
-  <div class="mt-6 max-w-3xl">
-    <EmergencyNotice />
-  </div>
 
   <section class="mt-10 max-w-3xl">
     <h2 class="font-serif text-2xl font-semibold">Where to start</h2>

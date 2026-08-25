@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import AppointmentBuilder, { type SheetItem } from '../components/AppointmentBuilder';
-import EmergencyNotice from '../components/EmergencyNotice.astro';
 import { href } from '../lib/paths';
 import {
   ESTABLISHED_BASIS_INFO,
@@ -107,9 +106,6 @@ const items: SheetItem[] = [
       </p>
     </div>
 
-    <div class="mt-5 print-hide">
-      <EmergencyNotice />
-    </div>
   </div>
 
   <AppointmentBuilder client:load items={items} />

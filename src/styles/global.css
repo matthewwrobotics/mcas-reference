@@ -28,12 +28,6 @@
   --accent-text: #16414a;
   --focus: #1c4f57;
 
-  /* Emergency notice. Warm enough to read as urgent, muted enough that it does
-     not shout on every page it appears on. Contrast checked against --bg. */
-  --emergency-bg: #fdf4ef;
-  --emergency-border: #d99a72;
-  --emergency-text: #8a3c12;
-
   --flag-bg: #fbe8e4;
   --flag-fg: #7d2f22;
   --flag-border: #e8c4bb;
@@ -57,10 +51,6 @@
     --accent: #7fbfc8;
     --accent-text: #8fcdd6;
     --focus: #7fbfc8;
-
-    --emergency-bg: #2a1a12;
-    --emergency-border: #7a4526;
-    --emergency-text: #f0b48a;
 
     --flag-bg: #3a1f19;
     --flag-fg: #f0b4a5;
